@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--RINGTONES -->
+    <string-array name="extraRingtones">
+        <item>notif_bol_tibetain</item>
+    </string-array>
+
+    <string-array name="extraRingtoneTitles">
+        <item>@string/singing_bowl</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add"
+        android:title="@string/add_action_string"
+        android:icon="@drawable/ic_add_circle_outline_white_24dp"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_list"
+        android:title="@string/view_list_action_string"
+        android:icon="@drawable/ic_list_white_24dp"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_calendar"
+        android:title="@string/view_calendar_action_string"
+        android:icon="@drawable/ic_date_range_white_24dp"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_stats"
+        android:title="@string/view_stats_action_string"
+        android:icon="@drawable/ic_graf_white_24dp"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_edit"
+        android:title="@string/edit_session_action_string"
+        android:icon="@drawable/ic_edit_white_24dp"
+        app:showAsAction="ifRoom" />
+
+</menu>

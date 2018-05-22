@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_session_start_sound">notif_bol_tibetain</string>
+    <string name="default_session_end_sound">notif_bol_tibetain</string>
+    <string name="default_notification_sound">notif_bol_tibetain</string>
+    <string name="default_infinite_session">false</string>
+    <string name="default_vibration_active">false</string>
+    <string name="default_keep_screen_on">false</string>
+    <string name="default_do_not_disturb">false</string>
+    <string name="default_notification_active">false</string>
+    <string name="default_show_numerical_stats">false</string>
+    <string name="default_collect_stats">true</string>
+    <string name="default_collector_active">true</string>
+    <string name="default_duration">180000</string>
+    <string name="default_time_picker">12:00</string>
+    <string name="pause_instruction_hide_delay">5000</string>
+    <string name="start_session_countdown_delay">5000</string>
+    <string name="run_session_countdown_update_interval">15000</string>
+    <string name="delay_before_DND_to_let_ringtone_time_to_play">30000</string>
+    <string name="date_format_for_sessions_list_item">dd/MM/yyyy</string>
+    <string name="time_format_for_sessions_list_item">HH:mm</string>
+    <string name="mood_recorder_seekbars_max_value">10</string>
+    <string name="mood_recorder_seekbars_start_value">5</string>
+    <string name="guided_session_default_filename">fichier-audio-inconnu</string>
+
+
+
+
+    <!--pulse animation values -->
+    <string name="pulse_1">2000</string>
+    <string name="pulse_2_offset">4000</string>
+    <string name="pulse_2">2000</string>
+    <string name="pulse_3_offset">8000</string>
+    <string name="pulse_3">2000</string>
+    <string name="pulse_4_offset">12000</string>
+    <string name="pulse_4">2000</string>
+
+
+
+</resources>

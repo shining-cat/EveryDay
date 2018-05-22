@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SessionInProgressFragment">
+
+    <TextView
+        android:id="@+id/session_in_progress_pause_instruction_txtview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/how_to_pause_instruction"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bubble_counter" />
+
+    <TextView
+        android:id="@+id/session_running_countdown_txtview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/remaining_countdown"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline_h_session_in_progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress" />
+
+    <ImageView
+        android:id="@+id/bubble_counter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_simple_circle"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_in_progress"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress"
+        android:contentDescription="@string/bubble_timer_content_description" />
+
+    <TextView
+        android:id="@+id/session_in_progress_countdown_txtview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/start_countdown"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_in_progress"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_v_session_in_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_h_session_in_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+</android.support.constraint.ConstraintLayout>

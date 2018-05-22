@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier_session_details_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="start_label,end_label,duration_label,pauses_count_label,guide_mp3_label" />
+
+    <TextView
+        android:id="@+id/start_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/start_date_txtvw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/start_time_txtvw"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
+        app:layout_constraintTop_toTopOf="@+id/start_label" />
+
+    <TextView
+        android:id="@+id/start_time_txtvw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/start_date_txtvw"
+        app:layout_constraintTop_toTopOf="@+id/start_date_txtvw" />
+
+
+    <TextView
+        android:id="@+id/end_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_label" />
+
+    <TextView
+        android:id="@+id/end_date_txtvw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/end_time_txtvw"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
+        app:layout_constraintTop_toTopOf="@+id/end_label" />
+
+    <TextView
+        android:id="@+id/end_time_txtvw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/end_date_txtvw"
+        app:layout_constraintTop_toTopOf="@+id/end_date_txtvw" />
+
+    <TextView
+        android:id="@+id/duration_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/duration"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/end_label" />
+
+    <TextView
+        android:id="@+id/duration_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
+        app:layout_constraintTop_toTopOf="@+id/duration_label" />
+
+    <TextView
+        android:id="@+id/pauses_count_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/pauses_count_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/duration_label" />
+
+    <TextView
+        android:id="@+id/pauses_count_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/pauses_count_label"
+        app:layout_constraintTop_toTopOf="@+id/pauses_count_label" />
+
+    <TextView
+        android:id="@+id/real_duration_vs_planned-duration_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pauses_count_label" />
+
+    <TextView
+        android:id="@+id/guide_mp3_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/guide_mp3_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/real_duration_vs_planned-duration_txtvw" />
+
+    <TextView
+        android:id="@+id/guide_mp3_txtvw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
+        app:layout_constraintTop_toTopOf="@+id/guide_mp3_label" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_v_session_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/start_mood_array_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/start"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/end_mood_array_label"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/guide_mp3_label" />
+
+    <TextView
+        android:id="@+id/end_mood_array_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/end"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/start_mood_array_label"
+        app:layout_constraintTop_toTopOf="@+id/start_mood_array_label" />
+
+    <TextView
+        android:id="@+id/body_array_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_body"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_mood_array_label" />
+
+    <TextView
+        android:id="@+id/thoughts_array_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_thoughts"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/body_array_label" />
+
+    <TextView
+        android:id="@+id/feelings_array_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_feelings"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thoughts_array_label" />
+
+    <TextView
+        android:id="@+id/global_array_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_global"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feelings_array_label" />
+
+    <TextView
+        android:id="@+id/body_array_start_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/body_array_end_value"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/body_array_label" />
+
+    <TextView
+        android:id="@+id/body_array_end_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/body_array_start_value"
+        app:layout_constraintTop_toTopOf="@+id/body_array_start_value" />
+
+    <TextView
+        android:id="@+id/thoughts_array_start_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/thoughts_array_end_value"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/thoughts_array_label" />
+
+    <TextView
+        android:id="@+id/thoughts_array_end_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/thoughts_array_start_value"
+        app:layout_constraintTop_toTopOf="@+id/thoughts_array_start_value" />
+
+    <TextView
+        android:id="@+id/feelings_array_start_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/feelings_array_end_value"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/feelings_array_label" />
+
+    <TextView
+        android:id="@+id/feelings_array_end_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/feelings_array_start_value"
+        app:layout_constraintTop_toTopOf="@+id/feelings_array_start_value" />
+
+    <TextView
+        android:id="@+id/global_array_start_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/global_array_end_value"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/global_array_label" />
+
+    <TextView
+        android:id="@+id/global_array_end_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/global_array_start_value"
+        app:layout_constraintTop_toTopOf="@+id/global_array_start_value" />
+
+    <TextView
+        android:id="@+id/notes_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/notes_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/global_array_label" />
+
+    <TextView
+        android:id="@+id/notes_txtvw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notes_label" />
+
+</android.support.constraint.ConstraintLayout>

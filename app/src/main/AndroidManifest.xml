@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.shining_cat.meditappli">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +16,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- RECEIVERS -->
+        <receiver
+            android:name=".broadcastreceivers.AlarmSetterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+
+                <!-- called on "cold" boots -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- called on reboots or restart -->
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <!-- custom intents -->
+                <action android:name="fr.shining_cat.meditappli.SET_ALARM" />
+                <action android:name="fr.shining_cat.meditappli.CANCEL_ALARM" />
+                <action android:name="fr.shining_cat.meditappli.CANCEL_ALARM_FOR_TODAY" />
+            </intent-filter>
+        </receiver>
+        <!-- ACTIVITIES -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SessionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:label="@string/title_activity_session"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".VizActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_message_unknown">Une erreur indéterminée est survenue.</string>
+
+    <string name="error_message_invalid_date_alert">La date choisie est invalide…</string>
+
+    <string name="error_message_invalid_time_alert">L\'heure choisie est invalide…</string>
+
+    <string name="error_message_External_Storage_Not_Accessible">Impossible d\'accéder au stockage de l\'appareil</string>
+
+    <string name="error_message_Accessing_Creating_Export_Folder">Impossible d\'accéder ou de créer le dossier de destination</string>
+
+    <string name="error_message_Creating_Export_file">Impossible d\'accéder ou de créer le dossier de destination</string>
+
+    <string name="error_message_Writing_export_file">Impossible d\'écrire le fichier CSV</string>
+
+    <string name="error_message_cant_read_import_file">Impossible de lire le fichier CSV</string>
+
+    <string name="error_message_file_not_found">Fichier CSV introuvable</string>
+
+    <string name="error_message_ioe_parsing_file">Fichier CSV illisible</string>
+
+    <string name="error_message_date_parsing">Date mal formattée</string>
+
+</resources>
