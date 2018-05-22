@@ -13,9 +13,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.shining_cat.meditappli.R;
+import fr.shining_cat.meditappli.SessionActivity;
 
 public class SessionsExporterAsync extends AsyncTask <List, Integer, String>{
 
@@ -83,9 +85,17 @@ public class SessionsExporterAsync extends AsyncTask <List, Integer, String>{
         //write export
         try {
             FileWriter csvFileWriter = new FileWriter(exportCsvFile);
-            CSVWriter openCsvFileWriter = new CSVWriter(csvFileWriter, ';');
-            //
-            List<SessionRecord> sessionsRecords = (List<SessionRecord>) sessionRecordsList[0];
+            CSVWriter openCsvFileWriter = new CSVWriter(csvFileWriter, ';', CSVWriter.DEFAULT_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+            //check that every object in given List is actually a SessionRecord, put it in a new not generic list
+            List<SessionRecord> sessionsRecords = new ArrayList<SessionRecord>();
+            for(Object entry : sessionRecordsList[0]){
+                if(entry instanceof SessionRecord){
+                    sessionsRecords.add((SessionRecord) entry);
+                }
+            }
+            if(sessionRecordsList[0].size() != sessionsRecords.size()){
+                Log.e(TAG, "doInBackground::casting given sessions to SessionRecord lost items!");
+            }
             int totalSessionsNumber = sessionsRecords.size();
             int records = 0;
             //write headers
