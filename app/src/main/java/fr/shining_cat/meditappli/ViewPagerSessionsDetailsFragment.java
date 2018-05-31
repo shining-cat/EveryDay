@@ -32,6 +32,7 @@ public class ViewPagerSessionsDetailsFragment extends Fragment {
     private ImageButton mPrevSessionBtn;
 
 
+
 ////////////////////////////////////////
 //This is the fragment used to hold a viewPager (with SessionsDetailsFragmentStatePagerAdapter as FragmentStatePagerAdapter) presenting the sessions details (SessionDetailsFragment)
     public ViewPagerSessionsDetailsFragment() {

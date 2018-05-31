@@ -196,12 +196,14 @@ public class VizActivity extends AppCompatActivity
     private void showSessionsCalendarView(){
         mCurrentScreen = SCREEN_VIZ_CALENDAR_VIEW;
         invalidateOptionsMenu();
+        Toast.makeText(this, "La vue CALENDRIER n'est pas encore opérationnelle", Toast.LENGTH_LONG).show();
         //TODO: fragment for a calendar type view of sessions : ViewSessionsCalendarFragment
     }
     //
     private void showStats(){
         mCurrentScreen = SCREEN_VIZ_STATS_VIEW;
         invalidateOptionsMenu();
+        Toast.makeText(this, "La vue STATISTIQUES n'est pas encore opérationnelle", Toast.LENGTH_LONG).show();
         //TODO: stats fragment : ViewStatsFragment
     }
     //

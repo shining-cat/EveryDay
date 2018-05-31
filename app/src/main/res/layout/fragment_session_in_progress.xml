@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_orange_light"
     tools:context=".SessionInProgressFragment">
+
+    <ImageView
+        android:id="@+id/bubble_counter_int"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/bubble_timer_int_content_description"
+        android:src="@drawable/counter_circle_int"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_in_progress"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress" />
+
+    <ImageView
+        android:id="@+id/bubble_counter_ext"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/bubble_timer_ext_content_description"
+        android:src="@drawable/counter_circle_ext"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_in_progress"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress" />
 
     <TextView
         android:id="@+id/session_in_progress_pause_instruction_txtview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="64dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="@string/how_to_pause_instruction"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/session_in_progress_countdown_txtview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bubble_counter" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/session_running_countdown_txtview"
@@ -31,23 +63,12 @@
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="@string/remaining_countdown"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/guideline_h_session_in_progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress" />
-
-    <ImageView
-        android:id="@+id/bubble_counter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/ic_simple_circle"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"
-        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_in_progress"
-        app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress"
-        android:contentDescription="@string/bubble_timer_content_description" />
 
     <TextView
         android:id="@+id/session_in_progress_countdown_txtview"
@@ -56,7 +77,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
-        android:text="@string/start_countdown"
+        android:text="@string/start_countdown_beginning_session"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
         app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"
         app:layout_constraintStart_toStartOf="@+id/guideline_v_session_in_progress"

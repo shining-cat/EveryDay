@@ -23,7 +23,6 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -31,8 +30,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -44,6 +44,8 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.content.Context.VIBRATOR_SERVICE;
 import static fr.shining_cat.meditappli.broadcastreceivers.AlarmSetterBroadcastReceiver.MEDITATION_REMINDER_CANCEL_ALARM_FOR_TODAY;
 
+
+//TODO ? BUG: sur le samsung de pa, plusieurs click normaux declenchent le long click o_O
 
 public class SessionInProgressFragment extends Fragment {
 
@@ -69,10 +71,15 @@ public class SessionInProgressFragment extends Fragment {
     private Context mContext;
     private View mRootView;
     private TextView mPauseInstructionTxtView;
-    private TextView mCountdownTxtView;
+    private TextView mStartingCountdownTxtView;
     private TextView mRemainingDurationTxtView;
-    private View mBubbleCounter;
-    private Animation mAnimPulse;
+    private View mBubbleCounterIntPart;
+    private View mBubbleCounterExtPart;
+    private Animation mAnimPulseExpand;
+    private Animation mAnimPulseRetract;
+    private Animation mAnimPulseFadeOut;
+    private Animation mAnimPulseOverstayIn;
+    private Animation mAnimPulseOverstayOut;
     private Handler mHidePauseInstructionHandler;
     private CountDownTimer mStartSessionCountDown;
     private boolean mStartSessionCountDownIsRunning;
@@ -83,6 +90,7 @@ public class SessionInProgressFragment extends Fragment {
     private long mSessionRemainingDuration;
     private long mPlannedDuration;
     private long mElapsedTime;
+    private long mTempElapsedTimeWhileOverstaying;
     private int mPausesCount;
     private String mGuideMp3;
     private int mPreviousInterruptionFilter;
@@ -95,7 +103,7 @@ public class SessionInProgressFragment extends Fragment {
     int mAudioFileDuration;
     MediaPlayer mMediaPlayer;
 
-    //TODO: center bubbleCounter : position is not stable on screen rotation, probably because of the status bar
+
 ////////////////////////////////////////
 //Fragment shown while session is running (or paused)
     public SessionInProgressFragment() {
@@ -136,10 +144,12 @@ public class SessionInProgressFragment extends Fragment {
         Log.d(TAG, "onCreateView");
         // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_session_in_progress, container, false);
+        mRootView.setOnSystemUiVisibilityChangeListener(onSystemUiVisibilityChangeListener);
         //
         mPauseInstructionTxtView = mRootView.findViewById(R.id.session_in_progress_pause_instruction_txtview);
-        mCountdownTxtView = mRootView.findViewById(R.id.session_in_progress_countdown_txtview);
-        mBubbleCounter = mRootView.findViewById(R.id.bubble_counter);
+        mStartingCountdownTxtView = mRootView.findViewById(R.id.session_in_progress_countdown_txtview);
+        mBubbleCounterExtPart = mRootView.findViewById(R.id.bubble_counter_ext);
+        mBubbleCounterIntPart = mRootView.findViewById(R.id.bubble_counter_int);
         mRemainingDurationTxtView = mRootView.findViewById(R.id.session_running_countdown_txtview);
         mRemainingDurationTxtView.setVisibility(View.INVISIBLE);
         // countdowntimer dispatches ontick on start (before the first update cycle has even begun), so we have to offset the start value of mElapsedTime
@@ -152,7 +162,7 @@ public class SessionInProgressFragment extends Fragment {
         mPreviousInterruptionFilter = -1;
         mIsNormalBackNavAllowed = true;
         mDelayBeforeDND = Long.parseLong(getString(R.string.delay_before_DND_to_let_ringtone_time_to_play));
-        mGuideMp3 = getString(R.string.guided_session_default_filename);
+        mGuideMp3 = "";
         //if we were passed an audio file URI for a guided session, retrieve name and duration
         if(mAudioContentUri != null){
             //duration
@@ -171,7 +181,6 @@ public class SessionInProgressFragment extends Fragment {
             Log.d(TAG, "onAttach::mGuideMp3 = " + mGuideMp3 + " / mAudioFileDuration = " + mAudioFileDuration);
         }
         //
-        prepareBubbleTimerAnimation();
         prepareStart();
         return mRootView;
     }
@@ -192,15 +201,8 @@ public class SessionInProgressFragment extends Fragment {
         }
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
+    public void comingBackToSession(){
+        delayedHideSystemUI(1000);
     }
 
     private void prepareStart(){
@@ -208,6 +210,7 @@ public class SessionInProgressFragment extends Fragment {
         startCountdownBeforeBeginningSession();
         handleKeepScreenOn(true);
         handleAlarmPostponing();
+
     }
 ////////////////////////////////////////
 //if user has set a reminder alarm in saved Sharedprefs, we cancel it for the current day when he starts a session
@@ -241,19 +244,29 @@ public class SessionInProgressFragment extends Fragment {
 
 ////////////////////////////////////////
 //There is a fixed duration countdown before a session really starts : R.string.start_session_countdown_delay
+String mCountdownTxt;
     private void startCountdownBeforeBeginningSession() {
-        Log.d(TAG, "startCountdownBeforeBeginningSession");
+        Log.d(TAG, "startCountdownBeforeBeginningSession::mElapsedTime = " + mElapsedTime);
+        //
+        delayedHideSystemUI(1000);
+        //
         mRemainingDurationTxtView.setVisibility(View.INVISIBLE);
-        int startSessionCountdown = Integer.parseInt(getString(R.string.start_session_countdown_delay));
-        mCountdownTxtView.setText(String.format(getString(R.string.start_countdown), startSessionCountdown));
-        mCountdownTxtView.setVisibility(View.VISIBLE);
-        mStartSessionCountDown = new CountDownTimer(startSessionCountdown, 500) {
+        int startSessionCountdownLength = Integer.parseInt(getString(R.string.start_session_countdown_delay));
+        if (mElapsedTime <= 0) {
+            mCountdownTxt = getString(R.string.start_countdown_beginning_session);
+        }else{
+            mCountdownTxt = getString(R.string.start_countdown_resuming_session);
+        }
+        mStartingCountdownTxtView.setText(String.format(mCountdownTxt, startSessionCountdownLength));
+        Log.d(TAG, "startCountdownBeforeBeginningSession::mStartingCountdownTxtView = " + mStartingCountdownTxtView);
+        mStartingCountdownTxtView.setVisibility(View.VISIBLE);
+        mStartSessionCountDown = new CountDownTimer(startSessionCountdownLength, 500) {
             public void onTick(long millisUntilFinished) {
-                mCountdownTxtView.setText(String.format(getString(R.string.start_countdown),(1 + millisUntilFinished / 1000)));
+                mStartingCountdownTxtView.setText(String.format(mCountdownTxt,(1 + millisUntilFinished / 1000)));
             }
             public void onFinish() {
-                mCountdownTxtView.setText(String.format(getString(R.string.start_countdown),0));
-                mCountdownTxtView.setVisibility(View.INVISIBLE);
+                mStartingCountdownTxtView.setText(String.format(mCountdownTxt,0));
+                mStartingCountdownTxtView.setVisibility(View.INVISIBLE);
                 startSession();
             }
         }.start();
@@ -287,7 +300,6 @@ public class SessionInProgressFragment extends Fragment {
 ////////////////////////////////////////
 //Session RUNS
     private void launchBubbleTimer() {
-        startBubbleTimerAnimation();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         //
         int defaultDuration = Integer.parseInt(getString(R.string.default_duration));
@@ -298,8 +310,12 @@ public class SessionInProgressFragment extends Fragment {
         }
         mSessionRemainingDuration = mPlannedDuration;
         //
+        startAnimPulseRetract();
+        //
         mRemainingDurationTxtView.setVisibility(View.VISIBLE);
-        mRemainingDurationTxtView.setText(durationFormatted(mSessionRemainingDuration));
+        String displayRemainingTimeOnLaunch = durationFormattedComplete(mSessionRemainingDuration);
+        Log.d(TAG, "launchBubbleTimer::displayRemainingTimeOnLaunch = " + displayRemainingTimeOnLaunch);
+        mRemainingDurationTxtView.setText(displayRemainingTimeOnLaunch);
         //
         boolean defaultInfiniteSession = Boolean.parseBoolean(getString(R.string.default_infinite_session));
         final boolean infiniteSession = prefs.getBoolean(getString(R.string.pref_switch_infinite_session_key), defaultInfiniteSession);
@@ -327,7 +343,7 @@ public class SessionInProgressFragment extends Fragment {
                     mMediaPlayer.setDataSource(getActivity().getApplicationContext(), mAudioContentUri);
                     mMediaPlayer.prepare();
                     if (mElapsedTime > 0){
-                        mMediaPlayer.seekTo((int) mElapsedTime); // elapsedTime is updated only on completed onTick => audio guide will restart a bit sooner than it was paused.. this is good
+                        mMediaPlayer.seekTo((int) mElapsedTime); // elapsedTime is updated only on completed onTick => audio guide will restart a bit sooner than it was paused, but ticker is set on 1s, so...
                     }
                     mMediaPlayer.start();
                 } catch (IOException e) {
@@ -345,8 +361,9 @@ public class SessionInProgressFragment extends Fragment {
                         }
                     }
                     mElapsedTime += runSessionCountDownUpdateInterval; //update elapsed time so that if the user pauses the session, we will have an up-to-date elapsed time
-                    Log.d(TAG, "onTick::mElapsedTime = " + mElapsedTime);
-                    mRemainingDurationTxtView.setText(durationFormatted((60000 + millisUntilFinished)));
+                    Log.d(TAG, "onTick::mElapsedTime in seconds = " + (mElapsedTime/1000));
+                    String differenceBtwnPlannedAndElapsedTime = durationFormattedComplete(Math.min(mPlannedDuration, Math.abs(mPlannedDuration - mElapsedTime)));
+                    mRemainingDurationTxtView.setText(differenceBtwnPlannedAndElapsedTime);
                     updateStickyNotification(SESSION_STATE_NORMAL_RUNNING);
                 }
 
@@ -359,6 +376,7 @@ public class SessionInProgressFragment extends Fragment {
                     mElapsedTime = mPlannedDuration;  // if we have reached onFinish here, means we have done the planned duration, we overwrite previous sub-counting in mElapsedTime with the real value (otherwise it would have missed one onTick at least)
                     Log.d(TAG, "onFinish::mElapsedTime = " + mElapsedTime);
                     mRunSessionCountDownIsRunning = false;
+                    destroyBubbleTimerAnimation();
                     if(mMediaPlayer!=null){
                         mMediaPlayer.stop();
                         mMediaPlayer.release();
@@ -383,28 +401,38 @@ public class SessionInProgressFragment extends Fragment {
 ////////////////////////////////////////
 //Session can runs longer than preset time if user has set it to in savedSharedPrefs : we run a countdowntimer for 1mn and relaunch it until user stops the session
     private void launchSessionOverStay(){
-        String plannedDuration = durationFormatted(mPlannedDuration);
-        String bonusDuration = durationFormatted((mElapsedTime - mPlannedDuration));
-        Log.d(TAG, "launchSessionOverStay::plannedDuration = " + mPlannedDuration/1000 + " / mElapsedTime = " + mElapsedTime/1000);
-        //TODO : grooming presentation
-        mRemainingDurationTxtView.setText(plannedDuration + " + " + bonusDuration);
         mRunSessionCountUpIsRunning = true;
+        mTempElapsedTimeWhileOverstaying = mElapsedTime;
         final int oneMnInMs = 60000;
-        long runSessionCountDownUpdateInterval = Long.parseLong(getString(R.string.run_session_countdown_update_interval));
-        mRunSessionCountUp = new CountDownTimer(oneMnInMs, runSessionCountDownUpdateInterval) {
+        final long runSessionOverstayUpdateInterval = Long.parseLong(getString(R.string.run_session_countdown_update_interval));
+        //
+        startAnimPulseOverstayOut();
+        mBubbleCounterExtPart.setAlpha(1f);
+        //
+        mRunSessionCountUp = new CountDownTimer(oneMnInMs, runSessionOverstayUpdateInterval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.d(TAG, "launchSessionOverStay:: mDNDIsOverridden = " + mDNDIsOverridden + " / (oneMnInMs - millisUntilFinished) = " + (oneMnInMs - millisUntilFinished));
+                //Log.d(TAG, "launchSessionOverStay:: mDNDIsOverridden = " + mDNDIsOverridden + " / (oneMnInMs - millisUntilFinished) = " + (oneMnInMs - millisUntilFinished));
                 if(!mDNDIsOverridden) {
                     if ((oneMnInMs - millisUntilFinished) >= mDelayBeforeDND) {
                         handleDoNotDisturbMode(true);
+                    }
+                    mElapsedTime += runSessionOverstayUpdateInterval; //update elapsed time so that if the user pauses the session, we will have an up-to-date elapsed time
+                    updateStickyNotification(SESSION_STATE_OVERSTAY_RUNNING);
+                    String plannedDuration = durationFormattedShort(mPlannedDuration);
+                    String bonusDuration = durationFormattedComplete((mElapsedTime - mPlannedDuration));
+                    Log.d(TAG, "launchSessionOverStay::onTick::plannedDuration = " + mPlannedDuration/1000 + " / mElapsedTime = " + mElapsedTime/1000);
+                    if(bonusDuration.isEmpty()) {
+                        mRemainingDurationTxtView.setText(plannedDuration);
+                    }else{
+                        mRemainingDurationTxtView.setText(plannedDuration + " + " + bonusDuration);
                     }
                 }
             }
             @Override
             public void onFinish() {
                 mRunSessionCountUpIsRunning = false;
-                mElapsedTime += oneMnInMs;
+                mElapsedTime = mTempElapsedTimeWhileOverstaying + oneMnInMs;
                 updateStickyNotification(SESSION_STATE_OVERSTAY_RUNNING);
                 launchSessionOverStay();
             }
@@ -445,21 +473,15 @@ public class SessionInProgressFragment extends Fragment {
 
     private void pauseSession() {
         Log.d(TAG, "pauseSession");
-        //test : see if behaviour is more intuitive without this condition :
-        //if (mElapsedTime > 0) {
-            destroyAllCountDownTimers();
-            stopBubbleTimerAnimation();
-            showPauseDialog();
-            handleKeepScreenOn(false);
-            handleDoNotDisturbMode(false);
-            updateStickyNotification(SESSION_STATE_PAUSED);
-            if(mMediaPlayer!=null){
-                mMediaPlayer.pause();
-            }
-        /*}else{//fragment onpause happened during countdown to start (or before first onTick) before beginning session => just abort session
-            removeStickyNotification();
-            mListener.onAbortSessionInProgressFragment();
-        }*/
+        destroyAllCountDownTimers();
+        stopBubbleTimerAnimation();
+        showPauseDialog();
+        handleKeepScreenOn(false);
+        handleDoNotDisturbMode(false);
+        updateStickyNotification(SESSION_STATE_PAUSED);
+        if(mMediaPlayer!=null){
+            mMediaPlayer.pause();
+        }
     }
     private void showPauseDialog() {
         Log.d(TAG, "showPauseDialog");
@@ -513,37 +535,135 @@ public class SessionInProgressFragment extends Fragment {
 
 ////////////////////////////////////////
 //BUBBLE TIMER ANIMATION CONTROL
+//pulse will be constituted of two animations : expand, then retract. Start and end values for animated properties will be function of mElapsedTime, so changing at every cycle
 
-    private void prepareBubbleTimerAnimation(){
-        //TODO : améliorer l'animation, bug, et affiner le résultat recherché
-        mAnimPulse = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.pulse_animation);
-        mAnimPulse.setAnimationListener(new Animation.AnimationListener(){
-            @Override
-            public void onAnimationStart(Animation animation) {}
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mBubbleCounter.startAnimation(animation);
-            }
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
-    }
+    private Animation.AnimationListener animPulseExpandListener = new Animation.AnimationListener(){
+        @Override
+        public void onAnimationStart(Animation animation) {}
 
-    private void startBubbleTimerAnimation(){
-        if(mAnimPulse!=null) {
-            mBubbleCounter.startAnimation(mAnimPulse);
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            startAnimPulseRetract();
         }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {}
+    };
+    private Animation.AnimationListener animPulseRetractListener = new Animation.AnimationListener(){
+        @Override
+        public void onAnimationStart(Animation animation) {}
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            startAnimPulseExpand();
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {}
+    };
+
+    private void startAnimPulseExpand(){
+        int animPulseExpandDuration = Integer.parseInt(getString(R.string.anim_pulse_expand_duration));
+        //I chose to set this proportionnal to the square root of the elapsed time because the mind will rather interpret the area than the widht or height as the important data
+        float startScale = Math.max(0f, (float) Math.sqrt((double) mElapsedTime / (double) mPlannedDuration));
+        mAnimPulseExpand = new ScaleAnimation(startScale, 1f, startScale, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mAnimPulseExpand.setDuration(animPulseExpandDuration);
+        mAnimPulseExpand.setFillAfter(true);
+        mAnimPulseExpand.setAnimationListener(animPulseExpandListener);
+        mBubbleCounterIntPart.startAnimation(mAnimPulseExpand);
     }
-    private void stopBubbleTimerAnimation(){
-        if(mAnimPulse!=null) {
-            mAnimPulse.setAnimationListener(null);
+    private void startAnimPulseRetract(){
+        int animPulseRetractDuration = Integer.parseInt(getString(R.string.anim_pulse_retract_duration));
+        //I chose to set this proportionnal to the square root of the elapsed time because the mind will rather interpret the area than the widht or height as the important data
+        //Adding the duration of the anim here to be sure to aim at the right value for the end of the anim, and avoid a jump between the value reached and the nex start of mAnimPulseExpand
+        float endScale = Math.max(0f, (float) Math.sqrt((float) (mElapsedTime + animPulseRetractDuration) / (float) mPlannedDuration));
+        mAnimPulseRetract = new ScaleAnimation(1f, endScale, 1f, endScale, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mAnimPulseRetract.setFillAfter(true);
+        mAnimPulseRetract.setDuration(animPulseRetractDuration);
+        mAnimPulseRetract.setAnimationListener(animPulseRetractListener);
+        mBubbleCounterIntPart.startAnimation(mAnimPulseRetract);
+        //
+        mBubbleCounterExtPart.setAlpha(1f);
+        mAnimPulseFadeOut = new AlphaAnimation(1f, 0f);
+        mAnimPulseFadeOut.setDuration(2*animPulseRetractDuration);
+        mAnimPulseFadeOut.setFillAfter(true);
+        mBubbleCounterExtPart.startAnimation(mAnimPulseFadeOut);
+
+    }
+    //animations for overstay have no link to elapsed time
+    private void startAnimPulseOverstayIn(){
+        int animPulseOverstayInDuration = Integer.parseInt(getString(R.string.anim_pulse_expand_duration));
+        mAnimPulseOverstayIn = new AlphaAnimation(0.1f, 1f);
+        mAnimPulseOverstayIn.setDuration(animPulseOverstayInDuration);
+        mAnimPulseOverstayIn.setFillAfter(true);
+        mAnimPulseOverstayIn.setAnimationListener(animPulseOverstayInListener);
+        mBubbleCounterIntPart.startAnimation(mAnimPulseOverstayIn);
+    }
+    private void startAnimPulseOverstayOut(){
+        int animPulseOverstayOutDuration = Integer.parseInt(getString(R.string.anim_pulse_retract_duration));
+        mAnimPulseOverstayOut = new AlphaAnimation(1f, 0.1f);
+        mAnimPulseOverstayOut.setDuration(animPulseOverstayOutDuration);
+        mAnimPulseOverstayOut.setFillAfter(true);
+        mAnimPulseOverstayOut.setAnimationListener(animPulseOverstayOutListener);
+        mBubbleCounterIntPart.startAnimation(mAnimPulseOverstayOut);
+    }
+
+    private Animation.AnimationListener animPulseOverstayInListener = new Animation.AnimationListener(){
+        @Override
+        public void onAnimationStart(Animation animation) {}
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            startAnimPulseOverstayOut();
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {}
+    };
+    private Animation.AnimationListener animPulseOverstayOutListener = new Animation.AnimationListener(){
+        @Override
+        public void onAnimationStart(Animation animation) {}
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            startAnimPulseOverstayIn();
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {}
+    };
+    private void stopBubbleTimerAnimation(){//will not really stop them but rather prevent the cycle to start again
+        if(mAnimPulseExpand !=null) {
+            mAnimPulseExpand.setAnimationListener(null);
+        }
+        if(mAnimPulseRetract !=null) {
+            mAnimPulseRetract.setAnimationListener(null);
+        }
+        if(mAnimPulseOverstayIn !=null) {
+            mAnimPulseOverstayIn.setAnimationListener(null);
+        }
+        if(mAnimPulseOverstayOut !=null) {
+            mAnimPulseOverstayOut.setAnimationListener(null);
         }
     }
 
     private void destroyBubbleTimerAnimation(){
-        if(mAnimPulse!= null && mAnimPulse.hasStarted()){
-            mAnimPulse.cancel();
-            mAnimPulse=null;
+        stopBubbleTimerAnimation();
+        if(mAnimPulseExpand != null && mAnimPulseExpand.hasStarted()){
+            mAnimPulseExpand.cancel();
+            mAnimPulseExpand =null;
+        }
+        if(mAnimPulseRetract != null && mAnimPulseRetract.hasStarted()){
+            mAnimPulseRetract.cancel();
+            mAnimPulseRetract =null;
+        }
+        if(mAnimPulseOverstayIn != null && mAnimPulseOverstayIn.hasStarted()){
+            mAnimPulseOverstayIn.cancel();
+            mAnimPulseOverstayIn =null;
+        }
+        if(mAnimPulseOverstayOut != null && mAnimPulseOverstayOut.hasStarted()){
+            mAnimPulseOverstayOut.cancel();
+            mAnimPulseOverstayOut =null;
         }
     }
 
@@ -551,8 +671,8 @@ public class SessionInProgressFragment extends Fragment {
 //display / update / remove sticky notification while session runs/is paused / ends
     private void displayStickyNotification(){
        Log.d(TAG, "displayStickyNotification");
-        String totalPlannedTime = durationFormatted(mPlannedDuration);
-        String remainingTime = durationFormatted(mSessionRemainingDuration);
+        String totalPlannedTime = durationFormattedShort(mPlannedDuration);
+        String remainingTime = durationFormattedComplete(mSessionRemainingDuration);
         String notifText = String.format(getString(R.string.session_running_notification_text), remainingTime, totalPlannedTime);
         //Builds the notification with all of the parameters
         Notification.Builder notifyBuilder = buildRunningSessionNotification(notifText, false);
@@ -590,9 +710,10 @@ public class SessionInProgressFragment extends Fragment {
     }
 
     private void updateStickyNotification(String sessionState){
-        String totalPlannedTime = durationFormatted(mPlannedDuration);
-        String elapsedTime = durationFormatted(mElapsedTime);
-        String differenceBtwnPlannedAndElapsedTime = durationFormatted(Math.min(mPlannedDuration, Math.abs(60000 + mPlannedDuration - mElapsedTime))); //we don't want to display remaining ENTIRE minutes, but rather include the commenced minute. But we don't want the first onTick to display a value bigger than total duration
+        String totalPlannedTime = durationFormattedShort(mPlannedDuration);
+        String elapsedTimeComplete = durationFormattedComplete(mElapsedTime);
+        String elapsedTimeShort = durationFormattedShort(mElapsedTime);
+        String differenceBtwnPlannedAndElapsedTime = durationFormattedComplete(Math.min(mPlannedDuration, Math.abs(mPlannedDuration - mElapsedTime)));
         String notifText;
         Notification.Builder notifyBuilder;
         switch(sessionState){
@@ -601,7 +722,7 @@ public class SessionInProgressFragment extends Fragment {
                 notifyBuilder = buildRunningSessionNotification(notifText, false);
                 break;
             case SESSION_STATE_PAUSED:
-                notifText = String.format(getString(R.string.session_paused_notification_text), elapsedTime, totalPlannedTime);
+                notifText = String.format(getString(R.string.session_paused_notification_text), elapsedTimeComplete, totalPlannedTime);
                 notifyBuilder = buildRunningSessionNotification(notifText, false);
                 break;
             case SESSION_STATE_ENDED:
@@ -611,7 +732,7 @@ public class SessionInProgressFragment extends Fragment {
                     removeStickyNotification();
                     return;
                 }else{
-                    notifText = String.format(getString(R.string.session_ended_notification_text), elapsedTime);
+                    notifText = String.format(getString(R.string.session_ended_notification_text), elapsedTimeShort);
                 }
                 notifyBuilder = buildRunningSessionNotification(notifText, true);
                 break;
@@ -667,14 +788,22 @@ public class SessionInProgressFragment extends Fragment {
 
 ////////////////////////////////////////
 //Helper method to format duration string
-    private String durationFormatted(long duration){
+    private String durationFormattedComplete(long duration){
+        return TimeOperations.convertMillisecondsToHoursMinutesAndSecondsString(
+                duration,
+                getString(R.string.generic_string_SHORT_HOURS),
+                getString(R.string.generic_string_SHORT_MINUTES),
+                getString(R.string.generic_string_SHORT_SECONDS),
+                false);
+    }
+
+    private String durationFormattedShort(long duration){
         return TimeOperations.convertMillisecondsToHoursAndMinutesString(
                 duration,
                 getString(R.string.generic_string_SHORT_HOURS),
                 getString(R.string.generic_string_SHORT_MINUTES),
                 false);
     }
-
 ////////////////////////////////////////
 //Helper method to set the device in DND or back to normal (or silent if SDK < Marshmallow) according to saved SharedPref
     private void handleDoNotDisturbMode(boolean activateDND) {
@@ -822,4 +951,52 @@ public class SessionInProgressFragment extends Fragment {
         void onAbortSessionInProgressFragment();
         void onFinishSessionInProgressFragment(long duration, int pausesCount, int realVsPlannedDuration, String guideMp3);
     }
+
+////////////////////////////////////////
+//FULLSCREEN : SYSTEM UI HANDLING
+
+    public void delayedHideSystemUI(int delayMillis) {
+        Log.d(TAG, "delayedHideSystemUI");
+        mHideHandler.removeCallbacks(mHideRunnable);
+        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    private final Handler mHideHandler = new Handler();
+    private final Runnable mHideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hideSystemUI();
+        }
+    };
+
+    private void hideSystemUI() {
+        Log.d(TAG, "hideSystemUI");
+        mRootView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+    }
+
+    private View.OnSystemUiVisibilityChangeListener onSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
+        @Override
+        public void onSystemUiVisibilityChange(int visibility) {
+            Log.d(TAG, "onSystemUiVisibilityChange::visibility = " + visibility);
+            // Note that system bars will only be "visible" if none of the
+            // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
+            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) { //The system bars are visible
+                Log.d(TAG, "onSystemUiVisibilityChange::The system bars are visible");
+                delayedHideSystemUI(3000);
+            } else {//The system bars are NOT visible
+                Log.d(TAG, "onSystemUiVisibilityChange::The system bars are NOT visible");
+
+            }
+        }
+    };
 }

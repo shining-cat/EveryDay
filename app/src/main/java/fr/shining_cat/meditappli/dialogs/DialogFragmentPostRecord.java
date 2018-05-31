@@ -120,11 +120,10 @@ public class DialogFragmentPostRecord extends DialogFragment {
                     timeOfRecordCal.setTimeInMillis(mPresetEndMood.getTimeOfRecord());
                     mTimestampOfRecordinMillis = mPresetEndMood.getTimeOfRecord();
                 }
-                int seekbarOffset = Integer.parseInt(getActivity().getString(R.string.mood_recorder_seekbars_start_value));
-                mMoodRecorder.setBodyValue(mPresetEndMood.getBodyValue()/2 + seekbarOffset);
-                mMoodRecorder.setThoughtsValue(mPresetEndMood.getThoughtsValue()/2 + seekbarOffset);
-                mMoodRecorder.setFeelingsValue(mPresetEndMood.getFeelingsValue()/2 + seekbarOffset);
-                mMoodRecorder.setGlobalValue(mPresetEndMood.getGlobalValue()/2 + seekbarOffset);
+                mMoodRecorder.setBodyValue(mPresetEndMood.getBodyValue());
+                mMoodRecorder.setThoughtsValue(mPresetEndMood.getThoughtsValue());
+                mMoodRecorder.setFeelingsValue(mPresetEndMood.getFeelingsValue());
+                mMoodRecorder.setGlobalValue(mPresetEndMood.getGlobalValue());
                 //
                 mDuration = mPresetEndMood.getSessionRealDuration();
                 mPausesCount = mPresetEndMood.getPausesCount();
@@ -216,13 +215,12 @@ public class DialogFragmentPostRecord extends DialogFragment {
         public void onClick(View v) {
             Log.d(TAG, "onPositiveClickListener");
             //no need here to update timestamp for non manual entry because we'd rather store the time at which the dialog opened (= end of session)
-            int seekbarOffset = Integer.parseInt(getActivity().getString(R.string.mood_recorder_seekbars_start_value));
             MoodRecord mood = new MoodRecord(
                     mTimestampOfRecordinMillis,
-                    2*(mMoodRecorder.getBodyValue() - seekbarOffset),
-                    2*(mMoodRecorder.getThoughtsValue() - seekbarOffset),
-                    2*(mMoodRecorder.getFeelingsValue() - seekbarOffset),
-                    2*(mMoodRecorder.getGlobalValue() - seekbarOffset));
+                    mMoodRecorder.getBodyValue(),
+                    mMoodRecorder.getThoughtsValue(),
+                    mMoodRecorder.getFeelingsValue(),
+                    mMoodRecorder.getGlobalValue());
             //for manual entry, calculate duration based on entered start and end time
             if(mManualEntry){
                 mGuideMp3 = mGuideMp3EditTxt.getText().toString();

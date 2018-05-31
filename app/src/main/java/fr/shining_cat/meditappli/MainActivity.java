@@ -13,6 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import fr.shining_cat.meditappli.dialogs.DialogFragmentInfos;
 import fr.shining_cat.meditappli.utils.TimeOperations;
 

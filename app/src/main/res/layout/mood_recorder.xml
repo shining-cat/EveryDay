@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/labelSeekBarBody"
+        android:id="@+id/labelSmileyScaleBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -15,95 +16,84 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <SeekBar
-        android:id="@+id/seekBarBody"
-        android:max="@string/mood_recorder_seekbars_max_value"
-        android:progress="@string/mood_recorder_seekbars_start_value"
-        android:layout_width="fill_parent"
+
+
+    <com.hsalf.smilerating.SmileRating
+        android:id="@+id/smileyRatingBody"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelSeekBarBody" />
+        app:layout_constraintTop_toBottomOf="@id/labelSmileyScaleBody"
+        app:showLine="false" />
 
     <TextView
-        android:id="@+id/labelSeekBarThoughts"
+        android:id="@+id/labelSmileyScaleThoughts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:text="@string/label_thoughts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/seekBarBody" />
-    <SeekBar
-        android:id="@+id/seekBarThoughts"
-        android:max="@string/mood_recorder_seekbars_max_value"
-        android:progress="@string/mood_recorder_seekbars_start_value"
-        android:layout_width="fill_parent"
+        app:layout_constraintTop_toBottomOf="@id/smileyRatingBody" />
+
+    <com.hsalf.smilerating.SmileRating
+        android:id="@+id/smileyRatingThoughts"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelSeekBarThoughts"
-        />
+        app:layout_constraintTop_toBottomOf="@id/labelSmileyScaleThoughts"
+        app:showLine="false" />
 
     <TextView
-        android:id="@+id/labelSeekBarFeelings"
+        android:id="@+id/labelSmileyScaleFeelings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:text="@string/label_feelings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/seekBarThoughts" />
+        app:layout_constraintTop_toBottomOf="@id/smileyRatingThoughts" />
 
-    <SeekBar
-        android:id="@+id/seekBarFeelings"
-        android:max="@string/mood_recorder_seekbars_max_value"
-        android:progress="@string/mood_recorder_seekbars_start_value"
-        android:layout_width="fill_parent"
+    <com.hsalf.smilerating.SmileRating
+        android:id="@+id/smileyRatingFeelings"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_v_mood_recorder"
-        app:layout_constraintStart_toStartOf="@+id/guideline_v_mood_recorder"
-        app:layout_constraintTop_toBottomOf="@id/labelSeekBarFeelings" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelSmileyScaleFeelings"
+        app:showLine="false" />
 
     <TextView
-        android:id="@+id/labelSeekBarGlobal"
+        android:id="@+id/labelSmileyScaleGlobal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:text="@string/label_global"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/seekBarFeelings" />
-    <SeekBar
-        android:id="@+id/seekBarGlobal"
-        android:max="@string/mood_recorder_seekbars_max_value"
-        android:progress="@string/mood_recorder_seekbars_start_value"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintEnd_toStartOf="@id/guideline_v_mood_recorder"
-        app:layout_constraintStart_toStartOf="@id/guideline_v_mood_recorder"
-        app:layout_constraintTop_toBottomOf="@id/labelSeekBarGlobal" />
+        app:layout_constraintTop_toBottomOf="@id/smileyRatingFeelings" />
+
+    <com.hsalf.smilerating.SmileRating
+        android:id="@+id/smileyRatingGlobal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelSmileyScaleGlobal"
+        app:showLine="false" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_v_mood_recorder"
@@ -111,11 +101,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
-
-
-
-
-
-
 
 </android.support.constraint.ConstraintLayout>

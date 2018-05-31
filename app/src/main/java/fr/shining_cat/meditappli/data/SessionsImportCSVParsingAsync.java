@@ -40,6 +40,7 @@ public class SessionsImportCSVParsingAsync extends AsyncTask <InputStreamReader,
 //quote character is "
 //separation character is ;
 //structure and format of the csv file are specified in ImportSessionsPreference dialog message. see : R.string.pref_import_all_sessions_dialog_message
+//NOT SET value for mood is 0
     public SessionsImportCSVParsingAsync(SessionsImportCSVParsingAsyncListener listener){
         if (!(listener instanceof SessionsImportCSVParsingAsyncListener)) {
             throw new RuntimeException(listener.toString()+ " must implement SessionsImportCSVParsingAsyncListener");

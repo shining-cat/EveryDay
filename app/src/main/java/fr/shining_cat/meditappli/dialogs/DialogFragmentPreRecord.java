@@ -94,13 +94,11 @@ public class DialogFragmentPreRecord extends DialogFragment {
             if(mPresetStartMood!=null){ //Editting existing record
                 timeOfRecordCal.setTimeInMillis(mPresetStartMood.getTimeOfRecord());
                 mTimestampOfRecordinMillis = mPresetStartMood.getTimeOfRecord();
-                int seekbarOffset = Integer.parseInt(getActivity().getString(R.string.mood_recorder_seekbars_start_value));
-                mMoodRecorder.setBodyValue(mPresetStartMood.getBodyValue()/2 + seekbarOffset);
-                mMoodRecorder.setThoughtsValue(mPresetStartMood.getThoughtsValue()/2 + seekbarOffset);
-                mMoodRecorder.setFeelingsValue(mPresetStartMood.getFeelingsValue()/2 + seekbarOffset);
-                mMoodRecorder.setGlobalValue(mPresetStartMood.getGlobalValue()/2 + seekbarOffset);
+                mMoodRecorder.setBodyValue(mPresetStartMood.getBodyValue());
+                mMoodRecorder.setThoughtsValue(mPresetStartMood.getThoughtsValue());
+                mMoodRecorder.setFeelingsValue(mPresetStartMood.getFeelingsValue());
+                mMoodRecorder.setGlobalValue(mPresetStartMood.getGlobalValue());
                 Log.d(TAG, "onCreateDialog::Editting existing entry:: timeOfRecordCal = " + timeOfRecordCal.toString());
-                Log.d(TAG, "onCreateDialog::Editting existing entry:: mPresetStartMood.getBodyValue() = " + mPresetStartMood.getBodyValue());
             }else {//creating new record manually
                 timeOfRecordCal.setTimeInMillis(mTimestampOfRecordinMillis);
             }
@@ -165,14 +163,12 @@ public class DialogFragmentPreRecord extends DialogFragment {
             }
             DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             Log.d(TAG, "mTimestampOfRecordinMillis = " + mTimestampOfRecordinMillis + " / formatted = " + sdfDate.format(mTimestampOfRecordinMillis));
-            int seekbarOffset = Integer.parseInt(getActivity().getString(R.string.mood_recorder_seekbars_start_value));
             MoodRecord mood = new MoodRecord(
                     mTimestampOfRecordinMillis,
-                    2*(mMoodRecorder.getBodyValue() - seekbarOffset),
-                    2*(mMoodRecorder.getThoughtsValue() - seekbarOffset),
-                    2*(mMoodRecorder.getFeelingsValue() - seekbarOffset),
-                    2*(mMoodRecorder.getGlobalValue() - seekbarOffset));
-            mListener.onValidateDialogFragmentPreRecord(mood);
+                    mMoodRecorder.getBodyValue(),
+                    mMoodRecorder.getThoughtsValue(),
+                    mMoodRecorder.getFeelingsValue(),
+                    mMoodRecorder.getGlobalValue());            mListener.onValidateDialogFragmentPreRecord(mood);
             dismiss();
         }
     };

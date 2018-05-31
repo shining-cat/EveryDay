@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
@@ -26,7 +25,7 @@ import fr.shining_cat.meditappli.data.SessionRecordViewModel;
 import fr.shining_cat.meditappli.dialogs.DialogFragmentPostRecord;
 import fr.shining_cat.meditappli.dialogs.DialogFragmentPreRecord;
 
-
+//TODO: peut-etre remplacer les dialogFragments par des fragments pour optimiser... skipped frames à chaque ouverture...
 public class SessionActivity extends AppCompatActivity
                             implements  DialogFragmentPreRecord.DialogFragmentPreRecordListener,
                                         SessionInProgressFragment.SessionInProgressFragmentListener,
@@ -39,33 +38,35 @@ public class SessionActivity extends AppCompatActivity
 
     private final static String HAS_GONE_OFF_SCREEN_SAVED_INSTANCE_STATE_KEY = "store if app has gone off screen or not";
 
-    private View mControlsView;
-    private View mContentView;
+    private View mDecorView;
     private MoodRecord mStartMood;
     private MoodRecord mEndMood;
-    long mDuration;
-    int mPausesCount;
-    int mRealVsPlannedDuration;
-    String mGuideMp3;
-    boolean mHasGoneOffscreen;
+    private long mDuration;
+    private int mPausesCount;
+    private int mRealVsPlannedDuration;
+    private String mGuideMp3;
+    private boolean mHasGoneOffscreen;
+    private boolean mSessionHasEnded;
+
+
 
 ////////////////////////////////////////
 //This activity is responsible for running a session (DialogFragmentPreRecord, then SessionInProgressFragment, then DialogFragmentPostRecord) with possibility to pause the session
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
-        mHasGoneOffscreen = false;
         super.onCreate(savedInstanceState);
+        mHasGoneOffscreen = false;
         //
         setContentView(R.layout.activity_session);
         //
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.session_activity_fragments_holder);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
         //
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean prefActiveStatsCollect = prefs.getBoolean(getString(R.string.pref_switch_collect_stats_key), Boolean.valueOf(getString(R.string.default_collect_stats)));
-         //normal start
-        Log.d(TAG, "onCreate::normal start");
         if (prefActiveStatsCollect) {
             FragmentManager fm = getSupportFragmentManager();
             DialogFragmentPreRecord dialogFragmentPreRecord = DialogFragmentPreRecord.newInstance(false);
@@ -76,15 +77,20 @@ public class SessionActivity extends AppCompatActivity
     }
     @Override
     protected void onNewIntent(Intent intent) {
-        Log.d(TAG, "onNewIntent");
         super.onNewIntent(intent);
         mHasGoneOffscreen = false;
+        Log.d(TAG, "onNewIntent:mHasGoneOffscreen = " + mHasGoneOffscreen);
         boolean comingFromSessionInProgressNotificationSessionIsRunning = intent.getBooleanExtra(SessionInProgressFragment.NOTIFICATION_INTENT_COMING_FROM_SESSION_IN_PROGRESS, false);
         boolean comingFromSessionInProgressNotificationSessionHasEnded = intent.getBooleanExtra(SessionInProgressFragment.NOTIFICATION_INTENT_COMING_FROM_SESSION_FINISHED, false);
         if(comingFromSessionInProgressNotificationSessionIsRunning) { //activity started by user's click on "session running" notification : do not start over!
             Log.d(TAG, "onNewIntent session is running");
             //RESUME SESSION (running or on pause), not start again
-        }else if(comingFromSessionInProgressNotificationSessionHasEnded){//activity started by user's click on "session has ended" notification : do not start over!
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            SessionInProgressFragment currentSessionInProgress = (SessionInProgressFragment) fragmentManager.findFragmentByTag(SessionInProgressFragment.SESSIONINPROGRESSFRAGMENT_TAG);
+            if(currentSessionInProgress!=null && currentSessionInProgress.isVisible()) {
+                currentSessionInProgress.comingBackToSession();
+            }
+            }else if(comingFromSessionInProgressNotificationSessionHasEnded){//activity started by user's click on "session has ended" notification : do not start over!
             Log.d(TAG, "onNewIntent session has ended");
             showDialogFragmentPostRecord();
         }
@@ -92,12 +98,21 @@ public class SessionActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.d(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
         mHasGoneOffscreen = true;
+        Log.d(TAG, "onSaveInstanceState:mHasGoneOffscreen = " + mHasGoneOffscreen);
         outState.putBoolean(HAS_GONE_OFF_SCREEN_SAVED_INSTANCE_STATE_KEY, mHasGoneOffscreen);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mHasGoneOffscreen = false;
+        Log.d(TAG, "onResume:mHasGoneOffscreen = " + mHasGoneOffscreen + " / mSessionHasEnded = " + mSessionHasEnded);
+        if(mSessionHasEnded){
+            showDialogFragmentPostRecord();
+        }
+    }
 
 ////////////////////////////////////////
 //changing on back navigation to pause session if running
@@ -131,6 +146,7 @@ public class SessionActivity extends AppCompatActivity
     }
     private void startSession() {
         Log.d(TAG, "startSession");
+        mSessionHasEnded = false;
         //
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -157,7 +173,8 @@ public class SessionActivity extends AppCompatActivity
 
     @Override
     public void onFinishSessionInProgressFragment(long duration, int pausesCount, int realVsPlannedDuration, String guideMp3) {
-        Log.d(TAG, "onFinishSessionInProgressFragment");
+        Log.d(TAG, "onFinishSessionInProgressFragment:mHasGoneOffscreen = " + mHasGoneOffscreen);
+        mSessionHasEnded = true;
         mDuration = duration;
         mPausesCount = pausesCount;
         mRealVsPlannedDuration = realVsPlannedDuration;
@@ -205,6 +222,13 @@ public class SessionActivity extends AppCompatActivity
 
     @Override
     public void onCancelDialogFragmentPostRecord() {
+        //remove sticky notification set up by SessionInProgressFragment
+        NotificationManager notifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (notifyManager != null) {
+            notifyManager.cancel(SessionInProgressFragment.STICKY_SESSION_RUNNING_NOTIFICATION_ID);
+        }else{
+            Log.e(TAG, "removeStickyNotification::notifyManager is null!!");
+        }
         finish();
     }
 
@@ -236,76 +260,4 @@ public class SessionActivity extends AppCompatActivity
     @Override
     public void onUpdateOneSessionRecordComplete(int result) {}
 
-////////////////////////////////////////
-//AUTO-GENERATED CODE FOR A FULL SCREEN ACTIVITY AUTO-HIDING STATUS AND ACTION BARS (nothing custom here)
-    /**
-     * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
-     */
-   private static final int UI_ANIMATION_DELAY = 300;
-    private final Handler mHideHandler = new Handler();
-    private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
-        @Override
-        public void run() {
-            // Delayed removal of status and navigation bar
-
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-            mContentView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
-    };
-    private final Runnable mShowPart2Runnable = new Runnable() {
-        @Override
-        public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.show();
-            }
-            mControlsView.setVisibility(View.VISIBLE);
-        }
-    };
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
-    }
-
-    private void hide() {
-        // Hide UI first
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-        mControlsView.setVisibility(View.GONE);
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable);
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
-    }
-    /**
-     * Schedules a call to hide() in delay milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
-    }
 }

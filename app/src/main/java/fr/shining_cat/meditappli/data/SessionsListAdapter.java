@@ -42,7 +42,6 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
         public void onClick(View v) {
             //mListener.onClickOnSession(mSessions.get(this.getAdapterPosition()));
             //for now we will pass the position because that is the only interesting info, but I fear it might not be the most accurate way, since we will open a new adapter at the end of this chain...
-            Log.d(TAG, "onClick::this.getAdapterPosition() = " + this.getAdapterPosition());
             mListener.onClickOnSession(this.getAdapterPosition());
         }
 
@@ -70,7 +69,6 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
 
     @Override
     public SessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder");
         View itemView = mInflater.inflate(R.layout.sessions_list_recyclerview_item, parent, false);
         return new SessionViewHolder(itemView);
     }
@@ -78,14 +76,12 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
     @Override
     public void onBindViewHolder(SessionViewHolder holder, int position) {
         if(mSessions !=null){
-            Log.d(TAG, "onBindViewHolder::mSessions size = " + mSessions.size());
             SessionRecord currentSession = mSessions.get(holder.getAdapterPosition());
             //
             DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String formattedDate = sdf.format(currentSession.getStartTimeOfRecord());
             DateFormat tdf = new SimpleDateFormat("HH:mm");
             String formattedTime = tdf.format(currentSession.getStartTimeOfRecord());
-            Log.d(TAG, "onBindViewHolder::POSITION = " + position + " / adapterPostion = " + holder.getAdapterPosition() + " / DATE = " + formattedDate + " / TIME = " + formattedTime);
             //
             holder.sessionItemDateTxtvw.setText(formattedDate);
             holder.sessionItemTimeTxtvw.setText(formattedTime);

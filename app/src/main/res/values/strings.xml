@@ -4,7 +4,7 @@
     <string name="infos_action_string">Infos</string>
     <string name="infos_text_string">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus.
 Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex metus a risus. Nam rutrum neque orci, eget congue ipsum tincidunt non. Quisque pulvinar sed velit eu cursus. Vestibulum nec porta elit. In eget diam magna. Integer in eros interdum, ornare mi quis, sagittis diam. Aliquam ullamcorper quam a gravida lacinia. Maecenas a mattis metus. Nunc faucibus auctor tellus sed accumsan. Fusce posuere odio eget nibh iaculis vehicula. In hac habitasse platea dictumst. Donec dictum viverra diam sit amet tincidunt. Etiam pellentesque blandit massa, ut hendrerit purus accumsan eget. Cras viverra, nunc non semper ullamcorper, nisl ante sodales ante, at venenatis justo tellus a ipsum. Vestibulum aliquet accumsan pretium. Sed rhoncus a orci sit amet porta.</string>
-    <string name="app_version">Version 0.1</string>
+    <string name="app_version">Version 0.2</string>
     <string name="app_made_by">Création et réalisation :</string>
     <string name="app_made_name">Shiva Bernhard</string>
     <string name="contact">shiva.bernhard@shining-cat.fr</string>
@@ -22,6 +22,7 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="generic_string_SHORT_HOURS">h</string>
     <string name="generic_string_MINUTES">Minute(s)</string>
     <string name="generic_string_SHORT_MINUTES">mn</string>
+    <string name="generic_string_SHORT_SECONDS">s</string>
     <string name="generic_string_WARNING">Attention</string>
     <string name="generic_string_EDIT">Modifier</string>
     <string name="generic_string_DELETE">Supprimer</string>
@@ -66,11 +67,11 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="pref_advanced_settings_title">Avancés</string>
     <string name="pref_modify_app_basics_title">Modifier le comportement basique</string>
 
-    <string name="pref_collector_active_title">Gamification</string>
+    <string name="pref_collector_active_title">Gamification -- PAS ENCORE OPERATIONNELLE</string>
     <string name="pref_collector_active_summary_ON">Collecte des petits animaux activée</string>
     <string name="pref_collector_active_summary_OFF">Collecte des petits animaux désactivée</string>
 
-    <string name="pref_switch_stats_show_numeric_title">Affichage des statistiques</string>
+    <string name="pref_switch_stats_show_numeric_title">Affichage des statistiques -- PAS ENCORE OPERATIONNEL</string>
     <string name="pref_switch_stats_show_numeric_summary_ON">Utiliser des valeurs numériques</string>
     <string name="pref_switch_stats_show_numeric_summary_OFF">Utiliser le code couleur</string>
 
@@ -123,7 +124,7 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="session_running_notification_text">Session en cours : reste %1$s sur %2$s</string>
     <string name="session_overstay_notification_text">Session prolongée : %1$s + %2$s</string>
     <string name="session_paused_notification_text">Session en pause : vous avez pratiqué %1$s et prévu %2$s</string>
-    <string name="session_ended_notification_text">Session terminée, vous avez pratiqé %1$s, enregistrez votre état présent!</string>
+    <string name="session_ended_notification_text">Session terminée, vous avez pratiqué %1$s, enregistrez votre état présent!</string>
 
     <!-- Main Activity-->
     <string name="view_stats_btn_txt_default">Voir les statistiques</string>
@@ -143,14 +144,15 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="pre_record_intro_default_text">Comment vous sentez-vous, là, maintenant?</string>
     <string name="pre_record_intro_manual_entry_text">Comment vous sentiez-vous?</string>
     <string name="how_to_pause_instruction">Appui long pour mettre en pause ou arrêter…</string>
-    <string name="start_countdown">Démarrage dans\n%1$d s</string>
+    <string name="start_countdown_beginning_session">Démarrage dans\n%1$d s</string>
+    <string name="start_countdown_resuming_session">Reprise dans\n%1$d s</string>
     <string name="remaining_countdown">%1$d mn</string>
     <string name="post_record_dialog_default_title">Et à présent…</string>
     <string name="post_record_dialog_manual_entry_title">Fin de session</string>
     <string name="post_record_intro_default_text">Comment vous sentez-vous, là, maintenant?</string>
     <string name="post_record_intro_text">Comment vous sentez-vous, là, maintenant?</string>
     <string name="post_record_intro_manual_entry_text">Comment vous sentiez-vous?</string>
-    <string name="notes_label">Notes</string>
+    <string name="notes_label">Notes :</string>
     <string name="post_record_notes_hint">Vous pouvez noter ici vos remarques sur la session…</string>
     <string name="post_record_guide_mp3_hint">Vous pouvez noter ici le support sonore que vous avez utilisé…</string>
     <string name="post_record_cancel_warning_message">La session ne sera pas enregistrée!</string>
@@ -171,6 +173,17 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <!--session details -->
     <string name="real_duration_vs_planned_LESS">Session moins longue que prévu</string>
     <string name="real_duration_vs_planned_MORE">Session plus longue que prévu</string>
+    <string name="body_state_start_default_content_description">État physique en début de session : %1$s</string>
+    <string name="body_state_end_default_content_description">État physique en fin de session : %1$s</string>
+    <string name="thoughts_state_start_default_content_description">État mental en début de session : %1$s</string>
+    <string name="thoughts_state_end_default_content_description">État mental en fin de session : %1$s</string>
+    <string name="feelings_state_start_default_content_description">État émotionnel en début de session : %1$s</string>
+    <string name="feelings_state_end_default_content_description">État émotionnel en fin de session : %1$s</string>
+    <string name="global_state_start_default_content_description">État global en début de session : %1$s</string>
+    <string name="global_state_end_default_content_description">État global en fin de session : %1$s</string>
+    <string name="state_set_content_description_complement">/5</string>
+    <string name="state_not_set_content_description_complement">Non renseigné</string>
+
 
     <!--MISC-->
     <string name="singing_bowl">Bol chantant</string>
@@ -180,16 +193,24 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="finish">Terminer</string>
     <string name="resume">Reprendre</string>
     <string name="date">Date</string>
+    <string name="fake_date">01/02/3456</string>
     <string name="time">Heure</string>
-    <string name="start">Début</string>
-    <string name="end">Fin</string>
-    <string name="duration">Durée</string>
-    <string name="pauses_count_label">Nombre de pauses</string>
+    <string name="fake_time">13:47</string>
+    <string name="start">Début :</string>
+    <string name="end">Fin :</string>
+    <string name="duration">Durée :</string>
+    <string name="pauses_count_label">Nombre de pauses :</string>
     <string name="export_sessions_csv_file_name">export_sessions_practice_coach</string>
-    <string name="guide_mp3_label">Support sonore</string>
+    <string name="guide_mp3_label">Support sonore :</string>
     <string name="arrow_backward_button">Arrow backward button</string>
     <string name="arrow_forward_button">Arrow forward button</string>
-    <string name="bubble_timer_content_description">Animated circle filling itself in sync with the timer</string>
+    <string name="bubble_timer_combined_content_description">Visualisation du compteur de temps: un cercle qui palpite</string>
+    <string name="bubble_timer_ext_content_description">Partie extérieure de la visualisation du compteur de temps: un cercle qui palpite</string>
+    <string name="bubble_timer_int_content_description">Partie intérieure de la visualisation du compteur de temps: un cercle qui palpite</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 
 </resources>

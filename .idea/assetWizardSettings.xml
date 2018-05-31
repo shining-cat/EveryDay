@@ -28,9 +28,13 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="7f7f7f" />
-                            <entry key="outputName" value="ic_arrow_forward_grey_24dp" />
-                            <entry key="sourceFile" value="C:\Users\Shiva" />
+                            <entry key="height" value="450" />
+                            <entry key="outputName" value="counter_circle_ext" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\Shiva\AndroidStudioProjects\MeditAppli\CREA\counter_circle_ext.svg" />
+                            <entry key="width" value="450" />
                           </map>
                         </option>
                       </PersistentState>
