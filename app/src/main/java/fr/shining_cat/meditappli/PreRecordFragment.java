@@ -1,17 +1,17 @@
-package fr.shining_cat.meditappli.dialogs;
+package fr.shining_cat.meditappli;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -23,18 +23,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import fr.shining_cat.meditappli.MoodRecord;
-import fr.shining_cat.meditappli.MoodRecorderViewGroup;
-import fr.shining_cat.meditappli.R;
 
-public class DialogFragmentPreRecord extends DialogFragment {
+////////////////////////////////////////
+//This Fragment handles the interface to record the user's state at the beginning of a session
+// Used for normal and manual entry, and editting for session beginning user's state
 
-    public static final String DIALOG_FRAGMENT_PRE_RECORD_MANUAL_ENTRY_TAG = "dialog_fragment_pre_record_manual_entry-tag";
-    public static final String DIALOG_FRAGMENT_PRE_RECORD_NORMAL_TAG = "dialog_fragment_pre_record_normal-tag";
+public class PreRecordFragment extends Fragment {
+
+    public static final String FRAGMENT_PRE_RECORD_MANUAL_ENTRY_TAG = "fragment_pre_record_manual_entry-tag";
+    public static final String FRAGMENT_PRE_RECORD_NORMAL_TAG = "fragment_pre_record_normal-tag";
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
-    private DialogFragmentPreRecordListener mListener;
+    private static final String ARG_MANUAL_ENTRY = "manual_entry_boolean_argument";
+
+    private FragmentPreRecordListener mListener;
     private MoodRecorderViewGroup mMoodRecorder;
     private boolean mManualEntry;
     private long mTimestampOfRecordinMillis;
@@ -42,22 +45,19 @@ public class DialogFragmentPreRecord extends DialogFragment {
     private TextView mManualTimeEditTxt;
     private MoodRecord mPresetStartMood;
 
-////////////////////////////////////////
-//This DialogFragment handles the interface to record the user's state at the beginning of a session
-// Used for normal and manual entry, and editting for session beginning user's state
-    public DialogFragmentPreRecord(){
-        // Empty constructor is required for DialogFragment
+    public PreRecordFragment() {
+        // Required empty public constructor
     }
 
 ////////////////////////////////////////
 //if manualEntry, DialogFragmentPreRecord will show additional fields for the user to input infos that are normally automatically created, like date and time
-    public static DialogFragmentPreRecord newInstance(boolean manualEntry){
-        Log.d("DialogFragmentPreRecord", "newInstance");
-        DialogFragmentPreRecord frag = new DialogFragmentPreRecord();
+    public static PreRecordFragment newInstance(boolean manualEntry) {
+        Log.d("FragmentPreRecord", "newInstance");
+        PreRecordFragment fragment = new PreRecordFragment();
         Bundle args = new Bundle();
-        args.putBoolean("manualEntry", manualEntry);
-        frag.setArguments(args);
-        return frag;
+        args.putBoolean(ARG_MANUAL_ENTRY, manualEntry);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 ////////////////////////////////////////
@@ -67,25 +67,33 @@ public class DialogFragmentPreRecord extends DialogFragment {
         mPresetStartMood = startMood;
     }
 
-    @NonNull
+
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateDialog");
-        View dialogBody =  getActivity().getLayoutInflater().inflate(R.layout.dialog_fragment_pre_record, null);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mManualEntry = getArguments().getBoolean(ARG_MANUAL_ENTRY);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View fragment =  inflater.inflate(R.layout.fragment_pre_record, container, false);
+        Log.d(TAG, "onCreateView");
         //
-        mMoodRecorder = dialogBody.findViewById(R.id.pre_record_mood_recorder);
-        TextView introTxtView = dialogBody.findViewById(R.id.pre_record_intro_txt);
-        TextView manualDateFieldLabel = dialogBody.findViewById(R.id.pre_record_manual_date_field_label);
-        mManualDateEditTxt = dialogBody.findViewById(R.id.pre_record_manual_date_value_field);
-        TextView manualTimeFieldLabel = dialogBody.findViewById(R.id.pre_record_manual_time_field_label);
-        mManualTimeEditTxt = dialogBody.findViewById(R.id.pre_record_manual_time_value_field);
+        TextView preRecordTitle = fragment.findViewById(R.id.pre_record_title_txtvw);
+        mMoodRecorder = fragment.findViewById(R.id.pre_record_mood_recorder);
+        TextView introTxtView = fragment.findViewById(R.id.pre_record_intro_txt);
+        TextView manualDateFieldLabel = fragment.findViewById(R.id.pre_record_manual_date_field_label);
+        mManualDateEditTxt = fragment.findViewById(R.id.pre_record_manual_date_value_field);
+        TextView manualTimeFieldLabel = fragment.findViewById(R.id.pre_record_manual_time_field_label);
+        mManualTimeEditTxt = fragment.findViewById(R.id.pre_record_manual_time_value_field);
         //default timeStamp is now
         mTimestampOfRecordinMillis = System.currentTimeMillis();
         //
-        AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity());
-        mManualEntry = getArguments().getBoolean("manualEntry");
         if(mManualEntry){ //manual input
-            builder.setTitle(getString(R.string.pre_record_dialog_manual_entry_title));
+            preRecordTitle.setText(getString(R.string.pre_record_dialog_manual_entry_title));
             introTxtView.setText(R.string.pre_record_intro_manual_entry_text);
             //
             DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -98,7 +106,7 @@ public class DialogFragmentPreRecord extends DialogFragment {
                 mMoodRecorder.setThoughtsValue(mPresetStartMood.getThoughtsValue());
                 mMoodRecorder.setFeelingsValue(mPresetStartMood.getFeelingsValue());
                 mMoodRecorder.setGlobalValue(mPresetStartMood.getGlobalValue());
-                Log.d(TAG, "onCreateDialog::Editting existing entry:: timeOfRecordCal = " + timeOfRecordCal.toString());
+                Log.d(TAG, "onCreateView::Editting existing entry:: timeOfRecordCal = " + timeOfRecordCal.toString());
             }else {//creating new record manually
                 timeOfRecordCal.setTimeInMillis(mTimestampOfRecordinMillis);
             }
@@ -113,46 +121,22 @@ public class DialogFragmentPreRecord extends DialogFragment {
             mManualTimeEditTxt.setOnTouchListener(onTouchManualTimeField);
             mManualTimeEditTxt.setVisibility(View.VISIBLE);
         } else{//normal record creation
-            builder.setTitle(getActivity().getString(R.string.pre_record_dialog_default_title));
+            preRecordTitle.setText(getString(R.string.pre_record_dialog_default_title));
             introTxtView.setText(R.string.pre_record_intro_default_text);
             manualDateFieldLabel.setVisibility(View.GONE);
             mManualDateEditTxt.setVisibility(View.GONE);
             manualTimeFieldLabel.setVisibility(View.GONE);
             mManualTimeEditTxt.setVisibility(View.GONE);
         }
-        builder.setView(dialogBody);
-        builder.setPositiveButton(getString(R.string.generic_string_OK),null);//null, because we want to override default behavior to control dismissal on positive click
-        builder.setNegativeButton(getString(R.string.generic_string_CANCEL),onNegativeClickListener);
-        return builder.create();
+        Button negativeButton = fragment.findViewById(R.id.pre_record_cancel_btn);
+        negativeButton.setOnClickListener(onNegativeClickListener);
+        Button positiveButton = fragment.findViewById(R.id.pre_record_ok_btn);
+        positiveButton.setOnClickListener(onPositiveClickListener);
+        return fragment;
     }
 
 ////////////////////////////////////////
-//piggyback onStart to implement custom behavior on positive button (with controlled dismissal)
-    @Override
-    public void onStart(){
-        Log.d(TAG, "onStart");
-        super.onStart();
-        final AlertDialog dialog = (AlertDialog)getDialog();
-        if(dialog!=null){
-            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
-            positiveButton.setOnClickListener(onPositiveClickListener);
-        }
-    }
-
-////////////////////////////////////////
-//plugging interface listener, here parent activity (SessionActivity -normal input- or VizActivity -manual entry and edit)
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof DialogFragmentPreRecordListener) {
-            mListener = (DialogFragmentPreRecordListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement DialogFragmentPreRecordListener");
-        }
-    }
-
-////////////////////////////////////////
-//DialogFragment UI handling : onPositive, onNegative and onCancel
+// UI handling : onPositive, and onCancel
     private View.OnClickListener onPositiveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -168,26 +152,38 @@ public class DialogFragmentPreRecord extends DialogFragment {
                     mMoodRecorder.getBodyValue(),
                     mMoodRecorder.getThoughtsValue(),
                     mMoodRecorder.getFeelingsValue(),
-                    mMoodRecorder.getGlobalValue());            mListener.onValidateDialogFragmentPreRecord(mood);
-            dismiss();
+                    mMoodRecorder.getGlobalValue());
+            mListener.onValidateFragmentPreRecord(mood);
         }
+    };
+    private View.OnClickListener onNegativeClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "onNegativeClickListener");
+            mListener.onCancelFragmentPreRecord();
+        }
+
+
     };
 
-    private DialogInterface.OnClickListener onNegativeClickListener = new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-            Log.d(TAG, "onNegativeClickListener");
-            //dismiss();
-            onCancel(dialog);
-        }
-    };
+////////////////////////////////////////
+//plugging interface listener, here parent activity (SessionActivity -normal input- or VizActivity -manual entry and edit)
 
     @Override
-    public void onCancel(DialogInterface dialog) {
-        Log.d(TAG, "onCancel");
-        mListener.onCancelDialogFragmentPreRecord();
-        super.onCancel(dialog);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentPreRecordListener) {
+            mListener = (FragmentPreRecordListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement FragmentPreRecordListener");
+        }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
 ////////////////////////////////////////
 //DATE MANUAL PICKING
@@ -307,8 +303,9 @@ public class DialogFragmentPreRecord extends DialogFragment {
 
 ////////////////////////////////////////
 //Listener interface
-    public interface DialogFragmentPreRecordListener {
-        void onCancelDialogFragmentPreRecord();
-        void onValidateDialogFragmentPreRecord(MoodRecord moodRecord);
+    public interface FragmentPreRecordListener {
+        void onCancelFragmentPreRecord();
+        void onValidateFragmentPreRecord(MoodRecord moodRecord);
     }
+
 }

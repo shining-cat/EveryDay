@@ -47,7 +47,7 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
 
         @Override
         public boolean onLongClick(View v) {
-            mListener.onLongClickOnSession(mSessions.get(this.getAdapterPosition()));
+            mListener.onLongClickOnSession(this.getAdapterPosition(), mSessions.get(this.getAdapterPosition()));
             return true;
         }
     }
@@ -115,6 +115,6 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
 //Listener interface
     public interface SessionsListAdapterListener {
         void onClickOnSession(int clickedSessionPosition);
-        void onLongClickOnSession(SessionRecord clickedSession);
+        void onLongClickOnSession(int clickedSessionPositionInAdapter, SessionRecord clickedSession);
     }
 }

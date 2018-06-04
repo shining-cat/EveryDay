@@ -27,32 +27,33 @@ public class MoodRecorderViewGroup extends ConstraintLayout {
 ////////////////////////////////////////
 //View extension containing and managing value selectors as smiley faces selectors
 //for MoodRecord  bodyValue, thoughtsValue, feelingsValue, and globalValue values
-//  VALUE 0 in DATABASE means NOT set, range of set values is from 1 to 5
+//  VALUE 0 in DATABASE means NOT set, range of set values is from 1 to 5 (this is the same range as the "level" returned in onRatingSelected)
 //  BUT
-//  VALUE -1 in SmileRating means NOT SET, and range of set values is from 0 to 4
+//  VALUE -1 in SmileRating.setSelectedSmile means NOT SET, and range of set values is from 0 to 4
+//
+//  => mBodyValue, mThoughtsValue, mFeelingsValue, and mGlobalValue store actual DB values, which are the same as the 'level' in onRatingSelected (range 1 to 56 and 0 is NOT SET)
+//  the offset is only applied when calling SmileRating setSelectedSmile
 
     public MoodRecorderViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Log.d(TAG, "MoodRecorder " +
+        /*Log.d(TAG, "MoodRecorder " +
                 "\nBaseRating.NONE = " + BaseRating.NONE +
                 "\nBaseRating.TERRIBLE = " + BaseRating.TERRIBLE +
                 "\nBaseRating.BAD = " + BaseRating.BAD +
                 "\nBaseRating.OK = " + BaseRating.OKAY +
                 "\nBaseRating.GOOD = " + BaseRating.GOOD +
-                "\nBaseRating.GREAT = " + BaseRating.GREAT);
+                "\nBaseRating.GREAT = " + BaseRating.GREAT);*/
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (mInflater != null) {
             View root = mInflater.inflate(R.layout.mood_recorder, this, true);
             mSmileyRatingBody = root.findViewById(R.id.smileyRatingBody);
-            Log.d(TAG, "MoodRecorder mSmileyRatingBody uninitialized returns " + mSmileyRatingBody.getRating());
+            //Log.d(TAG, "MoodRecorder mSmileyRatingBody uninitialized returns " + mSmileyRatingBody.getRating());
             mSmileyRatingBody.setNameForSmile(BaseRating.TERRIBLE, null);
             mSmileyRatingBody.setNameForSmile(BaseRating.BAD, null);
             mSmileyRatingBody.setNameForSmile(BaseRating.OKAY, null);
             mSmileyRatingBody.setNameForSmile(BaseRating.GOOD, null);
             mSmileyRatingBody.setNameForSmile(BaseRating.GREAT, null);
-            if(mBodyValue == 0){ //TODO! VERIFIER les valeurs not set and co
-                mBodyValue = mSmileyRatingBody.getRating(); //returns 0  if none is selected //TODO => useless if that is the case
-            }else{
+            if(mBodyValue != 0){
                 mSmileyRatingBody.setSelectedSmile(mBodyValue -1);
             }
             mSmileyRatingBody.setOnRatingSelectedListener(onBodySmileyRatingSelectedListener);
@@ -63,9 +64,7 @@ public class MoodRecorderViewGroup extends ConstraintLayout {
             mSmileyRatingThoughts.setNameForSmile(BaseRating.OKAY, null);
             mSmileyRatingThoughts.setNameForSmile(BaseRating.GOOD, null);
             mSmileyRatingThoughts.setNameForSmile(BaseRating.GREAT, null);
-            if(mThoughtsValue == 0){
-                mThoughtsValue = mSmileyRatingThoughts.getRating(); //returns 0  if none is selected
-            }else{
+            if(mThoughtsValue != 0){
                 mSmileyRatingThoughts.setSelectedSmile(mThoughtsValue -1);
             }
             mSmileyRatingThoughts.setOnRatingSelectedListener(onThoughtsSmileyRatingSelectedListener);
@@ -76,9 +75,7 @@ public class MoodRecorderViewGroup extends ConstraintLayout {
             mSmileyRatingFeelings.setNameForSmile(BaseRating.OKAY, null);
             mSmileyRatingFeelings.setNameForSmile(BaseRating.GOOD, null);
             mSmileyRatingFeelings.setNameForSmile(BaseRating.GREAT, null);
-            if(mFeelingsValue == 0){
-                mFeelingsValue = mSmileyRatingFeelings.getRating(); //returns 0  if none is selected
-            }else{
+            if(mFeelingsValue != 0){
                 mSmileyRatingFeelings.setSelectedSmile(mFeelingsValue -1);
             }
             mSmileyRatingFeelings.setOnRatingSelectedListener(onFeelingsSmileyRatingSelectedListener);
@@ -89,9 +86,7 @@ public class MoodRecorderViewGroup extends ConstraintLayout {
             mSmileyRatingGlobal.setNameForSmile(BaseRating.OKAY, null);
             mSmileyRatingGlobal.setNameForSmile(BaseRating.GOOD, null);
             mSmileyRatingGlobal.setNameForSmile(BaseRating.GREAT, null);
-            if(mGlobalValue == 0){
-                mGlobalValue = mSmileyRatingGlobal.getRating(); //returns 0  if none is selected
-            }else{
+            if(mGlobalValue != 0){
                 mSmileyRatingGlobal.setSelectedSmile(mGlobalValue -1);
             }
             mSmileyRatingGlobal.setOnRatingSelectedListener(onGlobalSmileyRatingSelectedListener);
@@ -167,7 +162,7 @@ public class MoodRecorderViewGroup extends ConstraintLayout {
     };
 
 
-    public int getBodyValue() {return mBodyValue;}
+    public int getBodyValue() {Log.d(TAG, "getBodyValue mBodyValue = " + mBodyValue);return mBodyValue;}
     public int getThoughtsValue() {return mThoughtsValue;}
     public int getFeelingsValue() {return mFeelingsValue;}
     public int getGlobalValue() {return mGlobalValue;}

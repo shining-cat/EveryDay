@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text=":"
+        android:text="@string/colon_character"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_duration_picker"
         app:layout_constraintEnd_toStartOf="@+id/guideline_v_duration_picker"
         app:layout_constraintStart_toStartOf="@+id/guideline_v_duration_picker"

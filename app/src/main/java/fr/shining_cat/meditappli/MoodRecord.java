@@ -2,10 +2,12 @@ package fr.shining_cat.meditappli;
 
 public class MoodRecord {
 
+    //values range from 1 (WORST) to 5 (BEST), 0 is for NOT SET
     private int mBodyValue;
     private int mThoughtsValue;
     private int mFeelingsValue;
     private int mGlobalValue;
+    //
     private long mTimeOfRecord;
     private String mNotes;
     private long mSessionRealDuration;

@@ -7,7 +7,7 @@
         android:title="@string/pref_customisation_settings_title"
         android:key="@string/pref_customisation_settings_key">
 
-        <fr.shining_cat.meditappli.preferences.DurationPickerPreference
+        <fr.shining_cat.meditappli.preferences.DurationPickerPreferenceHoursMinutesNoZero
             android:key="@string/pref_duration_key"
             android:title="@string/pref_duration_picker_title"
         />
@@ -20,37 +20,56 @@
             android:switchTextOff="@string/generic_string_NO"
             android:switchTextOn="@string/generic_string_YES"
         />
-        <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
-            android:key="@string/pref_ringtone_start_key"
-            android:title="@string/pref_ringtone_start_title"
-            android:summary="@string/ringtoneSummary"
-            android:defaultValue="@string/default_session_start_sound"
-            auto:ringtoneType="notification"
-            auto:showSilent="true"
-            auto:showDefault="true"
-            auto:extraRingtones="@array/extraRingtones"
-            auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+        <fr.shining_cat.meditappli.preferences.IntervalPickerPreferenceHoursMinutesSeconds
+            android:key="@string/pref_intermediate_intervals_key"
+            android:title="@string/pref_intermediate_intervals_title"
         />
-        <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
-            android:key="@string/pref_ringtone_end_key"
-            android:title="@string/pref_ringtone_end_title"
-            android:summary="@string/ringtoneSummary"
-            android:defaultValue="@string/default_session_end_sound"
-            auto:ringtoneType="notification"
-            auto:showSilent="true"
-            auto:showDefault="true"
-            auto:extraRingtones="@array/extraRingtones"
-            auto:extraRingtoneTitles="@array/extraRingtoneTitles"
-        />
-        <SwitchPreference
-            android:key="@string/pref_switch_vibration_key"
-            android:defaultValue="@string/default_vibration_active"
-            android:title="@string/pref_switch_vibration_title"
-            android:summaryOn="@string/pref_switch_vibration_summary_ON"
-            android:summaryOff="@string/pref_switch_vibration_summary_OFF"
-            android:switchTextOff="@string/generic_string_NO"
-            android:switchTextOn="@string/generic_string_YES"
-        />
+        <PreferenceScreen
+            android:key="@string/pref_ringtones_vibration_key"
+            android:title="@string/pref_ringtones_vibration_title">
+            <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
+                android:key="@string/pref_ringtone_start_key"
+                android:title="@string/pref_ringtone_start_title"
+                android:summary="@string/ringtoneSummary"
+                android:defaultValue="@string/default_session_start_sound"
+                auto:ringtoneType="notification"
+                auto:showSilent="true"
+                auto:showDefault="true"
+                auto:extraRingtones="@array/extraRingtones"
+                auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+            />
+            <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
+                android:key="@string/pref_ringtone_intermediate_intervals_key"
+                android:title="@string/pref_ringtone_intermediate_intervals_title"
+                android:summary="@string/ringtoneSummary"
+                android:defaultValue="@string/default_intermediate_interval_sound"
+                auto:ringtoneType="notification"
+                auto:showSilent="true"
+                auto:showDefault="true"
+                auto:extraRingtones="@array/extraRingtones"
+                auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+                />
+            <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
+                android:key="@string/pref_ringtone_end_key"
+                android:title="@string/pref_ringtone_end_title"
+                android:summary="@string/ringtoneSummary"
+                android:defaultValue="@string/default_session_end_sound"
+                auto:ringtoneType="notification"
+                auto:showSilent="true"
+                auto:showDefault="true"
+                auto:extraRingtones="@array/extraRingtones"
+                auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+            />
+            <SwitchPreference
+                android:key="@string/pref_switch_vibration_key"
+                android:defaultValue="@string/default_vibration_active"
+                android:title="@string/pref_switch_vibration_title"
+                android:summaryOn="@string/pref_switch_vibration_summary_ON"
+                android:summaryOff="@string/pref_switch_vibration_summary_OFF"
+                android:switchTextOff="@string/generic_string_NO"
+                android:switchTextOn="@string/generic_string_YES"
+            />
+        </PreferenceScreen>
         <SwitchPreference
             android:key="@string/pref_switch_keep_screen_on_key"
             android:defaultValue="@string/default_keep_screen_on"
@@ -130,6 +149,12 @@
             delete animals
         -->
         </PreferenceScreen>
+        <PreferenceScreen
+            android:key="@string/pref_modify_app_appearance_key"
+            android:title="@string/pref_modify_app_basics_title">
+
+        </PreferenceScreen>
+
         <PreferenceScreen
             android:key="@string/pref_modify_app_basics_key"
             android:title="@string/pref_modify_app_basics_title">

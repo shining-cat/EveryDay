@@ -61,6 +61,7 @@ public class SessionInProgressFragment extends Fragment {
     private SessionInProgressFragmentListener mListener;
 
     private final String PLAY_START_SESSION_SOUND = "play start session sound if one is set to";
+    private final String PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND = "play intermediate interval sound if one is set to";
     private final String PLAY_END_SESSION_SOUND = "play end session sound if one is set to";
 
     private final String SESSION_STATE_NORMAL_RUNNING = "session is running up to planned duration";
@@ -90,6 +91,7 @@ public class SessionInProgressFragment extends Fragment {
     private long mSessionRemainingDuration;
     private long mPlannedDuration;
     private long mElapsedTime;
+    private long mIntermediateIntervalLength;
     private long mTempElapsedTimeWhileOverstaying;
     private int mPausesCount;
     private String mGuideMp3;
@@ -303,7 +305,7 @@ String mCountdownTxt;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         //
         int defaultDuration = Integer.parseInt(getString(R.string.default_duration));
-        if(mAudioContentUri != null){  // this is a audio guided session
+        if(mAudioContentUri != null){  // this is an audio guided session
             mPlannedDuration = mAudioFileDuration;
         }else { //this is a pre-set duration session
             mPlannedDuration = prefs.getLong(getString(R.string.pref_duration_key), defaultDuration);
@@ -319,6 +321,9 @@ String mCountdownTxt;
         //
         boolean defaultInfiniteSession = Boolean.parseBoolean(getString(R.string.default_infinite_session));
         final boolean infiniteSession = prefs.getBoolean(getString(R.string.pref_switch_infinite_session_key), defaultInfiniteSession);
+        //
+        long defaultIntermediateIntervalLength = Long.parseLong(getString(R.string.default_intermediate_interval_length));
+        mIntermediateIntervalLength = prefs.getLong(getString(R.string.pref_intermediate_intervals_key), defaultIntermediateIntervalLength);
         //
         if(mElapsedTime < mPlannedDuration) {
             final long runSessionCountDownUpdateInterval = Long.parseLong(getString(R.string.run_session_countdown_update_interval));
@@ -362,6 +367,12 @@ String mCountdownTxt;
                     }
                     mElapsedTime += runSessionCountDownUpdateInterval; //update elapsed time so that if the user pauses the session, we will have an up-to-date elapsed time
                     Log.d(TAG, "onTick::mElapsedTime in seconds = " + (mElapsedTime/1000));
+                    if(mIntermediateIntervalLength!=0){
+                        //Log.d(TAG, "onTick::mElapsedTime % intermediateIntervalLength = " + (mElapsedTime % intermediateIntervalLength));
+                        if(mElapsedTime % mIntermediateIntervalLength < 50){ //in case onTick is not precise to the millisecond
+                            playSessionSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
+                        }
+                    }
                     String differenceBtwnPlannedAndElapsedTime = durationFormattedComplete(Math.min(mPlannedDuration, Math.abs(mPlannedDuration - mElapsedTime)));
                     mRemainingDurationTxtView.setText(differenceBtwnPlannedAndElapsedTime);
                     updateStickyNotification(SESSION_STATE_NORMAL_RUNNING);
@@ -372,7 +383,7 @@ String mCountdownTxt;
                     playSessionSound(PLAY_END_SESSION_SOUND);
                     handleVibrateDevice();
                     //mElapsedTime += runSessionCountDownUpdateInterval; //can't rely on this because countdowntimer may skip last onTick if remaining time is < to 1 interval (even for 1 millisecond) => as a result, we neraly always miss 1 interval from total duration
-                    //mElapsedTime = mSessionRemainingDuration; //wrong too because then if a pause has occured, then only the duration remaining at resume time will be acounted for...
+                    //mElapsedTime = mSessionRemainingDuration; //wrong too because then if a pause has occurred, then only the duration remaining at resume time will be acounted for...
                     mElapsedTime = mPlannedDuration;  // if we have reached onFinish here, means we have done the planned duration, we overwrite previous sub-counting in mElapsedTime with the real value (otherwise it would have missed one onTick at least)
                     Log.d(TAG, "onFinish::mElapsedTime = " + mElapsedTime);
                     mRunSessionCountDownIsRunning = false;
@@ -399,7 +410,7 @@ String mCountdownTxt;
     }
 
 ////////////////////////////////////////
-//Session can runs longer than preset time if user has set it to in savedSharedPrefs : we run a countdowntimer for 1mn and relaunch it until user stops the session
+//Session can run longer than preset time if user has set it to in savedSharedPrefs : we run a countdowntimer for 1mn and relaunch it until user stops the session
     private void launchSessionOverStay(){
         mRunSessionCountUpIsRunning = true;
         mTempElapsedTimeWhileOverstaying = mElapsedTime;
@@ -422,6 +433,11 @@ String mCountdownTxt;
                     String plannedDuration = durationFormattedShort(mPlannedDuration);
                     String bonusDuration = durationFormattedComplete((mElapsedTime - mPlannedDuration));
                     Log.d(TAG, "launchSessionOverStay::onTick::plannedDuration = " + mPlannedDuration/1000 + " / mElapsedTime = " + mElapsedTime/1000);
+                    if(mIntermediateIntervalLength!=0){
+                        if(mElapsedTime % mIntermediateIntervalLength < 50){ //in case onTick is not precise to the millisecond
+                            playSessionSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
+                        }
+                    }
                     if(bonusDuration.isEmpty()) {
                         mRemainingDurationTxtView.setText(plannedDuration);
                     }else{
@@ -881,7 +897,11 @@ String mCountdownTxt;
                     break;
                 case PLAY_END_SESSION_SOUND:
                     String defaultEndSoundUriString = uriFromRaw(getString(R.string.default_session_end_sound)).toString();
-                    soundString = prefs.getString(getString(R.string.pref_ringtone_start_key), defaultEndSoundUriString);
+                    soundString = prefs.getString(getString(R.string.pref_ringtone_end_key), defaultEndSoundUriString);
+                    break;
+                case PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND:
+                    String defaultIntermediateIntervalSoundUriString = uriFromRaw(getString(R.string.default_intermediate_interval_sound)).toString();
+                    soundString = prefs.getString(getString(R.string.pref_ringtone_intermediate_intervals_key), defaultIntermediateIntervalSoundUriString);
                     break;
                 default:
                     Log.e(TAG, "Wrong instruction to play session sound");

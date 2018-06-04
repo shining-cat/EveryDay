@@ -31,6 +31,7 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         setDurationPreferenceSummary();
+        setIntermediateIntervalsLengthPreferenceSummary();
         setNotificationActiveChildrenState();
         setNotificationTimePreferenceSummary();
         setNotificationTextSummary();
@@ -54,6 +55,8 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
        Log.d(TAG, "onSharedPreferenceChanged::key = " + key);
         if (key.equals(getString(R.string.pref_duration_key))) {
             setDurationPreferenceSummary();
+        } else if(key.equals(getString(R.string.pref_intermediate_intervals_key))){
+            setIntermediateIntervalsLengthPreferenceSummary();
         } else if(key.equals(getString(R.string.pref_active_notification_key))) {
             setNotificationActiveChildrenState();
         } else if(key.equals(getString(R.string.pref_notification_time_key))) {
@@ -115,6 +118,30 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
         durationPref.setSummary(durationPrefSummary);
     }
 
+////////////////////////////////////////
+//Updating the duration preference summary with user's set value
+    private void setIntermediateIntervalsLengthPreferenceSummary(){
+        Log.d(TAG, "setIntermediateIntervalsLengthPreferenceSummary");
+        //get intermediate interval length preference value and format for use
+        String intermediateIntervalsLengthPreferenceKey = getString(R.string.pref_intermediate_intervals_key);
+        String intermediateIntervalsLengthPrefSummary;
+        int defaultIntermediateIntervalsLength = Integer.parseInt(getString(R.string.default_intermediate_interval_length));
+        long intermediateIntervalsLengthPreferenceValue = getPreferenceManager().getSharedPreferences().getLong(intermediateIntervalsLengthPreferenceKey, defaultIntermediateIntervalsLength);
+        if(intermediateIntervalsLengthPreferenceValue == 0){
+            intermediateIntervalsLengthPrefSummary = getString(R.string.pref_intermediate_intervals_summary_OFF);
+        }else {
+            String formattedValue = TimeOperations.convertMillisecondsToHoursMinutesAndSecondsString(
+                    intermediateIntervalsLengthPreferenceValue,
+                    getString(R.string.generic_string_SHORT_HOURS),
+                    getString(R.string.generic_string_SHORT_MINUTES),
+                    getString(R.string.generic_string_SHORT_SECONDS),
+                    false);
+            intermediateIntervalsLengthPrefSummary = String.format(getString(R.string.pref_intermediate_intervals_summary_ON), formattedValue);
+        }
+        // Set summary to be the user-description for the selected value
+        Preference durationPref = findPreference(intermediateIntervalsLengthPreferenceKey);
+        durationPref.setSummary(intermediateIntervalsLengthPrefSummary);
+    }
 ////////////////////////////////////////
 //Setting the alarm accordingly to user's choice, AND updating the en- or disabling of Notification activation pref's subordinates prefs (set time, set ringtone, set reminder text) according to Notification pref status
     private void setNotificationActiveChildrenState() {

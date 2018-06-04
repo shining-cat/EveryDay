@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import fr.shining_cat.meditappli.R;
 
-public class DurationPickerPreference extends DialogPreference {
+public class DurationPickerPreferenceHoursMinutesNoZero extends DialogPreference {
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
@@ -24,7 +24,7 @@ public class DurationPickerPreference extends DialogPreference {
 //Preference Dialog that will store a Duration selected with hours and minutes as milliseconds
 //Time spin picker in the form of HH:MM
 // does not allow a duration of 00:00
-    public DurationPickerPreference(Context context, AttributeSet attrs) {
+    public DurationPickerPreferenceHoursMinutesNoZero(Context context, AttributeSet attrs) {
 
         super(context, attrs);
         setDialogLayoutResource(R.layout.dialog_duration_picker);
@@ -49,10 +49,12 @@ public class DurationPickerPreference extends DialogPreference {
         mHoursSelector.setFormatter(twoDigitsFormatter);
         mHoursSelector.setWrapSelectorWheel(false);
         mHoursSelector.setOnValueChangedListener(onHourValueChangedListener);
+        //
         mMinutesSelector = view.findViewById(R.id.minutes_picker);
         mMinutesSelector.setMaxValue(59);
         mMinutesSelector.setWrapSelectorWheel(false);
         mMinutesSelector.setFormatter(twoDigitsFormatter);
+        //
         int fullHours   = (int) TimeUnit.MILLISECONDS.toHours(mCurrentDuration);
         int fullMinutes = (int) (TimeUnit.MILLISECONDS.toMinutes(mCurrentDuration) - TimeUnit.HOURS.toMinutes(fullHours));
         if(fullHours==0){

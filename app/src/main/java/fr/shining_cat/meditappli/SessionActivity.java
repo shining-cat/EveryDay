@@ -1,6 +1,5 @@
 package fr.shining_cat.meditappli;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -12,9 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -22,14 +19,12 @@ import java.util.List;
 import fr.shining_cat.meditappli.data.MeditAppliRepository;
 import fr.shining_cat.meditappli.data.SessionRecord;
 import fr.shining_cat.meditappli.data.SessionRecordViewModel;
-import fr.shining_cat.meditappli.dialogs.DialogFragmentPostRecord;
-import fr.shining_cat.meditappli.dialogs.DialogFragmentPreRecord;
 
-//TODO: peut-etre remplacer les dialogFragments par des fragments pour optimiser... skipped frames à chaque ouverture...
+
 public class SessionActivity extends AppCompatActivity
-                            implements  DialogFragmentPreRecord.DialogFragmentPreRecordListener,
+                            implements  PreRecordFragment.FragmentPreRecordListener,
                                         SessionInProgressFragment.SessionInProgressFragmentListener,
-                                        DialogFragmentPostRecord.DialogFragmentPostRecordListener,
+                                        PostRecordFragment.FragmentPostRecordListener,
                                         MeditAppliRepository.MeditAppliRepoListener{
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
@@ -38,7 +33,6 @@ public class SessionActivity extends AppCompatActivity
 
     private final static String HAS_GONE_OFF_SCREEN_SAVED_INSTANCE_STATE_KEY = "store if app has gone off screen or not";
 
-    private View mDecorView;
     private MoodRecord mStartMood;
     private MoodRecord mEndMood;
     private long mDuration;
@@ -68,9 +62,11 @@ public class SessionActivity extends AppCompatActivity
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean prefActiveStatsCollect = prefs.getBoolean(getString(R.string.pref_switch_collect_stats_key), Boolean.valueOf(getString(R.string.default_collect_stats)));
         if (prefActiveStatsCollect) {
-            FragmentManager fm = getSupportFragmentManager();
-            DialogFragmentPreRecord dialogFragmentPreRecord = DialogFragmentPreRecord.newInstance(false);
-            dialogFragmentPreRecord.show(fm, DialogFragmentPreRecord.DIALOG_FRAGMENT_PRE_RECORD_NORMAL_TAG);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            PreRecordFragment preRecordFragment = PreRecordFragment.newInstance(false);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.session_activity_fragments_holder, preRecordFragment, PreRecordFragment.FRAGMENT_PRE_RECORD_NORMAL_TAG);
+            fragmentTransaction.commit();
         } else {
             startSession();
         }
@@ -92,7 +88,7 @@ public class SessionActivity extends AppCompatActivity
             }
             }else if(comingFromSessionInProgressNotificationSessionHasEnded){//activity started by user's click on "session has ended" notification : do not start over!
             Log.d(TAG, "onNewIntent session has ended");
-            showDialogFragmentPostRecord();
+            showFragmentPostRecord();
         }
     }
 
@@ -110,7 +106,7 @@ public class SessionActivity extends AppCompatActivity
         mHasGoneOffscreen = false;
         Log.d(TAG, "onResume:mHasGoneOffscreen = " + mHasGoneOffscreen + " / mSessionHasEnded = " + mSessionHasEnded);
         if(mSessionHasEnded){
-            showDialogFragmentPostRecord();
+            showFragmentPostRecord();
         }
     }
 
@@ -118,30 +114,33 @@ public class SessionActivity extends AppCompatActivity
 //changing on back navigation to pause session if running
    @Override
     public void onBackPressed() {
-        Log.d(TAG, "onOverrideBackNav");
+        Log.d(TAG, "onBackPressed");
         FragmentManager fragmentManager = getSupportFragmentManager();
         SessionInProgressFragment currentSessionInProgress = (SessionInProgressFragment) fragmentManager.findFragmentByTag(SessionInProgressFragment.SESSIONINPROGRESSFRAGMENT_TAG);
+        PostRecordFragment postRecordFragment = (PostRecordFragment) fragmentManager.findFragmentByTag(PostRecordFragment.FRAGMENT_POST_RECORD_NORMAL_TAG);
         if(currentSessionInProgress!=null && currentSessionInProgress.isVisible()) { //session running will override onBack behaviour to pause session rather than going back
             if(currentSessionInProgress.isNormalBackNavAllowed()) {
                 super.onBackPressed();
             }else{
                 currentSessionInProgress.onOverrideBackNav();
             }
+        }else if(postRecordFragment != null && postRecordFragment.isVisible()){
+            postRecordFragment.properCancelling();
         }else {
             super.onBackPressed();
         }
     }
 ////////////////////////////////////////
-//PreRecord Dialog fragment callbacks
+//PreRecord fragment callbacks
     @Override
-    public void onCancelDialogFragmentPreRecord() {
-        Log.d(TAG, "onCancelDialogFragmentPreRecord");
+    public void onCancelFragmentPreRecord() {
+        Log.d(TAG, "onCancelFragmentPreRecord");
         finish();
     }
+
     @Override
-    public void onValidateDialogFragmentPreRecord(MoodRecord mood) {
-        //Log.d(TAG, mood.toString());
-        mStartMood = mood;
+    public void onValidateFragmentPreRecord(MoodRecord moodRecord) {
+        mStartMood = moodRecord;
         startSession();
     }
     private void startSession() {
@@ -160,7 +159,7 @@ public class SessionActivity extends AppCompatActivity
             }
         }
         //
-        fragmentTransaction.add(R.id.session_activity_fragments_holder, sessionInProgressFragment, SessionInProgressFragment.SESSIONINPROGRESSFRAGMENT_TAG);
+        fragmentTransaction.replace(R.id.session_activity_fragments_holder, sessionInProgressFragment, SessionInProgressFragment.SESSIONINPROGRESSFRAGMENT_TAG);
         fragmentTransaction.commit();
     }
 
@@ -184,7 +183,7 @@ public class SessionActivity extends AppCompatActivity
         //
         if(!mHasGoneOffscreen) {
             if (prefActiveStatsCollect) {
-                showDialogFragmentPostRecord();
+                showFragmentPostRecord();
             } else {
                 finish();
             }
@@ -195,16 +194,18 @@ public class SessionActivity extends AppCompatActivity
 
 ////////////////////////////////////////
 //POST RECORD
-    private void showDialogFragmentPostRecord(){
-        Log.d(TAG, "showDialogFragmentPostRecord");
-        FragmentManager fm = getSupportFragmentManager();
-        DialogFragmentPostRecord dialogFragmentPostRecord = DialogFragmentPostRecord.newInstance(false, mDuration, mPausesCount, mRealVsPlannedDuration, mGuideMp3, mStartMood.getTimeOfRecord());
-        dialogFragmentPostRecord.show(fm, DialogFragmentPostRecord.DIALOG_FRAGMENT_POST_RECORD_NORMAL_TAG);
+    private void showFragmentPostRecord(){
+        Log.d(TAG, "showFragmentPostRecord");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        PostRecordFragment postRecordFragment = PostRecordFragment.newInstance(false, mDuration, mPausesCount, mRealVsPlannedDuration, mGuideMp3, mStartMood.getTimeOfRecord());
+        fragmentTransaction.replace(R.id.session_activity_fragments_holder, postRecordFragment, PostRecordFragment.FRAGMENT_POST_RECORD_NORMAL_TAG);
+        fragmentTransaction.commit();
     }
 ////////////////////////////////////////
-//PostRecord Dialog fragment callbacks
+//PostRecord fragment callbacks
    @Override
-    public void onValidateDialogFragmentPostRecord(MoodRecord mood) {
+    public void onValidateFragmentPostRecord(MoodRecord mood) {
         Log.d(TAG, mood.toString());
         mEndMood = mood;
         SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(this).get(SessionRecordViewModel.class);
@@ -221,26 +222,22 @@ public class SessionActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCancelDialogFragmentPostRecord() {
-        //remove sticky notification set up by SessionInProgressFragment
-        NotificationManager notifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (notifyManager != null) {
-            notifyManager.cancel(SessionInProgressFragment.STICKY_SESSION_RUNNING_NOTIFICATION_ID);
+    public void onCancelFragmentPostRecord(Boolean isManualEntry) {//here there is not going back : if the user confirms the cancelling of postrecord fragment, the session is discarded
+        if(!isManualEntry) {
+            //remove sticky notification set up by SessionInProgressFragment
+            NotificationManager notifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            if (notifyManager != null) {
+                notifyManager.cancel(SessionInProgressFragment.STICKY_SESSION_RUNNING_NOTIFICATION_ID);
+            } else {
+                Log.e(TAG, "removeStickyNotification::notifyManager is null!!");
+            }
+            finish();
         }else{
-            Log.e(TAG, "removeStickyNotification::notifyManager is null!!");
+            Log.e(TAG, "onCancelFragmentPostRecord::isManualEntry should always be false in this context");
         }
-        finish();
     }
 
-    @Override
-    public void restartDialogFragmentPostRecord() {
-        showDialogFragmentPostRecord();
-    }
 
-    @Override
-    public void goBackToDialogFragmentPreRecord() {
-        //won't happen here (only called for manual entry)
-    }
 
 ////////////////////////////////////////
 //MeditAppliRepository callbacks
@@ -259,5 +256,6 @@ public class SessionActivity extends AppCompatActivity
     public void onInsertMultipleSessionsRecordsComplete(Long[] result) {}
     @Override
     public void onUpdateOneSessionRecordComplete(int result) {}
+
 
 }

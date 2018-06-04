@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_customisation_settings_key">pref_customisation_settings_key</string>
-    <string name="pref_switch_vibration_key">pref_switch_vibration_key</string>
-    <string name="pref_switch_infinite_session_key">pref_switch_infinite_session_key</string>
-    <string name="pref_switch_keep_screen_on_key">pref_switch_keep_screen_on_key</string>
-    <string name="pref_switch_do_not_disturb_key">pref_switch_do_not_disturb_key</string>
+
     <string name="pref_duration_key">pref_duration_key</string>
-    <string name="pref_ringtone_start_key">pref_ringtone_start_key</string>
-    <string name="pref_ringtone_end_key">pref_ringtone_end_key</string>
+
+    <string name="pref_switch_infinite_session_key">pref_switch_infinite_session_key</string>
+
+    <string name="pref_intermediate_intervals_key">pref_intermediate_intervals_key</string>
+
+
+    <string name="pref_ringtones_vibration_key">pref_ringtones_vibration_key</string>
+        <string name="pref_ringtone_start_key">pref_ringtone_start_key</string>
+        <string name="pref_ringtone_intermediate_intervals_key">pref_ringtone_intermediate_intervals_key</string>
+        <string name="pref_ringtone_end_key">pref_ringtone_end_key</string>
+        <string name="pref_switch_vibration_key">pref_switch_vibration_key</string>
+
+    <string name="pref_switch_keep_screen_on_key">pref_switch_keep_screen_on_key</string>
+
+    <string name="pref_switch_do_not_disturb_key">pref_switch_do_not_disturb_key</string>
 
     <string name="pref_notification_settings_key">pref_notification_settings_key</string>
-    <string name="pref_active_notification_key">pref_active_notification_key</string>
-    <string name="pref_notification_time_key">pref_notification_time_key</string>
-    <string name="pref_notification_ringtone_key">pref_ringtone_notification_key</string>
-    <string name="pref_notification_text_key">pref_notification_text_key</string>
+        <string name="pref_active_notification_key">pref_active_notification_key</string>
+        <string name="pref_notification_time_key">pref_notification_time_key</string>
+        <string name="pref_notification_ringtone_key">pref_ringtone_notification_key</string>
+        <string name="pref_notification_text_key">pref_notification_text_key</string>
 
     <string name="pref_advanced_settings_key">pref_advanced_settings_key</string>
-    <string name="pref_delete_sessions_key">pref_delete_sessions_key</string>
-    <string name="pref_import_export_key">pref_import_export_key</string>
-    <string name="pref_export_sessions_key">pref_export_sessions_key</string>
-    <string name="pref_import_sessions_key">pref_import_sessions_key</string>
+        <string name="pref_delete_sessions_key">pref_delete_sessions_key</string>
+        <string name="pref_import_export_key">pref_import_export_key</string>
+        <string name="pref_export_sessions_key">pref_export_sessions_key</string>
+        <string name="pref_import_sessions_key">pref_import_sessions_key</string>
+
+    <string name="pref_modify_app_appearance_key">pref_modify_app_appearance_key</string>
+
     <string name="pref_modify_app_basics_key">pref_modify_app_basics_key</string>
-    <string name="pref_collector_active_key">pref_collector_active_key</string>
-    <string name="pref_switch_stats_show_numeric_key">pref_switch_stats_show_numeric_key</string>
-    <string name="pref_switch_collect_stats_key">pref_switch_collect_stats_key</string>
+        <string name="pref_collector_active_key">pref_collector_active_key</string>
+        <string name="pref_switch_stats_show_numeric_key">pref_switch_stats_show_numeric_key</string>
+        <string name="pref_switch_collect_stats_key">pref_switch_collect_stats_key</string>
 
 
 

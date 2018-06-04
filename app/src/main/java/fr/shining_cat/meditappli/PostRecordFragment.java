@@ -1,21 +1,17 @@
-package fr.shining_cat.meditappli.dialogs;
+package fr.shining_cat.meditappli;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,18 +24,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import fr.shining_cat.meditappli.MoodRecord;
-import fr.shining_cat.meditappli.MoodRecorderViewGroup;
-import fr.shining_cat.meditappli.R;
 
-public class DialogFragmentPostRecord extends DialogFragment {
+////////////////////////////////////////
+//This Fragment handles the interface to record the user's state at the end of a session
+// Used for normal and manual entry, and editting for session beginning user's state
 
-    public static final String DIALOG_FRAGMENT_POST_RECORD_MANUAL_ENTRY_TAG = "dialog_fragment_post_record_manual_entry-tag";
-    public static final String DIALOG_FRAGMENT_POST_RECORD_NORMAL_TAG = "dialog_fragment_post_record_normal-tag";
+public class PostRecordFragment extends Fragment {
+
+    public static final String FRAGMENT_POST_RECORD_MANUAL_ENTRY_TAG = "fragment_post_record_manual_entry-tag";
+    public static final String FRAGMENT_POST_RECORD_NORMAL_TAG = "fragment_post_record_normal-tag";
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
-    private DialogFragmentPostRecordListener mListener;
+    private static final String ARG_MANUAL_ENTRY = "manual_entry_boolean_argument";
+    private static final String ARG_DURATION = "session_duration_long_argument";
+    private static final String ARG_PAUSES_COUNT = "pauses_count_int_argument";
+    private static final String ARG_REAL_DURATION_VS_PLANNED_DURATION = "compare_real_vs_planned_duration_int_argument";
+    private static final String ARG_TIME_OF_START = "time_of_session_start_long_argument";
+    private static final String ARG_MP3_GUIDE = "mp3_support_file_name_string_argument";
+
+    private FragmentPostRecordListener mListener;
     private MoodRecorderViewGroup mMoodRecorder;
     private EditText mNotesEditTxt;
     private boolean mManualEntry;
@@ -54,27 +58,24 @@ public class DialogFragmentPostRecord extends DialogFragment {
     private String mGuideMp3;
     private MoodRecord mPresetEndMood;
 
-////////////////////////////////////////
-//This DialogFragment handles the interface to record the user's state at the end of a session
-// Used for normal and manual entry, and editting for session beginning user's state
-    public DialogFragmentPostRecord(){
-        // Empty constructor is required for DialogFragment
+    public PostRecordFragment() {
+        // Required empty public constructor
     }
 
 ////////////////////////////////////////
 //transmit values to be inserted in MoodRecord object describing the user's state at the end of a session
 
-    public static DialogFragmentPostRecord newInstance(boolean manualEntry, long duration, int pausesCount, int realDurationVsPlanned, String guideMp3, long timeOfStart){
-        DialogFragmentPostRecord frag = new DialogFragmentPostRecord();
+    public static PostRecordFragment newInstance(boolean manualEntry, long duration, int pausesCount, int realDurationVsPlanned, String guideMp3, long timeOfStart){
+        PostRecordFragment fragment = new PostRecordFragment();
         Bundle args = new Bundle();
-        args.putBoolean("manualEntry", manualEntry);
-        args.putLong("duration", duration);
-        args.putInt("pausesCount", pausesCount);
-        args.putInt("realDurationVsPlanned", realDurationVsPlanned);
-        args.putLong("timeOfStart", timeOfStart);
-        args.putString("mp3guide", guideMp3);
-        frag.setArguments(args);
-        return frag;
+        args.putBoolean(ARG_MANUAL_ENTRY, manualEntry);
+        args.putLong(ARG_DURATION, duration);
+        args.putInt(ARG_PAUSES_COUNT, pausesCount);
+        args.putInt(ARG_REAL_DURATION_VS_PLANNED_DURATION, realDurationVsPlanned);
+        args.putLong(ARG_TIME_OF_START, timeOfStart);
+        args.putString(ARG_MP3_GUIDE, guideMp3);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 ////////////////////////////////////////
@@ -83,29 +84,45 @@ public class DialogFragmentPostRecord extends DialogFragment {
         mPresetEndMood = endMood;
     }
 
-    @NonNull
+
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View dialogBody =  getActivity().getLayoutInflater().inflate(R.layout.dialog_fragment_post_record, null);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mManualEntry = getArguments().getBoolean(ARG_MANUAL_ENTRY);
+            mDuration = getArguments().getLong(ARG_DURATION);
+            mPausesCount = getArguments().getInt(ARG_PAUSES_COUNT);
+            mRealDurationVsPlanned = getArguments().getInt(ARG_REAL_DURATION_VS_PLANNED_DURATION);
+            mTimeOfSessionStart = getArguments().getLong(ARG_TIME_OF_START);
+            mGuideMp3 = getArguments().getString(ARG_MP3_GUIDE);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View fragment = inflater.inflate(R.layout.fragment_post_record, container, false);
+
         //
-        mMoodRecorder = dialogBody.findViewById(R.id.post_record_mood_recorder);
-        mNotesEditTxt = dialogBody.findViewById(R.id.post_record_notes_editTxt);
-        TextView introTxtView = dialogBody.findViewById(R.id.post_record_intro_txt);
-        TextView manualDateFieldLabel = dialogBody.findViewById(R.id.post_record_manual_date_field_label);
-        mManualDateEditTxt = dialogBody.findViewById(R.id.post_record_manual_date_value_field);
-        TextView manualTimeFieldLabel = dialogBody.findViewById(R.id.post_record_manual_time_field_label);
-        mManualTimeEditTxt = dialogBody.findViewById(R.id.post_record_manual_time_value_field);
-        TextView guideMp3Label = dialogBody.findViewById(R.id.post_record_guide_mp3_label);
-        mGuideMp3EditTxt =  dialogBody.findViewById(R.id.post_record_guide_mp3_txtvw);
-        //
-        mTimeOfSessionStart = getArguments().getLong("timeOfStart");
+        TextView postRecordTitle = fragment.findViewById(R.id.post_record_title_txtvw);
+        mMoodRecorder = fragment.findViewById(R.id.post_record_mood_recorder);
+        mNotesEditTxt = fragment.findViewById(R.id.post_record_notes_editTxt);
+        TextView introTxtView = fragment.findViewById(R.id.post_record_intro_txt);
+        TextView manualDateFieldLabel = fragment.findViewById(R.id.post_record_manual_date_field_label);
+        mManualDateEditTxt = fragment.findViewById(R.id.post_record_manual_date_value_field);
+        TextView manualTimeFieldLabel = fragment.findViewById(R.id.post_record_manual_time_field_label);
+        mManualTimeEditTxt = fragment.findViewById(R.id.post_record_manual_time_value_field);
+        TextView guideMp3Label = fragment.findViewById(R.id.post_record_guide_mp3_label);
+        mGuideMp3EditTxt =  fragment.findViewById(R.id.post_record_guide_mp3_txtvw);
+        Button negativeButton = fragment.findViewById(R.id.post_record_cancel_btn);
+        negativeButton.setOnClickListener(onNegativeClickListener);
+        Button positiveButton = fragment.findViewById(R.id.post_record_ok_btn);
+        positiveButton.setOnClickListener(onPositiveClickListener);
         //default timeStamp is now
         mTimestampOfRecordinMillis = System.currentTimeMillis();
-        //
-        AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity());
-        mManualEntry = getArguments().getBoolean("manualEntry");
         if(mManualEntry) {
-            builder.setTitle(getString(R.string.post_record_dialog_manual_entry_title));
+            postRecordTitle.setText(getString(R.string.post_record_dialog_manual_entry_title));
+            negativeButton.setText(getString(R.string.generic_string_BACK));
             introTxtView.setText(R.string.post_record_intro_manual_entry_text);
             //
             DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -154,8 +171,9 @@ public class DialogFragmentPostRecord extends DialogFragment {
             guideMp3Label.setVisibility(View.VISIBLE);
             mGuideMp3EditTxt.setVisibility(View.VISIBLE);
         }else{ // we are showing the post record dialog at the end of a session :
-            builder.setTitle(getActivity().getString(R.string.post_record_dialog_default_title));
+            postRecordTitle.setText(getString(R.string.post_record_dialog_default_title));
             introTxtView.setText(R.string.post_record_intro_default_text);
+            negativeButton.setText(getString(R.string.generic_string_CANCEL));
             manualDateFieldLabel.setVisibility(View.GONE);
             mManualDateEditTxt.setVisibility(View.GONE);
             manualTimeFieldLabel.setVisibility(View.GONE);
@@ -167,49 +185,29 @@ public class DialogFragmentPostRecord extends DialogFragment {
             mRealDurationVsPlanned = getArguments().getInt("realDurationVsPlanned");
             mGuideMp3 = getArguments().getString("mp3guide");
         }
-        builder.setView(dialogBody);
-        builder.setNegativeButton(getString(R.string.generic_string_CANCEL),onNegativeClickListener);
-        builder.setPositiveButton(getString(R.string.generic_string_OK),null);//null, because we want to override default behavior to control dismissal on positive click
-        return builder.create();
+        return fragment;
     }
 
-////////////////////////////////////////
-//modify inputmode because soft keyboard comes over dialog fields
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //resize the dialogfragment to activate the scroll of content when softkeyboard opens for the textfield
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-////////////////////////////////////////
-//piggyback onStart to implement custom behavior on positive button (with controlled dismissal)
-    @Override
-    public void onStart(){
-        Log.d(TAG, "onStart");
-        super.onStart();
-        final AlertDialog dialog = (AlertDialog)getDialog();
-        if(dialog!=null){
-            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
-            positiveButton.setOnClickListener(onPositiveClickListener);
-        }
-    }
-
-////////////////////////////////////////
+    ////////////////////////////////////////
 //plugging interface listener, here parent activity (SessionActivity -normal input- or VizActivity -manual entry and edit)
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof DialogFragmentPostRecordListener) {
-            mListener = (DialogFragmentPostRecordListener) context;
+        if (context instanceof FragmentPostRecordListener) {
+            mListener = (FragmentPostRecordListener) context;
         } else {
-            throw new RuntimeException(context.toString()+ " must implement DialogFragmentPostRecordListener");
+            throw new RuntimeException(context.toString()+ " must implement FragmentPostRecordListener");
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
 ////////////////////////////////////////
-//DialogFragment UI handling : onPositive, onNegative and onCancel
+//UI handling : onPositive, and onCancel
     private View.OnClickListener onPositiveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -237,26 +235,22 @@ public class DialogFragmentPostRecord extends DialogFragment {
             //here we allow empty values
             mood.setNotes(mNotesEditTxt.getText().toString());
             mood.setGuideMp3(mGuideMp3);
-            mListener.onValidateDialogFragmentPostRecord(mood);
-            dismiss();
+            mListener.onValidateFragmentPostRecord(mood);
+        }
+    };
+    private View.OnClickListener onNegativeClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "onNegativeClickListener");
+            properCancelling();
         }
     };
 
-    private DialogInterface.OnClickListener onNegativeClickListener = new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface fragmentPostRecordDialog, int whichButton) {
-            Log.d(TAG, "onNegativeClickListener::onClick");
-            properPostRecordExit();
-        }
-    };
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        Log.d(TAG, "onCancel");
-        properPostRecordExit();
-    }
-    private void properPostRecordExit(){
+    public void properCancelling(){
+        Log.d(TAG, "properCancelling::mManualEntry = " + mManualEntry);
         if(mManualEntry){
-            //go back to prerecordfragment
-            mListener.goBackToDialogFragmentPreRecord();
+            //same action for manualEntry && edit and manualEntry && create new
+            mListener.onCancelFragmentPostRecord(true);
         }else {
             //warn user that session will not be recorded
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -265,19 +259,19 @@ public class DialogFragmentPostRecord extends DialogFragment {
             builder.setNegativeButton(getString(R.string.generic_string_CANCEL), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     //go back to postrecordfragment
-                    mListener.restartDialogFragmentPostRecord();
+                    dialog.dismiss();
                 }
             });
             builder.setPositiveButton(getString(R.string.post_record_cancel_ok_do_not_record), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     //cancel session record
-                    mListener.onCancelDialogFragmentPostRecord();
-                    dismiss();
+                    mListener.onCancelFragmentPostRecord(false);
                 }
             });
             builder.show();
         }
     }
+
 ////////////////////////////////////////
 //DATE MANUAL PICKING
     View.OnTouchListener onTouchDateManualField = new View.OnTouchListener() {
@@ -421,10 +415,8 @@ public class DialogFragmentPostRecord extends DialogFragment {
 
 ////////////////////////////////////////
 //Listener interface
-    public interface DialogFragmentPostRecordListener {
-        void onValidateDialogFragmentPostRecord(MoodRecord moodRecord);
-        void onCancelDialogFragmentPostRecord();
-        void restartDialogFragmentPostRecord();
-        void goBackToDialogFragmentPreRecord();
+    public interface FragmentPostRecordListener {
+        void onValidateFragmentPostRecord(MoodRecord moodRecord);
+        void onCancelFragmentPostRecord(Boolean isManualEntry);//boolean param is not really used in listeners yet, because SessionActivity only handles isManualEntry=false cases and VizActivity only handles isManualEntry=true cases. But in case it is needed later, I let it here
     }
 }

@@ -20,23 +20,25 @@ import fr.shining_cat.meditappli.data.MeditAppliRepository;
 import fr.shining_cat.meditappli.data.SessionRecord;
 import fr.shining_cat.meditappli.data.SessionRecordViewModel;
 import fr.shining_cat.meditappli.data.SessionsListAdapter;
-import fr.shining_cat.meditappli.dialogs.DialogFragmentPostRecord;
-import fr.shining_cat.meditappli.dialogs.DialogFragmentPreRecord;
 import fr.shining_cat.meditappli.utils.TimeOperations;
 
 ////////////////////////////////////////
 //This activity holds the STATS fragments : ViewPagerSessionsDetailsFragment, ViewSessionsListFragment, ViewSessionsCalendarFragment, ViewStatsFragment
 public class VizActivity extends AppCompatActivity
-        implements  DialogFragmentPreRecord.DialogFragmentPreRecordListener,
-                    DialogFragmentPostRecord.DialogFragmentPostRecordListener,
-                    SessionsListAdapter.SessionsListAdapterListener,
-                    MeditAppliRepository.MeditAppliRepoListener{
+                        implements  PreRecordFragment.FragmentPreRecordListener,
+                                    PostRecordFragment.FragmentPostRecordListener,
+                                    SessionsListAdapter.SessionsListAdapterListener,
+                                    MeditAppliRepository.MeditAppliRepoListener{
 
-   private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
+    private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
+
+    private final String SCREEN_VIZ_PRE_RECORD_VIEW = "pre record fragment screen";
+    private final String SCREEN_VIZ_POST_RECORD_VIEW = "post record fragment screen";
     private final String SCREEN_VIZ_LIST_VIEW = "list view viz screen";
     private final String SCREEN_VIZ_SESSION_DETAILS_VIEW = "session details view viz screen";
     private final String SCREEN_VIZ_CALENDAR_VIEW = "calendar view viz screen";
     private final String SCREEN_VIZ_STATS_VIEW = "stats view viz screen";
+
     private final String EDITTING_OR_DELETING_EXISTING_SESSION = "editting or deleting an existing session";
     private final String ADDING_NEW_SESSION = "currently creating a new session";
 
@@ -72,6 +74,14 @@ public class VizActivity extends AppCompatActivity
         MenuItem viewStatsButton = menu.findItem(R.id.action_view_stats);
         MenuItem editSessionButton = menu.findItem(R.id.action_edit);
         switch (mCurrentScreen){
+            case SCREEN_VIZ_PRE_RECORD_VIEW :
+            case SCREEN_VIZ_POST_RECORD_VIEW :
+                addSessionButton.setVisible(false);
+                viewListButton.setVisible(false);
+                viewCalendarButton.setVisible(false);
+                viewStatsButton.setVisible(false);
+                editSessionButton.setVisible(false);
+                break;
             case SCREEN_VIZ_CALENDAR_VIEW :
                 addSessionButton.setVisible(true);
                 viewListButton.setVisible(true);
@@ -109,7 +119,9 @@ public class VizActivity extends AppCompatActivity
         switch(id){
             case R.id.action_add:
                 mEditOrNewSessionRecording = ADDING_NEW_SESSION;
-                showDialogFragmentPreRecord();
+                //showDialogFragmentPreRecord();
+                mPreviousScreen = mCurrentScreen;
+                showFragmentPreRecord(null);
                 return true;
             case R.id.action_view_list:
                 showSessionsListView();
@@ -154,6 +166,23 @@ public class VizActivity extends AppCompatActivity
     private boolean overrideNavigateBackAndUp(){
         invalidateOptionsMenu();
         switch (mCurrentScreen){
+            case SCREEN_VIZ_PRE_RECORD_VIEW : // go back to viz screen previously shown
+                switch (mPreviousScreen){
+                    case SCREEN_VIZ_CALENDAR_VIEW :
+                        showSessionsCalendarView();
+                        return true;
+                    case SCREEN_VIZ_LIST_VIEW :
+                        showSessionsListView();
+                        return true;
+                    case SCREEN_VIZ_SESSION_DETAILS_VIEW :
+                        showSessionDetailsView(mCurrentlyEdittedSessionIndexInAdapter);
+                        return true;
+                    default:
+                        return false;
+                }
+            case SCREEN_VIZ_POST_RECORD_VIEW : //go back to pre-record fragment
+                showFragmentPreRecord(mStartMood); // we have stored what user eventually entered in prerecord fragment which can be different from mCurrentEdittedSessionRecord.getStartMood()
+                return true;
             case SCREEN_VIZ_SESSION_DETAILS_VIEW :
                 switch (mPreviousScreen){
                     case SCREEN_VIZ_CALENDAR_VIEW :
@@ -189,7 +218,8 @@ public class VizActivity extends AppCompatActivity
         showSessionDetailsView(clickedSessionPositionInSessionsListAdapter);
     }
     @Override
-    public void onLongClickOnSession(SessionRecord clickedSession) {
+    public void onLongClickOnSession(int clickedSessionPositionInAdapter, SessionRecord clickedSession) {
+        mCurrentlyEdittedSessionIndexInAdapter = clickedSessionPositionInAdapter;
         showEditOrDeleteSessionDialog(clickedSession);
     }
     //
@@ -259,22 +289,6 @@ public class VizActivity extends AppCompatActivity
         });
         builder.show();
     }
-
-    private void editSessionStartDialog(){
-        showDialogFragmentPreRecord();
-    }
-
-////////////////////////////////////////
-//Manually create or edit a session
-    private void showDialogFragmentPreRecord() {
-        FragmentManager fm = getSupportFragmentManager();
-        DialogFragmentPreRecord dialogFragmentPreRecord = DialogFragmentPreRecord.newInstance(true);
-        if(mEditOrNewSessionRecording.equals(EDITTING_OR_DELETING_EXISTING_SESSION) && mCurrentEdittedSessionRecord != null){
-            dialogFragmentPreRecord.presetContent(mCurrentEdittedSessionRecord.getStartMood());
-        }
-        dialogFragmentPreRecord.show(fm, DialogFragmentPreRecord.DIALOG_FRAGMENT_PRE_RECORD_MANUAL_ENTRY_TAG);
-    }
-
 ////////////////////////////////////////
 //DELETE a session
     private void showConfirmDeleteSessionDialog(){
@@ -314,36 +328,68 @@ public class VizActivity extends AppCompatActivity
     }
 
 ////////////////////////////////////////
-//PreRecord Dialog fragment callbacks
-    @Override
-    public void onCancelDialogFragmentPreRecord() {
-        //the dialog has closed, nothing to do here
-        mEditOrNewSessionRecording = "";
-    }
-    @Override
-    public void onValidateDialogFragmentPreRecord(MoodRecord moodRecord) {
-        mStartMood = moodRecord;
-        FragmentManager fm = getSupportFragmentManager();
-        DialogFragmentPostRecord dialogFragmentPostRecord = DialogFragmentPostRecord.newInstance(true, 0, 0, 0, "", mStartMood.getTimeOfRecord());
+//Manually create or edit a session
+
+    private void editSessionStartDialog(){
         if(mEditOrNewSessionRecording.equals(EDITTING_OR_DELETING_EXISTING_SESSION) && mCurrentEdittedSessionRecord != null){
-            dialogFragmentPostRecord.presetContent(mCurrentEdittedSessionRecord.getEndMood());
+            MoodRecord startMood = mCurrentEdittedSessionRecord.getStartMood();
+            mPreviousScreen = mCurrentScreen;
+            showFragmentPreRecord(startMood);
+        }else{
+            Log.e(TAG, "editSessionStartDialog:: No session found to edit!");
         }
-        dialogFragmentPostRecord.show(fm, DialogFragmentPostRecord.DIALOG_FRAGMENT_POST_RECORD_MANUAL_ENTRY_TAG);
     }
 
+    private void showFragmentPreRecord(MoodRecord startMood) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PreRecordFragment preRecordFragment = PreRecordFragment.newInstance(true);
+        if(startMood != null){
+            preRecordFragment.presetContent(startMood);
+        } // else : manual new session creation, no preset content
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.viz_activity_fragments_holder, preRecordFragment, PreRecordFragment.FRAGMENT_PRE_RECORD_MANUAL_ENTRY_TAG);
+        fragmentTransaction.commit();
+        mCurrentScreen = SCREEN_VIZ_PRE_RECORD_VIEW;
+        invalidateOptionsMenu();
+    }
+
+
+////////////////////////////////////////
+//PreRecord fragment callbacks
+    @Override
+    public void onCancelFragmentPreRecord() {
+        mEditOrNewSessionRecording = "";
+        overrideNavigateBackAndUp();
+    }
+
+    @Override
+    public void onValidateFragmentPreRecord(MoodRecord moodRecord) {
+        mStartMood = moodRecord;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PostRecordFragment postRecordFragment = PostRecordFragment.newInstance(true, 0, 0, 0, "", mStartMood.getTimeOfRecord());
+        if(mEditOrNewSessionRecording.equals(EDITTING_OR_DELETING_EXISTING_SESSION) && mCurrentEdittedSessionRecord != null){
+            postRecordFragment.presetContent(mCurrentEdittedSessionRecord.getEndMood());
+        }
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.viz_activity_fragments_holder, postRecordFragment, PostRecordFragment.FRAGMENT_POST_RECORD_MANUAL_ENTRY_TAG);
+        fragmentTransaction.commit();
+        mCurrentScreen = SCREEN_VIZ_POST_RECORD_VIEW;
+        invalidateOptionsMenu();
+    }
 ////////////////////////////////////////
 //PostRecord Dialog fragment callbacks
     @Override
-    public void onCancelDialogFragmentPostRecord() {
-        //nothing to do here, dialog has been dismissed, user goes back to DialogFragmentPreRecord
-        mEditOrNewSessionRecording = "";
+    public void onCancelFragmentPostRecord(Boolean isManualEntry) {
+        if(isManualEntry) {
+            //go back to prerecord fragment
+            showFragmentPreRecord(mStartMood); // we have stored what user eventually entered in prerecord fragment which can be different from mCurrentEdittedSessionRecord.getStartMood()
+        }else{
+            Log.e(TAG, "onCancelFragmentPostRecord::isManualEntry should always be true in this context");
+        }
     }
+
     @Override
-    public void restartDialogFragmentPostRecord() {
-        //won't happen here (not called for manual entry)
-    }
-    @Override
-    public void onValidateDialogFragmentPostRecord(MoodRecord moodRecord) {
+    public void onValidateFragmentPostRecord(MoodRecord moodRecord) {
         mEndMood = moodRecord;
         SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(this).get(SessionRecordViewModel.class);
         if(mEditOrNewSessionRecording.equals(EDITTING_OR_DELETING_EXISTING_SESSION) && mCurrentEdittedSessionRecord != null){
@@ -355,16 +401,15 @@ public class VizActivity extends AppCompatActivity
             sessionRecordViewModel.insertWithMoods(mStartMood, mEndMood, this);
         }
         mEditOrNewSessionRecording = "";
+        switch (mPreviousScreen){
+            case SCREEN_VIZ_CALENDAR_VIEW :
+                showSessionsCalendarView();
+            case SCREEN_VIZ_LIST_VIEW :
+                showSessionsListView();
+            case SCREEN_VIZ_SESSION_DETAILS_VIEW :
+                showSessionDetailsView(mCurrentlyEdittedSessionIndexInAdapter);
+        }
     }
-    @Override
-    public void goBackToDialogFragmentPreRecord() {
-        FragmentManager fm = getSupportFragmentManager();
-        DialogFragmentPreRecord dialogFragmentPreRecord = DialogFragmentPreRecord.newInstance(true);
-        dialogFragmentPreRecord.presetContent(mStartMood); // not the same as showDialogFragmentPreRecord because we have stored what user eventually entered in prerecord dialog which can be different from mCurrentEdittedSessionRecord.getStartMood()
-        dialogFragmentPreRecord.show(fm, DialogFragmentPreRecord.DIALOG_FRAGMENT_PRE_RECORD_MANUAL_ENTRY_TAG);
-    }
-
-
 
 ////////////////////////////////////////
 //MeditAppliRepository callbacks
