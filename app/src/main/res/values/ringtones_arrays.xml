@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--RINGTONES -->
+    <!-- TODO : ajouter bol son court, + 2 et 3 coups longs et courts -->
     <string-array name="extraRingtones">
         <item>notif_bol_tibetain</item>
     </string-array>

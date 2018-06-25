@@ -46,6 +46,14 @@ public class SessionsDetailsFragmentStatePagerAdapter extends FragmentStatePager
         return mSessions.get(position);
     }
 
+    public int getPositionOfSpecificSessionRecord(SessionRecord sessionRecord){
+        long idSession = sessionRecord.getId();
+        for(SessionRecord session : mSessions){
+            if(session.getId() == idSession) return mSessions.indexOf(session);
+        }
+        return -1;
+    }
+
     @Override
     public int getCount() {
         if(mSessions != null){

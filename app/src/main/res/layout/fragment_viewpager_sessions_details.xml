@@ -13,11 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <!--    <android.support.v4.view.PagerTitleStrip
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top" />
--->
     </android.support.v4.view.ViewPager>
 
     <android.support.constraint.Guideline
@@ -37,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="@id/guideline_h_viewpager_session_details"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_h_viewpager_session_details"
-        android:contentDescription="@string/arrow_backward_button" />
+        android:contentDescription="@string/arrow_to_left" />
 
     <ImageButton
         android:id="@+id/next_session_details_btn"
@@ -50,6 +45,6 @@
         app:layout_constraintBottom_toBottomOf="@id/guideline_h_viewpager_session_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_h_viewpager_session_details"
-        android:contentDescription="@string/arrow_forward_button" />
+        android:contentDescription="@string/arrow_to_right" />
 
 </android.support.constraint.ConstraintLayout>

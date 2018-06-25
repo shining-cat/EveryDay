@@ -22,6 +22,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
+import fr.shining_cat.meditappli.widgets.MoodRecorderViewGroup;
 
 
 ////////////////////////////////////////
@@ -96,8 +99,8 @@ public class PreRecordFragment extends Fragment {
             preRecordTitle.setText(getString(R.string.pre_record_dialog_manual_entry_title));
             introTxtView.setText(R.string.pre_record_intro_manual_entry_text);
             //
-            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
-            DateFormat sdfTime = new SimpleDateFormat("HH:mm");
+            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            DateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
             Calendar timeOfRecordCal = Calendar.getInstance();
             if(mPresetStartMood!=null){ //Editting existing record
                 timeOfRecordCal.setTimeInMillis(mPresetStartMood.getTimeOfRecord());
@@ -145,7 +148,7 @@ public class PreRecordFragment extends Fragment {
             if(!mManualEntry){
                 mTimestampOfRecordinMillis = System.currentTimeMillis();
             }
-            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
             Log.d(TAG, "mTimestampOfRecordinMillis = " + mTimestampOfRecordinMillis + " / formatted = " + sdfDate.format(mTimestampOfRecordinMillis));
             MoodRecord mood = new MoodRecord(
                     mTimestampOfRecordinMillis,
@@ -195,8 +198,8 @@ public class PreRecordFragment extends Fragment {
                 //set calendar object to NOW or previously set value
                 timeOfRecordCal.setTimeInMillis(mTimestampOfRecordinMillis);
                 //
-                DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                DateFormat tdf = new SimpleDateFormat("HH:mm");
+                DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 Log.d(TAG, sdf.format(timeOfRecordCal.getTime()));
                 //
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), dateSetListener,
@@ -213,8 +216,8 @@ public class PreRecordFragment extends Fragment {
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            DateFormat tdf = new SimpleDateFormat("HH:mm");
+            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
             //
             Calendar startTimeOfRecordCal = Calendar.getInstance();
             startTimeOfRecordCal.setTimeInMillis(mTimestampOfRecordinMillis); //to keep set time, and only change date
@@ -294,7 +297,7 @@ public class PreRecordFragment extends Fragment {
                 });
                 builder.show();
             }else{
-                DateFormat tdf = new SimpleDateFormat("HH:mm");
+                DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 mManualTimeEditTxt.setText(tdf.format(timeOfRecordCal.getTime()));
                 mTimestampOfRecordinMillis = timeOfRecordCal.getTimeInMillis();
             }

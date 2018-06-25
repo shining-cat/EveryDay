@@ -14,13 +14,17 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import fr.shining_cat.meditappli.data.MeditAppliRepository;
 import fr.shining_cat.meditappli.data.SessionRecord;
 import fr.shining_cat.meditappli.data.SessionRecordViewModel;
 import fr.shining_cat.meditappli.data.SessionsListAdapter;
 import fr.shining_cat.meditappli.utils.TimeOperations;
+import fr.shining_cat.meditappli.utils.UiUtils;
 
 ////////////////////////////////////////
 //This activity holds the STATS fragments : ViewPagerSessionsDetailsFragment, ViewSessionsListFragment, ViewSessionsCalendarFragment, ViewStatsFragment
@@ -28,7 +32,8 @@ public class VizActivity extends AppCompatActivity
                         implements  PreRecordFragment.FragmentPreRecordListener,
                                     PostRecordFragment.FragmentPostRecordListener,
                                     SessionsListAdapter.SessionsListAdapterListener,
-                                    MeditAppliRepository.MeditAppliRepoListener{
+                                    MeditAppliRepository.MeditAppliRepoListener,
+                                    ViewSessionsCalendarFragment.SessionsCalendarListener{
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
@@ -50,15 +55,23 @@ public class VizActivity extends AppCompatActivity
     private MoodRecord mEndMood;
     private String mEditOrNewSessionRecording;
     private SessionRecord mCurrentEdittedSessionRecord;
-    private int mCurrentlyEdittedSessionIndexInAdapter;
     private ViewPagerSessionsDetailsFragment mViewPagerSessionsDetailsFragment;
+    private Long mCurrentMonthShownInCalendarScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viz);
         mEditOrNewSessionRecording = "";
-        //TODO : once every screen is functional, choose which will be the default landing one... calendar, stats, or list?
+        // today
+        Calendar today = Calendar.getInstance();
+        // reset hour, minutes, seconds and millis
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        mCurrentMonthShownInCalendarScreen = today.getTime().getTime();
+        //showSessionsCalendarView();
         showSessionsListView();
     }
 
@@ -136,8 +149,7 @@ public class VizActivity extends AppCompatActivity
                 //this button is only visible in SCREEN_VIZ_SESSION_DETAILS_VIEW
                 //get current shown session object in ViewPagerSessionsDetailsFragment
                 if(mViewPagerSessionsDetailsFragment!=null) {
-                    mCurrentlyEdittedSessionIndexInAdapter = mViewPagerSessionsDetailsFragment.getCurrentPosition();
-                    SessionRecord currentSession = mViewPagerSessionsDetailsFragment.getSessionRecordAtPosition(mCurrentlyEdittedSessionIndexInAdapter);
+                    SessionRecord currentSession = mViewPagerSessionsDetailsFragment.getCurrentSessionRecord();
                     showEditOrDeleteSessionDialog(currentSession);
                 }else{
                     Log.e(TAG, "onOptionsItemSelected::action_edit = mViewPagerSessionsDetailsFragment is NULL!");
@@ -175,7 +187,7 @@ public class VizActivity extends AppCompatActivity
                         showSessionsListView();
                         return true;
                     case SCREEN_VIZ_SESSION_DETAILS_VIEW :
-                        showSessionDetailsView(mCurrentlyEdittedSessionIndexInAdapter);
+                        showSessionDetailsView(mCurrentEdittedSessionRecord);
                         return true;
                     default:
                         return false;
@@ -214,20 +226,23 @@ public class VizActivity extends AppCompatActivity
     }
     //sessionsListAdapter callbacks for list items interactions
     @Override
-    public void onClickOnSession(int clickedSessionPositionInSessionsListAdapter) {
-        showSessionDetailsView(clickedSessionPositionInSessionsListAdapter);
+    public void onClickOnSession(SessionRecord clickedSession) {
+        Log.d(TAG, "onClickOnSession::clickedSession startTime = " + clickedSession.getStartTimeOfRecord());
+        showSessionDetailsView(clickedSession);
     }
     @Override
-    public void onLongClickOnSession(int clickedSessionPositionInAdapter, SessionRecord clickedSession) {
-        mCurrentlyEdittedSessionIndexInAdapter = clickedSessionPositionInAdapter;
+    public void onLongClickOnSession(SessionRecord clickedSession) {
         showEditOrDeleteSessionDialog(clickedSession);
     }
     //
     private void showSessionsCalendarView(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        ViewSessionsCalendarFragment viewSessionsCalendarFragment = ViewSessionsCalendarFragment.newInstance(mCurrentMonthShownInCalendarScreen);
+        fragmentTransaction.replace(R.id.viz_activity_fragments_holder, viewSessionsCalendarFragment, ViewSessionsCalendarFragment.VIEW_SESSION_CALANEDAR_FRAGMENT_TAG);
+        fragmentTransaction.commit();
         mCurrentScreen = SCREEN_VIZ_CALENDAR_VIEW;
         invalidateOptionsMenu();
-        Toast.makeText(this, "La vue CALENDRIER n'est pas encore opérationnelle", Toast.LENGTH_LONG).show();
-        //TODO: fragment for a calendar type view of sessions : ViewSessionsCalendarFragment
     }
     //
     private void showStats(){
@@ -237,7 +252,7 @@ public class VizActivity extends AppCompatActivity
         //TODO: stats fragment : ViewStatsFragment
     }
     //
-    private void showSessionDetailsView(int clickedSessionPositionInSessionsListAdapter){
+    private void showSessionDetailsView(SessionRecord clickedSession){
         mPreviousScreen = mCurrentScreen;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -245,7 +260,7 @@ public class VizActivity extends AppCompatActivity
             mViewPagerSessionsDetailsFragment = null;
         }
         mViewPagerSessionsDetailsFragment = ViewPagerSessionsDetailsFragment.newInstance();
-        mViewPagerSessionsDetailsFragment.setStartingSessionDetails(clickedSessionPositionInSessionsListAdapter);
+        mViewPagerSessionsDetailsFragment.setStartingSessionDetailsWithSessionRecord(clickedSession);
         fragmentTransaction.replace(R.id.viz_activity_fragments_holder, mViewPagerSessionsDetailsFragment, ViewPagerSessionsDetailsFragment.VIEW_PAGER_SESSION_DETAILS_FRAGMENT_TAG);
         fragmentTransaction.commit();
         mCurrentScreen = SCREEN_VIZ_SESSION_DETAILS_VIEW;
@@ -261,8 +276,8 @@ public class VizActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.edit_session_dialog_title));
         //
-        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        DateFormat tdf = new SimpleDateFormat("HH:mm");
+        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         //
         String message = sdf.format(mCurrentEdittedSessionRecord.getStartTimeOfRecord());
         message += " - " + tdf.format(mCurrentEdittedSessionRecord.getStartTimeOfRecord());
@@ -295,8 +310,8 @@ public class VizActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.delete_session_dialog_title));
         //
-        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        DateFormat tdf = new SimpleDateFormat("HH:mm");
+        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         //
         String message = sdf.format(mCurrentEdittedSessionRecord.getStartTimeOfRecord());
         message += " - " + tdf.format(mCurrentEdittedSessionRecord.getStartTimeOfRecord());
@@ -353,7 +368,12 @@ public class VizActivity extends AppCompatActivity
         invalidateOptionsMenu();
     }
 
-
+////////////////////////////////////////
+//viewSessionsCalendar fragment callbacks
+    @Override
+    public void onSaveCurrentDate(Long currentMonthDateAsLong) {
+        mCurrentMonthShownInCalendarScreen = currentMonthDateAsLong;
+    }
 ////////////////////////////////////////
 //PreRecord fragment callbacks
     @Override
@@ -380,6 +400,7 @@ public class VizActivity extends AppCompatActivity
 //PostRecord Dialog fragment callbacks
     @Override
     public void onCancelFragmentPostRecord(Boolean isManualEntry) {
+        UiUtils.hideSoftKeyboard(this);
         if(isManualEntry) {
             //go back to prerecord fragment
             showFragmentPreRecord(mStartMood); // we have stored what user eventually entered in prerecord fragment which can be different from mCurrentEdittedSessionRecord.getStartMood()
@@ -390,6 +411,7 @@ public class VizActivity extends AppCompatActivity
 
     @Override
     public void onValidateFragmentPostRecord(MoodRecord moodRecord) {
+        UiUtils.hideSoftKeyboard(this);
         mEndMood = moodRecord;
         SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(this).get(SessionRecordViewModel.class);
         if(mEditOrNewSessionRecording.equals(EDITTING_OR_DELETING_EXISTING_SESSION) && mCurrentEdittedSessionRecord != null){
@@ -404,10 +426,13 @@ public class VizActivity extends AppCompatActivity
         switch (mPreviousScreen){
             case SCREEN_VIZ_CALENDAR_VIEW :
                 showSessionsCalendarView();
+                break;
             case SCREEN_VIZ_LIST_VIEW :
                 showSessionsListView();
+                break;
             case SCREEN_VIZ_SESSION_DETAILS_VIEW :
-                showSessionDetailsView(mCurrentlyEdittedSessionIndexInAdapter);
+                showSessionDetailsView(mCurrentEdittedSessionRecord);
+                break;
         }
     }
 
@@ -416,7 +441,7 @@ public class VizActivity extends AppCompatActivity
     @Override
     public void onUpdateOneSessionRecordComplete(int result) {
         if(mCurrentScreen.equals(SCREEN_VIZ_SESSION_DETAILS_VIEW)) {
-            mViewPagerSessionsDetailsFragment.setStartingSessionDetails(mCurrentlyEdittedSessionIndexInAdapter);
+            mViewPagerSessionsDetailsFragment.setStartingSessionDetailsWithSessionRecord(mCurrentEdittedSessionRecord);
         }
         Toast.makeText(this, R.string.update_one_session_task_completed_message, Toast.LENGTH_LONG).show();
     }
@@ -424,7 +449,7 @@ public class VizActivity extends AppCompatActivity
     public void ondeleteOneSessionRecordComplete(int result) {
         if(mCurrentScreen.equals(SCREEN_VIZ_SESSION_DETAILS_VIEW)) {
             // go back to first entry? maybe exit to list/calendar view?
-            mViewPagerSessionsDetailsFragment.setStartingSessionDetails(0);
+            //mViewPagerSessionsDetailsFragment.setStartingSessionDetailsWithIndex(0);
         }
         Toast.makeText(this, R.string.delete_one_session_task_completed_message, Toast.LENGTH_LONG).show();
     }
@@ -439,5 +464,6 @@ public class VizActivity extends AppCompatActivity
     public void onInsertMultipleSessionsRecordsComplete(Long[] result) {}
     @Override
     public void onGetAllSessionsNotLiveComplete(List<SessionRecord> allSessions) {}
+
 
 }

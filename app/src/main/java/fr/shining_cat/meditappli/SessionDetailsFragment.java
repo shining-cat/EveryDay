@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import fr.shining_cat.meditappli.data.SessionRecord;
 import fr.shining_cat.meditappli.utils.TimeOperations;
@@ -53,8 +54,8 @@ public class SessionDetailsFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_session_details, container, false);
         //
         if(mSessionRecord!=null){
-            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            DateFormat tdf = new SimpleDateFormat("HH:mm");
+            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
             //
             TextView startDateTxtvw = mRootView.findViewById(R.id.start_date_txtvw);
             //Log.d(TAG, "onCreateView::startDateTxtvw = " + startDateTxtvw);

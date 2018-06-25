@@ -95,15 +95,15 @@ public class SessionInProgressFragment extends Fragment {
     private long mTempElapsedTimeWhileOverstaying;
     private int mPausesCount;
     private String mGuideMp3;
-    private int mPreviousInterruptionFilter;
-    private boolean mDNDIsOverridden;
-    private long mDelayBeforeDND;
+    private int mPreviousRingerMode;
+    private boolean mRingerModeIsOverridden;
     private boolean mIsNormalBackNavAllowed;
     private AlertDialog mPauseAlertDialog;
     private boolean sessionIsFinished;
     private Uri mAudioContentUri;
-    int mAudioFileDuration;
-    MediaPlayer mMediaPlayer;
+    private int mAudioFileDuration;
+    private MediaPlayer mMediaPlayer;
+    private Ringtone mRingtone;
 
 
 ////////////////////////////////////////
@@ -141,6 +141,7 @@ public class SessionInProgressFragment extends Fragment {
         }
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
@@ -160,10 +161,12 @@ public class SessionInProgressFragment extends Fragment {
         mStartSessionCountDownIsRunning = false;
         mRunSessionCountDownIsRunning = false;
         mRunSessionCountUpIsRunning = false;
-        mDNDIsOverridden = false;
-        mPreviousInterruptionFilter = -1;
+        mRingerModeIsOverridden = false;
+        mPreviousRingerMode = -1;
+        Log.d(TAG, "AudioManager.RINGER_MODE_VIBRATE = " + AudioManager.RINGER_MODE_VIBRATE +
+                " / AudioManager.RINGER_MODE_SILENT = " + AudioManager.RINGER_MODE_SILENT +
+        " / AudioManager.RINGER_MODE_NORMAL = " + AudioManager.RINGER_MODE_NORMAL);
         mIsNormalBackNavAllowed = true;
-        mDelayBeforeDND = Long.parseLong(getString(R.string.delay_before_DND_to_let_ringtone_time_to_play));
         mGuideMp3 = "";
         //if we were passed an audio file URI for a guided session, retrieve name and duration
         if(mAudioContentUri != null){
@@ -171,14 +174,28 @@ public class SessionInProgressFragment extends Fragment {
             MediaMetadataRetriever mmr = new MediaMetadataRetriever();
             mmr.setDataSource(this.getActivity(), mAudioContentUri);
             String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            mAudioFileDuration = Integer.parseInt(durationStr);
+            if(durationStr == null){
+                //TODO : bug chez zoe avec calme et attentif : durationStr == null
+                Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_DURATION :: durationStr is NULL!!");
+            }else if(durationStr.isEmpty()){
+                Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_DURATION :: durationStr is EMPTY!!");
+            }else {
+                //TODO: bug if duration not there : voir calme et attentif comme une grenouille => ajouter dialogue et inviter à entrer manuellement une durée?
+                mAudioFileDuration = Integer.parseInt(durationStr);
+            }
             //file name
             Cursor returnCursor = this.getActivity().getContentResolver().query(mAudioContentUri, null, null, null, null);
             if (returnCursor != null) {
                 int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                 returnCursor.moveToFirst();
                 mGuideMp3 = returnCursor.getString(nameIndex);
+                if(mGuideMp3 == null || mGuideMp3.isEmpty()){
+                    Log.e(TAG, "onAttach::nothing in cursor OpenableColumns.DISPLAY_NAME!! could not get audio file name");
+                    mGuideMp3 = getActivity().getString(R.string.guided_session_default_filename);
+                }
                 returnCursor.close();
+            }else{
+                Log.e(TAG, "onAttach::returnCursor is NULL!! could not get audio file name");
             }
             Log.d(TAG, "onAttach::mGuideMp3 = " + mGuideMp3 + " / mAudioFileDuration = " + mAudioFileDuration);
         }
@@ -356,20 +373,20 @@ String mCountdownTxt;
                     e.printStackTrace();
                 }
             }
-            Log.d(TAG, "launchBubbleTimer::mDNDIsOverridden = " + mDNDIsOverridden);
+            Log.d(TAG, "launchBubbleTimer::mRingerModeIsOverridden = " + mRingerModeIsOverridden);
             mRunSessionCountDown = new CountDownTimer(mSessionRemainingDuration, runSessionCountDownUpdateInterval) {
                 public void onTick(long millisUntilFinished) {
-                    //DND on activation will shut notifications, even our own, so we delay activation to be able to play our notif
-                    if(!mDNDIsOverridden) {
-                        if ((mSessionRemainingDuration - millisUntilFinished) >= mDelayBeforeDND) {
+                    //regularly check if our ringtone is done playing to activate ringer_mode silent
+                    if(mRingtone!=null){
+                        if(!mRingtone.isPlaying() && !mRingerModeIsOverridden){
                             handleDoNotDisturbMode(true);
                         }
                     }
                     mElapsedTime += runSessionCountDownUpdateInterval; //update elapsed time so that if the user pauses the session, we will have an up-to-date elapsed time
-                    Log.d(TAG, "onTick::mElapsedTime in seconds = " + (mElapsedTime/1000));
+                    //Log.d(TAG, "onTick::mElapsedTime in seconds = " + (mElapsedTime/1000));
                     if(mIntermediateIntervalLength!=0){
                         //Log.d(TAG, "onTick::mElapsedTime % intermediateIntervalLength = " + (mElapsedTime % intermediateIntervalLength));
-                        if(mElapsedTime % mIntermediateIntervalLength < 50){ //in case onTick is not precise to the millisecond
+                        if(mElapsedTime > 0 && mElapsedTime % mIntermediateIntervalLength < 50){ //in case onTick is not precise to the millisecond
                             playSessionSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
                         }
                     }
@@ -423,27 +440,28 @@ String mCountdownTxt;
         mRunSessionCountUp = new CountDownTimer(oneMnInMs, runSessionOverstayUpdateInterval) {
             @Override
             public void onTick(long millisUntilFinished) {
-                //Log.d(TAG, "launchSessionOverStay:: mDNDIsOverridden = " + mDNDIsOverridden + " / (oneMnInMs - millisUntilFinished) = " + (oneMnInMs - millisUntilFinished));
-                if(!mDNDIsOverridden) {
-                    if ((oneMnInMs - millisUntilFinished) >= mDelayBeforeDND) {
+                //regularly check if our ringtone is done playing to activate ringer_mode silent
+                if(mRingtone!=null){
+                    if(!mRingtone.isPlaying() && !mRingerModeIsOverridden){
                         handleDoNotDisturbMode(true);
                     }
-                    mElapsedTime += runSessionOverstayUpdateInterval; //update elapsed time so that if the user pauses the session, we will have an up-to-date elapsed time
-                    updateStickyNotification(SESSION_STATE_OVERSTAY_RUNNING);
-                    String plannedDuration = durationFormattedShort(mPlannedDuration);
-                    String bonusDuration = durationFormattedComplete((mElapsedTime - mPlannedDuration));
-                    Log.d(TAG, "launchSessionOverStay::onTick::plannedDuration = " + mPlannedDuration/1000 + " / mElapsedTime = " + mElapsedTime/1000);
-                    if(mIntermediateIntervalLength!=0){
-                        if(mElapsedTime % mIntermediateIntervalLength < 50){ //in case onTick is not precise to the millisecond
-                            playSessionSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
-                        }
-                    }
-                    if(bonusDuration.isEmpty()) {
-                        mRemainingDurationTxtView.setText(plannedDuration);
-                    }else{
-                        mRemainingDurationTxtView.setText(plannedDuration + " + " + bonusDuration);
+                }
+                mElapsedTime += runSessionOverstayUpdateInterval; //update elapsed time so that if the user pauses the session, we will have an up-to-date elapsed time
+                updateStickyNotification(SESSION_STATE_OVERSTAY_RUNNING);
+                String plannedDuration = durationFormattedShort(mPlannedDuration);
+                String bonusDuration = durationFormattedComplete((mElapsedTime - mPlannedDuration));
+                Log.d(TAG, "launchSessionOverStay::onTick::plannedDuration = " + mPlannedDuration/1000 + " / mElapsedTime = " + mElapsedTime/1000);
+                if(mIntermediateIntervalLength!=0){
+                    if(mElapsedTime % mIntermediateIntervalLength < 50){ //in case onTick is not precise to the millisecond
+                        playSessionSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
                     }
                 }
+                if(bonusDuration.isEmpty()) {
+                    mRemainingDurationTxtView.setText(plannedDuration);
+                }else{
+                    mRemainingDurationTxtView.setText(plannedDuration + " + " + bonusDuration);
+                }
+
             }
             @Override
             public void onFinish() {
@@ -464,25 +482,6 @@ String mCountdownTxt;
         to discriminate with enough precision these cases from "legitimate" onpause calls, like the ones made by the OS when the screen
         goes off, or an external app (like a clock) takes precedence. I give up on this feature, letting to the user the responsibility
         of his engagement in the practice
-                //here we detect app loss of focus. Since the sole purpose of the app is to help the user to progress along the mindfulness path, we do not allow the session to run in background
-                //BUT if the setting to keep screen ON during session is set to OFF, then the screen switching off will also call onPause()
-                //in THIS only case, we will allow the session to continue => this is why we test if the screen is on
-                Log.d(TAG, "onPause::mRunSessionCountDownIsRunning = " + mRunSessionCountDownIsRunning + " / mRunSessionCountUpIsRunning = " + mRunSessionCountUpIsRunning + " / mStartSessionCountDownIsRunning = " + mStartSessionCountDownIsRunning);
-                if(!sessionIsFinished) {//onpause will be called when SessionActivity removes this fragment, but then the session will be finished, so no need to pause it
-                    PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
-                    boolean screenOn = false;
-                    if (pm != null) {
-                        screenOn = pm.isInteractive();
-                        Log.d(TAG, "onPause::screenOn = " + screenOn);
-                    } else {
-                        Log.e(TAG, "onPause::PowerManager = null, could not determine if screen is ON");
-                    }
-                    if (screenOn) { //pb the screen may not be OFF (feature like clock can keep screen on and app is still in background -so paused)
-                        pauseSession();
-                    } else {
-                        Log.d(TAG, "onPause:screen is off, do nothing : onPause was not caused by user action");
-                    }
-                }
         */
         super.onPause();
     }
@@ -552,6 +551,8 @@ String mCountdownTxt;
 ////////////////////////////////////////
 //BUBBLE TIMER ANIMATION CONTROL
 //pulse will be constituted of two animations : expand, then retract. Start and end values for animated properties will be function of mElapsedTime, so changing at every cycle
+
+    //TODO eventually : BUG on configuration change : if device rotates during animation, pivot point is wrong until next cycle... did not find any way to handle this during running animation yet
 
     private Animation.AnimationListener animPulseExpandListener = new Animation.AnimationListener(){
         @Override
@@ -758,7 +759,7 @@ String mCountdownTxt;
         }
         NotificationManager notifyManager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
         if (notifyManager != null) {
-            Log.d(TAG, "updateStickyNotification::notifText = " + notifText);
+            //Log.d(TAG, "updateStickyNotification::notifText = " + notifText);
             notifyManager.notify(STICKY_SESSION_RUNNING_NOTIFICATION_ID, notifyBuilder.build());
         }else{
             Log.e(TAG, "updateStickyNotification::notifyManager is null!!");
@@ -821,64 +822,39 @@ String mCountdownTxt;
                 false);
     }
 ////////////////////////////////////////
-//Helper method to set the device in DND or back to normal (or silent if SDK < Marshmallow) according to saved SharedPref
+//Helper method to set the device in Ringer mode silent or back to normal (or silent if SDK < Marshmallow) according to saved SharedPref
     private void handleDoNotDisturbMode(boolean activateDND) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean prefActiveDND = prefs.getBoolean(getString(R.string.pref_switch_do_not_disturb_key), Boolean.valueOf(getString(R.string.default_do_not_disturb)));
         if(prefActiveDND){
-            //behaviour is different below or above Marshmallow (android6)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                //we do not check for granted access here, since it has to have been done when the setting was first activated in SettingsActivity (since default value on install is OFF)
-                NotificationManager notifManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
-                if(notifManager!=null){
-                    if (activateDND) {
-                        Log.d(TAG, "handleDoNotDisturbMode::DO activate DND");
-                        mPreviousInterruptionFilter = notifManager.getCurrentInterruptionFilter();
-                        notifManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE);
-                        mDNDIsOverridden = true;
-                    } else {
-                        Log.d(TAG, "handleDoNotDisturbMode::deactivate DND -> go back to previous mode");
-                        if(mPreviousInterruptionFilter == NotificationManager.INTERRUPTION_FILTER_UNKNOWN){
-                            mPreviousInterruptionFilter = NotificationManager.INTERRUPTION_FILTER_ALL;
-                        }
-                        notifManager.setInterruptionFilter(mPreviousInterruptionFilter);
-                        mDNDIsOverridden = false;
-                    }
+            //REMOVED usage of Do not disturb mode on versions >= marshmallow because we just want the ringtones shut, and DND also shuts mediaplayer off
+            AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+            if (audioManager != null) {
+                if (activateDND) {
+                    mPreviousRingerMode = audioManager.getRingerMode();
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                    mRingerModeIsOverridden = true;
+                    Log.d(TAG, "handleDoNotDisturbMode::DO activate DND::mPreviousRingerMode = " + mPreviousRingerMode);
                 }else{
-                    Log.e(TAG, "handleDoNotDisturbMode::notifManager == NULL!!");
-                }
-            }else{
-                AudioManager ringerMode = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
-                if (ringerMode != null) {
-                    if (activateDND) {
-                        mPreviousInterruptionFilter = ringerMode.getRingerMode();
-                        ringerMode.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-                        mDNDIsOverridden = true;
-                        Log.d(TAG, "handleDoNotDisturbMode::DO activate DND::mPreviousInterruptionFilter = " + mPreviousInterruptionFilter);
-                    }else{
-                        if(mPreviousInterruptionFilter == -1){
-                            mPreviousInterruptionFilter = AudioManager.RINGER_MODE_VIBRATE;
-                            //mPreviousInterruptionFilter = AudioManager.RINGER_MODE_NORMAL;
-                            //Warning : setting to RINGER_MODE_NORMAL not always working is a reported "won't fix" android 5.0 bug
-                            // https://issuetracker.google.com/issues/37008264
-                            // => setting to VIBRATE seems to be working but I only have a non-vibrating android5.0 device so I can't test for strange behaviours on vibrating android5 devices
-                        }
-                        ringerMode.setRingerMode(mPreviousInterruptionFilter);
-                        mDNDIsOverridden = false;
-                        Log.d(TAG, "handleDoNotDisturbMode::deactivate DND -> go back to previous mode : mPreviousInterruptionFilter = " + mPreviousInterruptionFilter);
+                    if(mPreviousRingerMode == -1){ // first passage
+                        mPreviousRingerMode = AudioManager.RINGER_MODE_NORMAL;
+                        //Warning on android 5.0 : setting to RINGER_MODE_NORMAL not always working is a reported "won't fix"  bug
+                        // https://issuetracker.google.com/issues/37008264
                     }
-                } else {
-                    Log.e(TAG, "handleDoNotDisturbMode::ringerMode == NULL!!");
+                    audioManager.setRingerMode(mPreviousRingerMode);
+                    mRingerModeIsOverridden = false;
+                    Log.d(TAG, "handleDoNotDisturbMode::deactivate DND -> go back to previous mode : mPreviousRingerMode = " + mPreviousRingerMode);
                 }
-
+            } else {
+                Log.e(TAG, "handleDoNotDisturbMode::audioManager == NULL!!");
             }
         }else{ //user has not activated do not disturb during sessions, but we just set the flag to true to prevent useless following passage here
             if (activateDND) {
                 //do nothing but set flag to true
-                mDNDIsOverridden = true;
+                mRingerModeIsOverridden = true;
             }else{
                 //do nothing but set flag to false
-                mDNDIsOverridden = false;
+                mRingerModeIsOverridden = false;
             }
         }
     }
@@ -910,8 +886,15 @@ String mCountdownTxt;
             Uri soundUri = Uri.parse(soundString);
             if (soundUri != null) {
                 if (soundUri.toString().length() > 0) {
-                    Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), soundUri);
-                    ringtone.play();
+                    //suspend DND so user can hear ringtone (espacially intermediate intervals)
+                    handleDoNotDisturbMode(false);
+                    if(mRingtone!=null){
+                        if(mRingtone.isPlaying()){ // in case previous ringtone is still playing (long session start sound + short intermediate intervals for example)
+                            mRingtone.stop();
+                        }
+                    }
+                    mRingtone = RingtoneManager.getRingtone(getActivity(), soundUri);
+                    mRingtone.play();
                 } else {
                     Log.d(TAG, "session sound set to silence");
                 }

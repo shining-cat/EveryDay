@@ -19,6 +19,7 @@ import java.util.List;
 import fr.shining_cat.meditappli.data.MeditAppliRepository;
 import fr.shining_cat.meditappli.data.SessionRecord;
 import fr.shining_cat.meditappli.data.SessionRecordViewModel;
+import fr.shining_cat.meditappli.utils.UiUtils;
 
 
 public class SessionActivity extends AppCompatActivity
@@ -207,6 +208,7 @@ public class SessionActivity extends AppCompatActivity
    @Override
     public void onValidateFragmentPostRecord(MoodRecord mood) {
         Log.d(TAG, mood.toString());
+        UiUtils.hideSoftKeyboard(this);
         mEndMood = mood;
         SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(this).get(SessionRecordViewModel.class);
         sessionRecordViewModel.insertWithMoods(mStartMood, mEndMood, this);
@@ -223,6 +225,7 @@ public class SessionActivity extends AppCompatActivity
 
     @Override
     public void onCancelFragmentPostRecord(Boolean isManualEntry) {//here there is not going back : if the user confirms the cancelling of postrecord fragment, the session is discarded
+        UiUtils.hideSoftKeyboard(this);
         if(!isManualEntry) {
             //remove sticky notification set up by SessionInProgressFragment
             NotificationManager notifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

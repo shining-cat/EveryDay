@@ -29,10 +29,31 @@ public interface SessionRecordDAO {
     @Query("DELETE FROM sessions_table")
     int deleteAllSessions();
 
-    @Query("SELECT * from sessions_table ORDER BY startTimeOfRecord DESC")
-    LiveData<List<SessionRecord>> getAllSessions();
+    //ROOM does not allow parameters for the ORDER BY clause to prevent injection
+    @Query("SELECT * from sessions_table ORDER BY startTimeOfRecord ASC")
+    LiveData<List<SessionRecord>> getAllSessionsStartTimeAsc();
 
     @Query("SELECT * from sessions_table ORDER BY startTimeOfRecord DESC")
+    LiveData<List<SessionRecord>> getAllSessionsStartTimeDesc();
+
+    @Query("SELECT * from sessions_table ORDER BY sessionRealDuration ASC")
+    LiveData<List<SessionRecord>> getAllSessionsDurationAsc();
+
+    @Query("SELECT * from sessions_table ORDER BY sessionRealDuration DESC")
+    LiveData<List<SessionRecord>> getAllSessionsDurationDesc();
+
+    //
+    @Query("SELECT * from sessions_table ORDER BY startTimeOfRecord ASC")
     List<SessionRecord> getAllSessionsNotLive();
 
+    //
+    @Query("SELECT * from sessions_table WHERE guidemp3 != '' ORDER BY startTimeOfRecord DESC")
+    LiveData<List<SessionRecord>> getAllSessionsWithMp3();
+
+    @Query("SELECT * from sessions_table WHERE guidemp3 = '' ORDER BY startTimeOfRecord DESC")
+    LiveData<List<SessionRecord>> getAllSessionsWithoutMp3();
+
+    //
+    @Query("SELECT * from sessions_table WHERE guidemp3 LIKE :searchRequest OR notes LIKE :searchRequest ORDER BY startTimeOfRecord DESC")
+    LiveData<List<SessionRecord>> getSessionsSearch(String searchRequest);
 }

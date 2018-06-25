@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_arrow_forward_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_close_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,13 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="7f7f7f" />
-                            <entry key="height" value="450" />
-                            <entry key="outputName" value="counter_circle_ext" />
-                            <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Shiva\AndroidStudioProjects\MeditAppli\CREA\counter_circle_ext.svg" />
-                            <entry key="width" value="450" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_close_white_24dp" />
+                            <entry key="sourceFile" value="C:\Users\Shiva" />
                           </map>
                         </option>
                       </PersistentState>

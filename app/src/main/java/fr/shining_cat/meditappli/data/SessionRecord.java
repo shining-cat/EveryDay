@@ -6,6 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import fr.shining_cat.meditappli.MoodRecord;
 
@@ -174,7 +175,7 @@ public class SessionRecord {
     }
     //
     public String[] getSessionRecordArray(){
-        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         String realDurationVsPlannedString = "EQUAL";
         if(getRealDurationVsPlanned() < 0){
             realDurationVsPlannedString = "LESS";

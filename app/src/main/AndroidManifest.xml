@@ -39,7 +39,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -50,12 +49,17 @@
         <activity
             android:name=".SessionActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_session"
             android:launchMode="singleTop"/>
+        <!-- TODO check usefulness of this configChange setting-->
         <activity
             android:name=".VizActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".MainActivity" />
 
     </application>
+
 
 </manifest>

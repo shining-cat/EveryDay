@@ -3,6 +3,8 @@ package fr.shining_cat.meditappli.utils;
 import android.util.Log;
 
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class TimeOperations {
@@ -24,16 +26,20 @@ public class TimeOperations {
             durationString += hoursSymbol;
             durationString += " ";
         }
-        if(milliseconds >= 60*1000 && fullMinutes != 0) { // time is > 1mn and fullminutes is not 0, display minutes value
-            if(milliseconds >= 60*60*1000) { //only format minutes on two digits when total > 1h (=there's something on the left of the minutes value)
-                durationString += String.format("%02d", fullMinutes);
+        //if(milliseconds >= 60*1000) { // time is > 1mn, display minutes value
+            if(milliseconds >= 60*60*1000) { //Only format minutes on two digits when total > 1h (there's something on the left of the minutes value)
+                if(fullMinutes == 0) {//do not display minutes value if it's 0 and hours value is not 0
+                    return durationString;
+                } else{
+                    durationString += String.format("%02d", fullMinutes);
+                }
             }else {
                 durationString += String.valueOf(fullMinutes);
             }
             if(spaced) durationString += " ";
             durationString += minutesSymbol;
             durationString += " ";
-        }
+        //}
         return durationString;
     }
 
@@ -75,4 +81,20 @@ public class TimeOperations {
         }
         return durationString;
     }
+
+////////////////////////////////////////
+//static helper method returns a Date object set to TODAY at midnight
+    public static Date giveTodayMidnightDate(){
+        // today
+        Calendar today = Calendar.getInstance();
+        // reset hour, minutes, seconds and millis
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        return today.getTime();
+    }
+
+
+
 }

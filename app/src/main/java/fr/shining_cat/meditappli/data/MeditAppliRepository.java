@@ -13,12 +13,17 @@ import java.util.List;
 public class MeditAppliRepository {
 
     private SessionRecordDAO mSessionRecordDAO;
-    private LiveData<List<SessionRecord>> mAllSessions;
+    private LiveData<List<SessionRecord>> mAllSessionsStartTimeAsc;
+    private LiveData<List<SessionRecord>> mAllSessionsStartTimeDesc;
+    private LiveData<List<SessionRecord>> mAllSessionsDurationAsc;
+    private LiveData<List<SessionRecord>> mAllSessionsDurationDesc;
+    private LiveData<List<SessionRecord>> mSessionsWithMp3;
+    private LiveData<List<SessionRecord>> mSessionsWithoutMp3;
+    private LiveData<List<SessionRecord>> mSessionsSearch;
 
     MeditAppliRepository(Application application) {
         MeditAppliRoomDatabase db = MeditAppliRoomDatabase.getDatabase(application);
         mSessionRecordDAO = db.sessionRecordDao();
-        mAllSessions = mSessionRecordDAO.getAllSessions();
     }
 
 ////////////////////////////////////////
@@ -27,10 +32,50 @@ public class MeditAppliRepository {
 
 ////////////////////////////////////////
 //GET ALL LIVE
-    LiveData<List<SessionRecord>> getAllSessionsRecords() {
-        return mAllSessions;
+    LiveData<List<SessionRecord>> getAllSessionsRecordsStartTimeAsc() {
+        if(mAllSessionsStartTimeAsc == null){
+            mAllSessionsStartTimeAsc = mSessionRecordDAO.getAllSessionsStartTimeAsc();
+        }
+        return mAllSessionsStartTimeAsc;
+    }
+    LiveData<List<SessionRecord>> getAllSessionsRecordsStartTimeDesc() {
+        if(mAllSessionsStartTimeDesc == null){
+            mAllSessionsStartTimeDesc = mSessionRecordDAO.getAllSessionsStartTimeDesc();
+        }
+        return mAllSessionsStartTimeDesc;
+    }
+    LiveData<List<SessionRecord>> getAllSessionsRecordsDurationAsc() {
+        if(mAllSessionsDurationAsc == null){
+            mAllSessionsDurationAsc = mSessionRecordDAO.getAllSessionsDurationAsc();
+        }
+        return mAllSessionsDurationAsc;
+    }
+    LiveData<List<SessionRecord>> getAllSessionsRecordsDurationDesc() {
+        if(mAllSessionsDurationDesc == null){
+            mAllSessionsDurationDesc = mSessionRecordDAO.getAllSessionsDurationDesc();
+        }
+        return mAllSessionsDurationDesc;
+    }
+////////////////////////////////////////
+//GET ONLY WITH / WITHOUT MP3
+    LiveData<List<SessionRecord>> getAllSessionsRecordsWithMp3() {
+        if(mSessionsWithMp3 == null){
+            mSessionsWithMp3 = mSessionRecordDAO.getAllSessionsWithMp3();
+        }
+        return mSessionsWithMp3;
+    }
+    LiveData<List<SessionRecord>> getAllSessionsRecordsWithoutMp3() {
+        if(mSessionsWithoutMp3 == null){
+            mSessionsWithoutMp3 = mSessionRecordDAO.getAllSessionsWithoutMp3();
+        }
+        return mSessionsWithoutMp3;
     }
 
+////////////////////////////////////////
+    //SEARCH REQUEST
+    LiveData<List<SessionRecord>> getSessionsRecordsSearch(String searchRequest) {
+        return mSessionRecordDAO.getSessionsSearch(searchRequest);
+    }
 ////////////////////////////////////////
 //GET ALL NOT LIVE
     public void getAllSessionsRecordsNotObservable(MeditAppliRepoListener listener) {

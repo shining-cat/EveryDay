@@ -4,7 +4,7 @@
     <string name="infos_action_string">Infos</string>
     <string name="infos_text_string">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus.
 Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex metus a risus. Nam rutrum neque orci, eget congue ipsum tincidunt non. Quisque pulvinar sed velit eu cursus. Vestibulum nec porta elit. In eget diam magna. Integer in eros interdum, ornare mi quis, sagittis diam. Aliquam ullamcorper quam a gravida lacinia. Maecenas a mattis metus. Nunc faucibus auctor tellus sed accumsan. Fusce posuere odio eget nibh iaculis vehicula. In hac habitasse platea dictumst. Donec dictum viverra diam sit amet tincidunt. Etiam pellentesque blandit massa, ut hendrerit purus accumsan eget. Cras viverra, nunc non semper ullamcorper, nisl ante sodales ante, at venenatis justo tellus a ipsum. Vestibulum aliquet accumsan pretium. Sed rhoncus a orci sit amet porta.</string>
-    <string name="app_version">Version 0.2</string>
+    <string name="app_version">Version 0.27</string>
     <string name="app_made_by">Création et réalisation :</string>
     <string name="app_made_name">Shiva Bernhard</string>
     <string name="contact">shiva.bernhard@shining-cat.fr</string>
@@ -181,7 +181,7 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="edit_session_dialog_title">Modifier la session</string>
     <string name="delete_session_dialog_title">SUPPRIMER la session</string>
     <string name="loading_sessions_list_message">Chargement des sessions enregistrées…</string>
-    <string name="empty_sessions_list_message">Aucune session enregistrée. Vous pouvez en ajouter manuellement, ou importer un fichier .csv.</string>
+    <string name="empty_sessions_list_message">Aucune session à afficher…</string>
 
     <!--session details -->
     <string name="real_duration_vs_planned_LESS">Session moins longue que prévu</string>
@@ -197,6 +197,10 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="state_set_content_description_complement">/5</string>
     <string name="state_not_set_content_description_complement">Non renseigné</string>
 
+    <!--Calendar View-->
+    <string name="no_sessions_on_this_day_to_show">Aucune session ce jour-là</string>
+    <string name="select_day_to_show">Sélectionner un jour</string>
+
     <!--MISC-->
     <string name="singing_bowl">Bol chantant</string>
     <string name="silent">Silence</string>
@@ -208,16 +212,26 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="fake_date">01/02/3456</string>
     <string name="time">Heure</string>
     <string name="fake_time">13:47</string>
+    <string name="fake_calendar_title">Septembre 2018</string>
     <string name="start">Début :</string>
     <string name="end">Fin :</string>
-    <string name="duration">Durée :</string>
+    <string name="duration">Durée</string>
     <string name="pauses_count_label">Nombre de pauses :</string>
     <string name="export_sessions_csv_file_name">export_sessions_practice_coach</string>
+    <string name="mp3">MP3</string>
     <string name="guide_mp3_label">Support sonore :</string>
-    <string name="arrow_backward_button">Arrow backward button</string>
-    <string name="arrow_forward_button">Arrow forward button</string>
+    <string name="fake_mp3_name">fake fichier-son_support.mp3</string>
+    <string name="arrow_to_left">Flèche vers la gauche</string>
+    <string name="arrow_to_right">Flèche vers la droite</string>
+    <string name="arrow_up">Flèche vers le haut</string>
+    <string name="arrow_down">Flèche vers le bas</string>
     <string name="colon_character">:</string>
-
+    <string name="today_short">Auj.</string>
+    <string name="with">Avec</string>
+    <string name="without">Sans</string>
+    <string name="search">Rechercher…</string>
+    <string name="cross">Croix en \'X\'</string>
+    <string name="magnifier">Loupe</string>
 
 
 </resources>

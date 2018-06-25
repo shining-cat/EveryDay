@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import fr.shining_cat.meditappli.R;
 import fr.shining_cat.meditappli.SessionActivity;
@@ -42,7 +43,7 @@ public class SessionsExporterAsync extends AsyncTask <List, Integer, String>{
         }
         mListener = listener;
         //accessing resources
-        DateFormat sdf = new SimpleDateFormat("yyyyMMdd_HH-mm-ss");
+        DateFormat sdf = new SimpleDateFormat("yyyyMMdd_HH-mm-ss", Locale.getDefault());
         String nowString =sdf.format(System.currentTimeMillis());
         mExportCsvFileName = context.getResources().getString(R.string.export_sessions_csv_file_name) + "_" + nowString + ".csv";
     }

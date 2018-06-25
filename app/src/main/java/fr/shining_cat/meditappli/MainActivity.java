@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     public static final int ACTIVITY_CHOSING_MP3_FILE_FOR_GUIDED_SESSION = 513;
 
     //TODO :  à l'air ok mais faire des tests lifecycle dans l'ensemble de l'appli.
+    //TODO : animer les transitions entre pages/fragments?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

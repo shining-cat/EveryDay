@@ -23,6 +23,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
+import fr.shining_cat.meditappli.widgets.MoodRecorderViewGroup;
 
 
 ////////////////////////////////////////
@@ -102,7 +105,6 @@ public class PostRecordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View fragment = inflater.inflate(R.layout.fragment_post_record, container, false);
-
         //
         TextView postRecordTitle = fragment.findViewById(R.id.post_record_title_txtvw);
         mMoodRecorder = fragment.findViewById(R.id.post_record_mood_recorder);
@@ -125,8 +127,8 @@ public class PostRecordFragment extends Fragment {
             negativeButton.setText(getString(R.string.generic_string_BACK));
             introTxtView.setText(R.string.post_record_intro_manual_entry_text);
             //
-            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
-            DateFormat sdfTime = new SimpleDateFormat("HH:mm");
+            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            DateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
             Calendar timeOfRecordCal = Calendar.getInstance();
             //
             if(mPresetEndMood!=null){ //Editting existing record : get existing values
@@ -180,10 +182,6 @@ public class PostRecordFragment extends Fragment {
             mManualTimeEditTxt.setVisibility(View.GONE);
             guideMp3Label.setVisibility(View.GONE);
             mGuideMp3EditTxt.setVisibility(View.GONE);
-            mDuration = getArguments().getLong("duration");
-            mPausesCount = getArguments().getInt("pausesCount");
-            mRealDurationVsPlanned = getArguments().getInt("realDurationVsPlanned");
-            mGuideMp3 = getArguments().getString("mp3guide");
         }
         return fragment;
     }
@@ -296,8 +294,8 @@ public class PostRecordFragment extends Fragment {
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            DateFormat tdf = new SimpleDateFormat("HH:mm");
+            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
             //
             Calendar endTimeOfRecordCal = Calendar.getInstance();
             endTimeOfRecordCal.setTimeInMillis(mTimestampOfRecordinMillis); //to keep set time, and only change date
@@ -389,14 +387,14 @@ public class PostRecordFragment extends Fragment {
             timeOfRecordCal.set(Calendar.MINUTE, minute);
             Log.d(TAG, "onTimeSet::timeOfRecordCal.getTimeInMillis()> System.currentTimeMillis() = " + String.valueOf(timeOfRecordCal.getTimeInMillis()> System.currentTimeMillis()));
             Log.d(TAG, "onTimeSet::timeOfRecordCal.getTimeInMillis() < mTimeOfSessionStart = " + String.valueOf(timeOfRecordCal.getTimeInMillis() < mTimeOfSessionStart));
-            DateFormat logDate = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            DateFormat logDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
             Log.d(TAG, "mTimestampOfRecordinMillis = " + timeOfRecordCal.getTimeInMillis() + " / formatted = " + logDate.format(timeOfRecordCal.getTimeInMillis()));
             Log.d(TAG, "mTimestampOfRecordinMillis = " + mTimeOfSessionStart + " / formatted = " + logDate.format(mTimeOfSessionStart));
             if(timeOfRecordCal.getTimeInMillis()> System.currentTimeMillis() || timeOfRecordCal.getTimeInMillis() <= mTimeOfSessionStart){
                 //forbidden
                 showInvalidTimeDialogError();
             } else {
-                DateFormat tdf = new SimpleDateFormat("HH:mm");
+                DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 mManualTimeEditTxt.setText(tdf.format(timeOfRecordCal.getTime()));
                 mTimestampOfRecordinMillis = timeOfRecordCal.getTimeInMillis();
             }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,8 @@ public class ViewPagerSessionsDetailsFragment extends Fragment {
 
     private View mRootView;
     private ViewPager mSessionsDetailsViewPager;
-    private int mSessionPositionToOpenDetailsFragment;
+    private SessionsDetailsFragmentStatePagerAdapter mSessionsDetailsFragmentStatePagerAdapter;
+    private SessionRecord mSessionToOpenDetailsFragment;
     private SessionRecordViewModel mSessionRecordViewModel;
     private ImageButton mNextSessionBtn;
     private ImageButton mPrevSessionBtn;
@@ -49,8 +49,8 @@ public class ViewPagerSessionsDetailsFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_viewpager_sessions_details, container, false);
         //
         mSessionsDetailsViewPager = mRootView.findViewById(R.id.sessions_details_viewpager);
-        final SessionsDetailsFragmentStatePagerAdapter sessionsDetailsFragmentStatePagerAdapter = new SessionsDetailsFragmentStatePagerAdapter(getActivity().getSupportFragmentManager());
-        mSessionsDetailsViewPager.setAdapter(sessionsDetailsFragmentStatePagerAdapter);
+        mSessionsDetailsFragmentStatePagerAdapter = new SessionsDetailsFragmentStatePagerAdapter(getActivity().getSupportFragmentManager());
+        mSessionsDetailsViewPager.setAdapter(mSessionsDetailsFragmentStatePagerAdapter);
         mSessionsDetailsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -62,17 +62,19 @@ public class ViewPagerSessionsDetailsFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {}
         });
         mSessionRecordViewModel = ViewModelProviders.of(this).get(SessionRecordViewModel.class);
-        mSessionRecordViewModel.getAllSessionsRecords().observe(this, new Observer<List<SessionRecord>>() {
+        mSessionRecordViewModel.getAllSessionsRecordsStartTimeAsc().observe(this, new Observer<List<SessionRecord>>() {
 
             @Override
             public void onChanged(@Nullable final List<SessionRecord> sessionsRecords) {
                 // Update the cached copy of the words in the adapter.
-                sessionsDetailsFragmentStatePagerAdapter.setSessions(sessionsRecords);
-                //get starting position from VizActivity, this is pre-supposing the position of the clicked SessionRecord in SessionsListAdapter corresponds to the position of the same SessionRecord in SessionsDetailsFragmentStatePagerAdapter
-                //this was initially called outside of here but data was coming after call, so moved it here so data will be ready
-                //this will happen every time a change to Livedata occurs, which is correct : first load, and session edition complete
-                Log.d(TAG, "onCreateView::mSessionPositionToOpenDetailsFragment = " + mSessionPositionToOpenDetailsFragment);
-                mSessionsDetailsViewPager.setCurrentItem(mSessionPositionToOpenDetailsFragment);
+                mSessionsDetailsFragmentStatePagerAdapter.setSessions(sessionsRecords);
+                //set starting position if known
+                if(mSessionToOpenDetailsFragment != null){
+                    int sessionPositionInAdapter = mSessionsDetailsFragmentStatePagerAdapter.getPositionOfSpecificSessionRecord(mSessionToOpenDetailsFragment);
+                    mSessionsDetailsViewPager.setCurrentItem(sessionPositionInAdapter);
+                }else{
+                    mSessionsDetailsViewPager.setCurrentItem(0);
+                }
                 coordinationNavBtnsAndPostionInAdapter();
             }
         });
@@ -129,16 +131,23 @@ public class ViewPagerSessionsDetailsFragment extends Fragment {
         return mSessionsDetailsViewPager.getCurrentItem();
     }
 
+////////////////////////////////////////
+//get specific object SessionRecord
+    public SessionRecord getCurrentSessionRecord(){
+        return ((SessionsDetailsFragmentStatePagerAdapter) mSessionsDetailsViewPager.getAdapter()).getSessionRecordAtPosition(mSessionsDetailsViewPager.getCurrentItem());
+    }
+
+
 
 ////////////////////////////////////////
-//get the current object SessionRecord shown
+//get specific object SessionRecord
     public SessionRecord getSessionRecordAtPosition(int position){
         return ((SessionsDetailsFragmentStatePagerAdapter) mSessionsDetailsViewPager.getAdapter()).getSessionRecordAtPosition(position);
     }
 
 ////////////////////////////////////////
 //transmit desired starting position
-    public void setStartingSessionDetails(int startingSessionRecordPosition) {
-        mSessionPositionToOpenDetailsFragment = startingSessionRecordPosition;
+    public void setStartingSessionDetailsWithSessionRecord(SessionRecord startingSessionRecord) {
+        mSessionToOpenDetailsFragment = startingSessionRecord;
     }
 }

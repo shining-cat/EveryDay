@@ -1,4 +1,4 @@
-package fr.shining_cat.meditappli;
+package fr.shining_cat.meditappli.widgets;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
@@ -9,6 +9,8 @@ import android.view.View;
 
 import com.hsalf.smilerating.BaseRating;
 import com.hsalf.smilerating.SmileRating;
+
+import fr.shining_cat.meditappli.R;
 
 public class MoodRecorderViewGroup extends ConstraintLayout {
 

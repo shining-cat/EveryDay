@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import fr.shining_cat.meditappli.R;
 import fr.shining_cat.meditappli.utils.TimeOperations;
@@ -28,26 +29,29 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
         private final TextView sessionItemDateTxtvw;
         private final TextView sessionItemTimeTxtvw;
         private final TextView sessionItemDurationTxtvw;
+        private final TextView sessionItemMp3Txtvw;
+        private final TextView sessionItemNotesTxtvw;
 
         SessionViewHolder(View itemView) {
             super(itemView);
             sessionItemDateTxtvw = itemView.findViewById(R.id.sessions_list_item_date_txtvw);
             sessionItemTimeTxtvw = itemView.findViewById(R.id.sessions_list_item_time_txtvw);
             sessionItemDurationTxtvw = itemView.findViewById(R.id.sessions_list_item_duration_txtvw);
+            sessionItemMp3Txtvw = itemView.findViewById(R.id.sessions_list_item_mp3_txtvw);
+            sessionItemNotesTxtvw = itemView.findViewById(R.id.sessions_list_item_notes_txtvw);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            //mListener.onClickOnSession(mSessions.get(this.getAdapterPosition()));
             //for now we will pass the position because that is the only interesting info, but I fear it might not be the most accurate way, since we will open a new adapter at the end of this chain...
-            mListener.onClickOnSession(this.getAdapterPosition());
+            mListener.onClickOnSession(mSessions.get(this.getAdapterPosition()));
         }
 
         @Override
         public boolean onLongClick(View v) {
-            mListener.onLongClickOnSession(this.getAdapterPosition(), mSessions.get(this.getAdapterPosition()));
+            mListener.onLongClickOnSession(mSessions.get(this.getAdapterPosition()));
             return true;
         }
     }
@@ -78,9 +82,9 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
         if(mSessions !=null){
             SessionRecord currentSession = mSessions.get(holder.getAdapterPosition());
             //
-            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             String formattedDate = sdf.format(currentSession.getStartTimeOfRecord());
-            DateFormat tdf = new SimpleDateFormat("HH:mm");
+            DateFormat tdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
             String formattedTime = tdf.format(currentSession.getStartTimeOfRecord());
             //
             holder.sessionItemDateTxtvw.setText(formattedDate);
@@ -90,8 +94,22 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
                     mContext.getResources().getString(R.string.generic_string_SHORT_HOURS),
                     mContext.getResources().getString(R.string.generic_string_SHORT_MINUTES),
                     false));
+            if(!currentSession.getGuideMp3().isEmpty()){
+                holder.sessionItemMp3Txtvw.setVisibility(View.VISIBLE);
+                holder.sessionItemMp3Txtvw.setText(currentSession.getGuideMp3());
+            }else{
+                holder.sessionItemMp3Txtvw.setVisibility(View.GONE);
+                holder.sessionItemMp3Txtvw.setText("");
+            }
+            if(!currentSession.getNotes().isEmpty()){
+                holder.sessionItemNotesTxtvw.setVisibility(View.VISIBLE);
+                holder.sessionItemNotesTxtvw.setText(currentSession.getNotes());
+            }else{
+                holder.sessionItemNotesTxtvw.setVisibility(View.GONE);
+                holder.sessionItemNotesTxtvw.setText("");
+            }
         }else{
-            //data not yet ready
+            //data not ready yet
             Log.d(TAG, "onBindViewHolder::data not available!");
         }
     }
@@ -107,14 +125,15 @@ public class SessionsListAdapter extends RecyclerView.Adapter<SessionsListAdapte
 
     public void setSessions(List<SessionRecord> sessions){
         mSessions = sessions;
-        Log.d(TAG, "setSessions::mSessions size = " + mSessions.size());
+        Log.d(TAG, "setSessions::mSessions");
         notifyDataSetChanged();
     }
+
 
 ////////////////////////////////////////
 //Listener interface
     public interface SessionsListAdapterListener {
-        void onClickOnSession(int clickedSessionPosition);
-        void onLongClickOnSession(int clickedSessionPositionInAdapter, SessionRecord clickedSession);
+        void onClickOnSession(SessionRecord clickedSession);
+        void onLongClickOnSession(SessionRecord clickedSession);
     }
 }

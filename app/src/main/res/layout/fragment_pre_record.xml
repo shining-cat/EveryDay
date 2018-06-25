@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@+id/pre_record_manual_date_field_label" />
 
 
-        <fr.shining_cat.meditappli.MoodRecorderViewGroup
+        <fr.shining_cat.meditappli.widgets.MoodRecorderViewGroup
             android:id="@+id/pre_record_mood_recorder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

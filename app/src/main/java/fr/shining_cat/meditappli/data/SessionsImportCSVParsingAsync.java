@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 
 public class SessionsImportCSVParsingAsync extends AsyncTask <InputStreamReader, Integer, List<SessionRecord>>{
@@ -69,7 +70,7 @@ public class SessionsImportCSVParsingAsync extends AsyncTask <InputStreamReader,
             List<String[]> records = reader.readAll();
             Iterator<String[]> iterator = records.iterator();
             List<SessionRecord> sessionRecordsToImportList = new ArrayList<>();
-            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
             int recordsToParseNumber = records.size();
             int parsedRecords = 0;
             while (iterator.hasNext()) {
@@ -101,7 +102,7 @@ public class SessionsImportCSVParsingAsync extends AsyncTask <InputStreamReader,
                         realDurationVsPlanned = +1;
                     }
                     //
-                    String guideMp3 = record[14];
+                    String guideMp3 = record[14].isEmpty()? "" : record[14];
                     //
                     SessionRecord sessionRecordToAdd = new SessionRecord(startTimeOfRecord,
                                                                         startBodyValue,
