@@ -18,12 +18,6 @@
     <string name="pause_instruction_hide_delay">5000</string>
     <string name="start_session_countdown_delay">5000</string>
     <string name="run_session_countdown_update_interval">1000</string>
-    <string name="date_format_for_sessions_list_item">dd/MM/yyyy</string>
-    <string name="time_format_for_sessions_list_item">HH:mm</string>
-    <string name="mood_recorder_seekbars_max_value">10</string>
-    <string name="mood_recorder_seekbars_start_value">5</string>
-    <string name="guided_session_default_filename">fichier-audio-inconnu</string>
-
 
     <!--pulse animation values -->
     <string name="anim_pulse_expand_duration">2000</string>

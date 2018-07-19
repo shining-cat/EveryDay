@@ -7,7 +7,7 @@
         android:title="@string/pref_customisation_settings_title"
         android:key="@string/pref_customisation_settings_key">
 
-        <fr.shining_cat.meditappli.preferences.DurationPickerPreferenceHoursMinutesNoZero
+        <fr.shining_cat.everyday.preferences.DurationPickerPreferenceHoursMinutesNoZero
             android:key="@string/pref_duration_key"
             android:title="@string/pref_duration_picker_title"
         />
@@ -20,14 +20,14 @@
             android:switchTextOff="@string/generic_string_NO"
             android:switchTextOn="@string/generic_string_YES"
         />
-        <fr.shining_cat.meditappli.preferences.IntervalPickerPreferenceHoursMinutesSeconds
+        <fr.shining_cat.everyday.preferences.IntervalPickerPreferenceHoursMinutesSeconds
             android:key="@string/pref_intermediate_intervals_key"
             android:title="@string/pref_intermediate_intervals_title"
         />
         <PreferenceScreen
             android:key="@string/pref_ringtones_vibration_key"
             android:title="@string/pref_ringtones_vibration_title">
-            <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
+            <fr.shining_cat.everyday.preferences.ExtraRingtonePreference
                 android:key="@string/pref_ringtone_start_key"
                 android:title="@string/pref_ringtone_start_title"
                 android:summary="@string/ringtoneSummary"
@@ -38,7 +38,7 @@
                 auto:extraRingtones="@array/extraRingtones"
                 auto:extraRingtoneTitles="@array/extraRingtoneTitles"
             />
-            <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
+            <fr.shining_cat.everyday.preferences.ExtraRingtonePreference
                 android:key="@string/pref_ringtone_intermediate_intervals_key"
                 android:title="@string/pref_ringtone_intermediate_intervals_title"
                 android:summary="@string/ringtoneSummary"
@@ -49,7 +49,7 @@
                 auto:extraRingtones="@array/extraRingtones"
                 auto:extraRingtoneTitles="@array/extraRingtoneTitles"
                 />
-            <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
+            <fr.shining_cat.everyday.preferences.ExtraRingtonePreference
                 android:key="@string/pref_ringtone_end_key"
                 android:title="@string/pref_ringtone_end_title"
                 android:summary="@string/ringtoneSummary"
@@ -102,11 +102,11 @@
             android:switchTextOff="@string/generic_string_NO"
             android:switchTextOn="@string/generic_string_YES"
         />
-        <fr.shining_cat.meditappli.preferences.TimePickerPreference
+        <fr.shining_cat.everyday.preferences.TimePickerPreference
             android:key="@string/pref_notification_time_key"
             android:title="@string/pref_notification_time_title"
             />
-        <fr.shining_cat.meditappli.preferences.ExtraRingtonePreference
+        <fr.shining_cat.everyday.preferences.ExtraRingtonePreference
             android:key="@string/pref_notification_ringtone_key"
             android:title="@string/pref_notification_ringtone_title"
             android:summary="@string/ringtoneSummary"
@@ -130,18 +130,18 @@
         <PreferenceScreen
             android:key="@string/pref_delete_sessions_key"
             android:title="@string/pref_records_management_title">
-            <fr.shining_cat.meditappli.preferences.DeleteSessionsPreference
+            <fr.shining_cat.everyday.preferences.DeleteSessionsPreference
                 android:key="@string/pref_delete_sessions_key"
                 android:title="@string/pref_delete_sessions_title">
-            </fr.shining_cat.meditappli.preferences.DeleteSessionsPreference>
-            <fr.shining_cat.meditappli.preferences.ExportSessionsPreference
+            </fr.shining_cat.everyday.preferences.DeleteSessionsPreference>
+            <fr.shining_cat.everyday.preferences.ExportSessionsPreference
                 android:key="@string/pref_export_sessions_key"
                 android:title="@string/pref_export_all_sessions_pref_title">
-            </fr.shining_cat.meditappli.preferences.ExportSessionsPreference>
-            <fr.shining_cat.meditappli.preferences.ImportSessionsPreference
+            </fr.shining_cat.everyday.preferences.ExportSessionsPreference>
+            <fr.shining_cat.everyday.preferences.ImportSessionsPreference
                 android:key="@string/pref_export_sessions_key"
                 android:title="@string/pref_import_all_sessions_pref_title">
-            </fr.shining_cat.meditappli.preferences.ImportSessionsPreference>
+            </fr.shining_cat.everyday.preferences.ImportSessionsPreference>
         <!--
             import séances
             export séances

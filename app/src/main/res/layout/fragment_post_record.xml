@@ -82,7 +82,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_record_manual_date_field_label" />
 
-        <fr.shining_cat.meditappli.widgets.MoodRecorderViewGroup
+        <fr.shining_cat.everyday.widgets.MoodRecorderViewGroup
             android:id="@+id/post_record_mood_recorder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

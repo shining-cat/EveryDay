@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
+    android:background="@color/buddhist_brown"
     tools:context=".SessionInProgressFragment">
 
     <ImageView
@@ -47,7 +47,7 @@
         android:layout_marginStart="8dp"
         android:gravity="center_horizontal"
         android:text="@string/how_to_pause_instruction"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/buddhist_cream"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/session_in_progress_countdown_txtview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="@string/remaining_countdown"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/buddhist_cream"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/guideline_h_session_in_progress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="@string/start_countdown_beginning_session"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/buddhist_cream"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
         app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"

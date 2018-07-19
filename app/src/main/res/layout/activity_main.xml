@@ -27,6 +27,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:drawableEnd="@drawable/ic_music_note_white_24dp"
+        android:drawableStart="@drawable/ic_music_note_white_24dp"
         android:text="@string/start_guided_session_btn_txt"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_main_activity"
         app:layout_constraintEnd_toStartOf="@+id/guideline_v_main_activity"

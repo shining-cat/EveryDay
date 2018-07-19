@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VizSessionsCalendarFragment"
+    android:fitsSystemWindows = "true">
+
+
+    <ImageButton
+        android:id="@+id/previous_month_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/arrow_to_left"
+        android:src="@drawable/ic_arrow_back_grey_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/jump_to_today_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/today_short"
+        app:layout_constraintBottom_toTopOf="@id/previous_month_btn"
+        app:layout_constraintStart_toEndOf="@id/previous_month_btn"
+        app:layout_constraintTop_toBottomOf="@id/previous_month_btn" />
+
+    <TextView
+        android:id="@+id/calendar_title_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/fake_calendar_title"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/previous_month_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/previous_month_btn" />
+
+    <ImageButton
+        android:id="@+id/next_month_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/arrow_to_right"
+        android:src="@drawable/ic_arrow_forward_grey_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Barrier
+        android:id="@+id/calendar_title_bar_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="previous_month_btn,next_month_btn,calendar_title_txtvw"
+        app:layout_constraintTop_toTopOf="@id/previous_month_btn"/>
+
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/compactcalendar_view"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        app:compactCalendarBackgroundColor="#fafafa"
+        app:compactCalendarCurrentDayBackgroundColor="@android:color/holo_red_dark"
+        app:compactCalendarCurrentDayIndicatorStyle="fill_large_indicator"
+        app:compactCalendarCurrentDayTextColor="@android:color/holo_orange_dark"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#bf8653b3"
+        app:compactCalendarCurrentSelectedDayIndicatorStyle="no_fill_large_indicator"
+        app:compactCalendarCurrentSelectedDayTextColor="@android:color/holo_blue_bright"
+        app:compactCalendarDisplayOtherMonthDays="false"
+        app:compactCalendarEventIndicatorStyle="small_indicator"
+        app:compactCalendarMultiEventIndicatorColor="@android:color/holo_green_light"
+        app:compactCalendarOtherMonthDaysTextColor="#bf352852"
+        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="true"
+        app:compactCalendarTargetHeight="250dp"
+        app:compactCalendarTextColor="@android:color/darker_gray"
+        app:compactCalendarTextSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calendar_title_bar_barrier" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/sessions_list_for_one_day_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/compactcalendar_view"
+        tools:listitem="@layout/sessions_list_recyclerview_item" />
+
+    <TextView
+        android:id="@+id/loading_sessions_list_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/loading_sessions_list_message"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sessions_list_for_one_day_recyclerview" />
+
+    <TextView
+        android:id="@+id/empty_sessions_list_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/no_sessions_on_this_day_to_show"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/compactcalendar_view" />
+
+    <TextView
+        android:id="@+id/select_day_sessions_list_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/select_day_to_show"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/compactcalendar_view" />
+
+</android.support.constraint.ConstraintLayout>

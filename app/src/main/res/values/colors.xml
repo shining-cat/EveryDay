@@ -4,6 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="semiTranspWhite">#3bffffff</color>
+
+    <color name="buddhist_brown">#6D241B</color>
+    <color name="buddhist_orange">#CA3412</color>
+    <color name="buddhist_safron">#FDAC02</color>
+    <color name="buddhist_cream">#FED362</color>
+    <color name="buddhist_pink">#d70380</color>
+
+    <color name="whiteAlpha85">#3cffffff</color>
+    <color name="whiteAlpha192">#c0ffffff</color>
 
 </resources>

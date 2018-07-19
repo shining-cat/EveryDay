@@ -13,8 +13,8 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_view_calendar"
+        android:icon="@drawable/ic_calendar_24px"
         android:title="@string/view_calendar_action_string"
-        android:icon="@drawable/ic_date_range_white_24dp"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_view_stats"
@@ -26,5 +26,31 @@
         android:title="@string/edit_session_action_string"
         android:icon="@drawable/ic_edit_white_24dp"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_stats_day"
+        android:title="@string/view_stats_day_action_string"
+        android:icon="@drawable/ic_calendar_day_24px"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_stats_week"
+        android:title="@string/view_stats_week_action_string"
+        android:icon="@drawable/ic_calendar_week_24px"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_stats_month"
+        android:title="@string/view_stats_month_action_string"
+        android:icon="@drawable/ic_calendar_month_24px"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_stats_duration"
+        android:title="@string/view_stats_duration_action_string"
+        android:icon="@drawable/ic_duration_white_24px"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_stats_mp3"
+        android:title="@string/view_stats_mp3_action_string"
+        android:icon="@drawable/ic_music_note_white_24dp"
+        app:showAsAction="ifRoom" />
+
 
 </menu>

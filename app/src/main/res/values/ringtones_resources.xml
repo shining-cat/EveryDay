@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--RINGTONES -->
+    <string-array name="extraRingtones">
+        <item>notif_bol_tibetain_grave_1_coup_long</item>
+        <item>notif_bol_chantant_aigu_1_coup_court</item>
+        <item>notif_bol_chantant_aigu_2_coups_courts_lent</item>
+        <item>notif_bol_chantant_aigu_3_coups_courts_lent</item>
+        <item>notif_bol_chantant_aigu_2_coups_courts_rapides</item>
+        <item>notif_bol_chantant_aigu_3_coups_courts_rapides</item>
+    </string-array>
+
+    <string-array name="extraRingtoneTitles">
+        <item>@string/singing_bowl_low_long_one_hit</item>
+        <item>@string/singing_bowl_high_short_one_hit</item>
+        <item>@string/singing_bowl_high_short_two_hits_slow</item>
+        <item>@string/singing_bowl_high_short_three_hits_slow</item>
+        <item>@string/singing_bowl_high_short_two_hits_fast</item>
+        <item>@string/singing_bowl_high_short_three_hits_fast</item>
+    </string-array>
+
+    <!--ringtones descriptions-->
+    <string name="singing_bowl_low_long_one_hit" translatable="true">Bol chantant grave, un coup long</string>
+    <string name="singing_bowl_high_short_one_hit" translatable="true">Bol chantant aigu, un coup court</string>
+    <string name="singing_bowl_high_short_two_hits_slow" translatable="true">Bol chantant aigu, deux coups courts lents</string>
+    <string name="singing_bowl_high_short_three_hits_slow" translatable="true">Bol chantant aigu, trois coups courts lents</string>
+    <string name="singing_bowl_high_short_two_hits_fast" translatable="true">Bol chantant aigu, deux coups courts rapides</string>
+    <string name="singing_bowl_high_short_three_hits_fast" translatable="true">Bol chantant aigu, trois coups courts rapides</string>
+
+</resources>

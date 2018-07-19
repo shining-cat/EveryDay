@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sessions_duration_columnChartView_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:background="@android:color/white">
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/chart_display_columnChartView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp" />
+
+    <TextView
+        android:id="@+id/chart_display_value_txtvw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/whiteAlpha85"
+        android:text="@string/day_stats_duration_clicked_value"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/chart_help_btn"
+        app:layout_constraintStart_toStartOf="@id/chart_display_columnChartView"
+        app:layout_constraintTop_toTopOf="@id/chart_display_columnChartView" />
+
+
+
+    <View
+        android:id="@+id/chart_help_btn_background"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="gone"
+        android:layout_margin="0dp"
+        android:background="@color/buddhist_safron"
+        app:layout_constraintEnd_toEndOf="@id/chart_display_columnChartView"
+        app:layout_constraintTop_toTopOf="@id/chart_display_columnChartView"
+        android:elevation="5dp"/>
+    <ImageView
+        android:id="@+id/chart_help_btn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="gone"
+        android:layout_margin="0dp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="@id/chart_display_columnChartView"
+        app:layout_constraintTop_toTopOf="@id/chart_display_columnChartView"
+        app:srcCompat="@android:drawable/ic_menu_help"
+        android:elevation="6dp"
+        android:contentDescription="@string/chart_help_btn_description" />
+
+    <View
+        android:id="@+id/chart_display_flash"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/whiteAlpha192"
+        android:visibility="gone"
+        />
+
+</android.support.constraint.ConstraintLayout>

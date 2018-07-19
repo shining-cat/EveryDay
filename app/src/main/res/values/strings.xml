@@ -1,237 +1,166 @@
 <resources>
     <!--Infos-->
-    <string name="app_name">Practice Coach</string>
-    <string name="infos_action_string">Infos</string>
-    <string name="infos_text_string">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus.
+    <string name="app_name">EveryDay</string>
+    <string name="infos_action_string" translatable="true">Infos</string>
+    <string name="infos_text_string" translatable="true">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus.
 Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex metus a risus. Nam rutrum neque orci, eget congue ipsum tincidunt non. Quisque pulvinar sed velit eu cursus. Vestibulum nec porta elit. In eget diam magna. Integer in eros interdum, ornare mi quis, sagittis diam. Aliquam ullamcorper quam a gravida lacinia. Maecenas a mattis metus. Nunc faucibus auctor tellus sed accumsan. Fusce posuere odio eget nibh iaculis vehicula. In hac habitasse platea dictumst. Donec dictum viverra diam sit amet tincidunt. Etiam pellentesque blandit massa, ut hendrerit purus accumsan eget. Cras viverra, nunc non semper ullamcorper, nisl ante sodales ante, at venenatis justo tellus a ipsum. Vestibulum aliquet accumsan pretium. Sed rhoncus a orci sit amet porta.</string>
-    <string name="app_version">Version 0.27</string>
-    <string name="app_made_by">Création et réalisation :</string>
+    <string name="app_version">Version 0.28</string>
+    <string name="app_made_by" translatable="true">Création et réalisation :</string>
     <string name="app_made_name">Shiva Bernhard</string>
     <string name="contact">shiva.bernhard@shining-cat.fr</string>
     <string name="website">www.shining-cat.fr</string>
     <string name="shining_cat_logo_content_description">Shining-cat logo</string>
 
     <!-- GENERIC STRINGS -->
-    <string name="generic_string_NO">Non</string>
-    <string name="generic_string_YES">Oui</string>
-    <string name="generic_string_VALIDATE">Valider</string>
-    <string name="generic_string_BACK">Retour</string>
-    <string name="generic_string_CANCEL">Annuler</string>
-    <string name="generic_string_OK">OK</string>
-    <string name="generic_string_CLOSE">Fermer</string>
-    <string name="generic_string_HOURS">Heure(s)</string>
-    <string name="generic_string_SHORT_HOURS">h</string>
-    <string name="generic_string_MINUTES">Minute(s)</string>
-    <string name="generic_string_SHORT_MINUTES">mn</string>
-    <string name="generic_string_SHORT_SECONDS">s</string>
-    <string name="generic_string_WARNING">Attention</string>
-    <string name="generic_string_EDIT">Modifier</string>
-    <string name="generic_string_DELETE">Supprimer</string>
-    <string name="generic_string_ERROR">Erreur</string>
-
-    <!--Preferences -->
-    <string name="settings_action_string">Préférences</string>
-
-    <string name="pref_customisation_settings_title">Personnalisation</string>
-
-    <string name="pref_duration_picker_title">Durée d\'une session</string>
-
-    <string name="pref_switch_infinite_session_title">Session infinie</string>
-    <string name="pref_switch_infinite_session_summary_ON">Poursuivre la session une fois la durée prévue écoulée</string>
-    <string name="pref_switch_infinite_session_summary_OFF">Arrêter le compteur une fois la durée prévue écoulée</string>
-
-    <string name="pref_intermediate_intervals_title">Intervalles intermédiaires</string>
-    <string name="pref_intermediate_intervals_notice">0 pour désactiver les intervalles</string>
-    <string name="pref_intermediate_intervals_summary_ON">Toutes les %1$s</string>
-    <string name="pref_intermediate_intervals_summary_OFF">Aucun</string>
-
-    <string name="pref_ringtones_vibration_title">Sons, vibration</string>
-    <string name="pref_ringtone_start_title">Son au début de la session</string>
-    <string name="pref_ringtone_intermediate_intervals_title">Son pour les intervalles intermédiaires</string>
-    <string name="pref_ringtone_end_title">Son à la fin de la session</string>
-    <string name="ringtoneSummary">%s</string>
-    <string name="pref_switch_vibration_title">Vibration</string>
-    <string name="pref_switch_vibration_summary_ON">Vibration en début, aux intervalles intermédiaires, et en fin de session</string>
-    <string name="pref_switch_vibration_summary_OFF">Pas de vibration en début, aux intervalles intermédiaires, et en fin de session</string>
-
-    <string name="pref_switch_keep_screen_on_title">Garder l\'appareil allumé</string>
-    <string name="pref_switch_keep_screen_on_summary_ON">Empêcher la mise en veille de l\'appareil pendant la session</string>
-    <string name="pref_switch_keep_screen_on_summary_OFF">Autoriser la mise en veille de l\'appareil pendant la session</string>
-
-    <string name="pref_switch_do_not_disturb_title">Ne pas déranger</string>
-    <string name="pref_switch_do_not_disturb_summary_ON">Couper toutes les notifications pendant la session (compter un délai de 30s en début de session pour laisser le temps au son de se jouer)</string>
-    <string name="pref_switch_do_not_disturb_summary_OFF">Autoriser toutes les notifications pendant la session</string>
-    <string name="pref_switch_do_not_disturb_author_dialog_title">Demande d\'autorisation</string>
-    <string name="pref_switch_do_not_disturb_author_dialog_text">Autoriser l\'application à modifier le réglage "Ne pas déranger" de l\'appareil dans l\'écran suivant.</string>
-
-
-    <string name="pref_notification_settings_title">Rappel</string>
-    <string name="pref_notification_active_title">Émettre une notification si aucune session n\'a été faite dans la journée</string>
-    <string name="pref_notification_active_summary">(Sur certains appareils, il faut autoriser l\'ouverture au démarrage dans les réglages de sécurité ou d\'économie d\'énergie pour que le rappel se réactive automatiquement après un redémarrage)</string>
-    <string name="pref_notification_time_title">Heure de la notification </string>
-    <string name="pref_notification_ringtone_title">Son de notification</string>
-    <string name="pref_notification_text_title">Texte de rappel</string>
-
-    <string name="pref_advanced_settings_title">Avancés</string>
-    <string name="pref_modify_app_appearance_title">Apparence</string>
-
-    <string name="pref_modify_app_basics_title">Modifier le comportement basique</string>
-    <string name="pref_collector_active_title">Gamification -- PAS ENCORE OPERATIONNELLE</string>
-    <string name="pref_collector_active_summary_ON">Collecte des petits animaux activée</string>
-    <string name="pref_collector_active_summary_OFF">Collecte des petits animaux désactivée</string>
-    <string name="pref_switch_stats_show_numeric_title">Affichage des statistiques -- PAS ENCORE OPERATIONNEL</string>
-    <string name="pref_switch_stats_show_numeric_summary_ON">Utiliser des valeurs numériques</string>
-    <string name="pref_switch_stats_show_numeric_summary_OFF">Utiliser le code couleur</string>
-
-    <string name="pref_switch_collect_stats_title">Enregistrement des statistiques (pas d\'impact sur les données déjà enregistrées)</string>
-    <string name="pref_switch_collect_stats_summary_ON">Enregistrer les informations de chaque session</string>
-    <string name="pref_switch_collect_stats_summary_OFF">Ne pas enregistrer les informations de chaque session</string>
-
-    <string name="pref_records_management_title">Gestion des données enregistrées</string>
-
-    <string name="pref_delete_sessions_title">Effacer les données enregistrées</string>
-    <string name="pref_delete_all_sessions_title">SUPPRIMER les session</string>
-    <string name="pref_delete_all_sessions_message">Effacer toutes les sessions enregistrées</string>
-
-    <string name="pref_export_all_sessions_pref_title">Exporter les sessions</string>
-    <string name="pref_export_sessions_dialog_title">Exporter les données enregistrées</string>
-    <string name="pref_export_all_sessions_dialog_message">Exporter toutes les sessions enregistrées</string>
-    <string name="pref_export_all_sessions_export_button">Exporter</string>
-    <string name="pref_export_no_sessions_found_error_message">Aucune session trouvée.</string>
-    <string name="export_sessions_to_csv_task_progressdialog_title">Export en cours</string>
-
-    <string name="pref_import_all_sessions_pref_title">Importer des sessions</string>
-    <string name="pref_import_sessions_dialog_title">Importer des sessions depuis un fichier .csv</string>
-    <string name="pref_import_all_sessions_dialog_message">
-                        Les sessions importées seront ajoutées à la base.\n
-                        Si vous réimportez un fichier généré par la fonction d\'export il sera déjà formatté correctement.\n\n
-                        Dans un autre cas :\n
-                        La première ligne sera ignorée (entêtes), point-virgule ; comme séparateur.\n
-                        Pour un modèle de fichier, enregistrer une session fictive et l\'exporter en .csv.
-                    </string>
-    <string name="pref_import_all_sessions_choose_file_button">Fichier…</string>
-    <string name="pref_import_all_sessions_chose_file_intent_title">Choisir le fichier à importer :</string>
-    <string name="parse_sessions_from_csv_task_progressdialog_title">Lecture du fichier en cours</string>
-    <string name="import_sessions_from_csv_task_progressdialog_title">Import en cours</string>
+    <string name="generic_string_NO" translatable="true">Non</string>
+    <string name="generic_string_YES" translatable="true">Oui</string>
+    <string name="generic_string_VALIDATE" translatable="true">Valider</string>
+    <string name="generic_string_BACK" translatable="true">Retour</string>
+    <string name="generic_string_CANCEL" translatable="true">Annuler</string>
+    <string name="generic_string_OK" translatable="true">OK</string>
+    <string name="generic_string_CLOSE" translatable="true">Fermer</string>
+    <string name="generic_string_HOURS" translatable="true">Heure(s)</string>
+    <string name="generic_string_SHORT_HOURS" translatable="true">h</string>
+    <string name="generic_string_MINUTES" translatable="true">Minute(s)</string>
+    <string name="generic_string_SHORT_MINUTES" translatable="true">mn</string>
+    <string name="generic_string_SHORT_SECONDS" translatable="true">s</string>
+    <string name="generic_string_WARNING" translatable="true">Attention</string>
+    <string name="generic_string_EDIT" translatable="true">Modifier</string>
+    <string name="generic_string_DELETE" translatable="true">Supprimer</string>
+    <string name="generic_string_ERROR" translatable="true">Erreur</string>
 
     <!--DATABASE OPERATIONS CONFIRMATION MESSAGES-->
-    <string name="delete_all_sessions_task_completed_message">Toutes les sessions enregistrées ont été effacées.</string>
-    <string name="delete_one_session_task_completed_message">La session a été effacée.</string>
-    <string name="insert_one_session_task_completed_message">La session a été enregistrée.</string>
-    <string name="insert_multiple_sessions_task_completed_message">Les sessions ont été enregistrées.</string>
-    <string name="update_one_session_task_completed_message">La session a été mise à jour.</string>
-    <string name="export_sessions_to_csv_task_completed_title">Export terminé</string>
-    <string name="export_sessions_to_csv_task_completed_message">Les sessions ont bien été exportées:\n%1$s</string>
-    <string name="import_sessions_from_csv_task_completed_title">Import terminé</string>
-    <string name="import_sessions_from_csv_task_completed_message">%1$d sessions ont bien été importées.</string>
+    <string name="delete_all_sessions_task_completed_message" translatable="true">Toutes les sessions enregistrées ont été effacées.</string>
+    <string name="delete_one_session_task_completed_message" translatable="true">La session a été effacée.</string>
+    <string name="insert_one_session_task_completed_message" translatable="true">La session a été enregistrée.</string>
+    <string name="update_one_session_task_completed_message" translatable="true">La session a été mise à jour.</string>
+    <string name="export_sessions_to_csv_task_completed_title" translatable="true">Export terminé</string>
+    <string name="export_sessions_to_csv_task_completed_message" translatable="true">Les sessions ont bien été exportées:\n%1$s</string>
+    <string name="import_sessions_from_csv_task_completed_title" translatable="true">Import terminé</string>
+    <string name="import_sessions_from_csv_task_completed_message" translatable="true">%1$d sessions ont bien été importées.</string>
 
     <!--NOTIFICATION-->
-    <string name="reminder_alarm_notification_title">Rappel</string>
-    <string name="reminder_alarm_notification_default_text">C\'est l\'heure de pratiquer!</string>
-    <string name="session_in_progress_notification_title">Pratique régulière</string>
-    <string name="session_running_notification_text">Session en cours : reste %1$s sur %2$s</string>
-    <string name="session_overstay_notification_text">Session prolongée : %1$s + %2$s</string>
-    <string name="session_paused_notification_text">Session en pause : vous avez pratiqué %1$s et prévu %2$s</string>
-    <string name="session_ended_notification_text">Session terminée, vous avez pratiqué %1$s, enregistrez votre état présent!</string>
+    <string name="reminder_alarm_notification_title" translatable="true">Rappel</string>
+    <string name="reminder_alarm_notification_default_text" translatable="true">C\'est l\'heure de pratiquer!</string>
+    <string name="session_in_progress_notification_title" translatable="true">Pratique régulière</string>
+    <string name="session_running_notification_text" translatable="true">Session en cours : reste %1$s sur %2$s</string>
+    <string name="session_overstay_notification_text" translatable="true">Session prolongée : %1$s + %2$s</string>
+    <string name="session_paused_notification_text" translatable="true">Session en pause : vous avez pratiqué %1$s et prévu %2$s</string>
+    <string name="session_ended_notification_text" translatable="true">Session terminée, vous avez pratiqué %1$s, enregistrez votre état présent!</string>
 
     <!-- Main Activity-->
-    <string name="view_stats_btn_txt_default">Voir les statistiques</string>
-    <string name="start_guided_session_btn_txt">Faire une session sur un support Audio</string>
-    <string name="start_session_btn_or_more_txt">ou plus…</string>
+    <string name="view_stats_btn_txt_default" translatable="true">Voir les statistiques</string>
+    <string name="start_guided_session_btn_txt" translatable="true">Faire une session sur un support Audio</string>
+    <string name="start_session_btn_or_more_txt" translatable="true">ou plus…</string>
 
     <!--moodrecorder-->
-    <string name="label_body">Corps</string>
-    <string name="label_thoughts">Pensées</string>
-    <string name="label_feelings">Émotions</string>
-    <string name="label_global">Global</string>
+    <string name="label_body" translatable="true">Corps</string>
+    <string name="label_thoughts" translatable="true">Pensées</string>
+    <string name="label_feelings" translatable="true">Émotions</string>
+    <string name="label_global" translatable="true">Global</string>
 
     <!--Session Activity -->
-    <string name="title_activity_session">SessionActivity</string>
+    <string name="title_activity_session" translatable="true">SessionActivity</string>
 
-    <string name="pre_record_dialog_default_title">Avant de commencer…</string>
-    <string name="pre_record_dialog_manual_entry_title">Début de session</string>
-    <string name="pre_record_intro_default_text">Comment vous sentez-vous, là, maintenant?</string>
-    <string name="pre_record_intro_manual_entry_text">Comment vous sentiez-vous?</string>
+    <string name="pre_record_dialog_default_title" translatable="true">Avant de commencer…</string>
+    <string name="pre_record_dialog_manual_entry_title" translatable="true">Début de session</string>
+    <string name="pre_record_intro_default_text" translatable="true">Comment vous sentez-vous, là, maintenant?</string>
+    <string name="pre_record_intro_manual_entry_text" translatable="true">Comment vous sentiez-vous?</string>
 
-    <string name="how_to_pause_instruction">Appui long pour mettre en pause ou arrêter…</string>
-    <string name="start_countdown_beginning_session">Démarrage dans\n%1$d s</string>
-    <string name="start_countdown_resuming_session">Reprise dans\n%1$d s</string>
-    <string name="remaining_countdown">%1$d mn</string>
-    <string name="bubble_timer_ext_content_description">Partie extérieure de la visualisation du compteur de temps: un cercle qui palpite</string>
-    <string name="bubble_timer_int_content_description">Partie intérieure de la visualisation du compteur de temps: un cercle qui palpite</string>
+    <string name="how_to_pause_instruction" translatable="true">Appui long pour mettre en pause ou arrêter…</string>
+    <string name="start_countdown_beginning_session" translatable="true">Démarrage dans\n%1$d s</string>
+    <string name="start_countdown_resuming_session" translatable="true">Reprise dans\n%1$d s</string>
+    <string name="remaining_countdown" translatable="true">%1$d mn</string>
+    <string name="bubble_timer_ext_content_description" translatable="true">Partie extérieure de la visualisation du compteur de temps: un cercle qui palpite</string>
+    <string name="bubble_timer_int_content_description" translatable="true">Partie intérieure de la visualisation du compteur de temps: un cercle qui palpite</string>
 
-    <string name="post_record_dialog_default_title">Et à présent…</string>
-    <string name="post_record_dialog_manual_entry_title">Fin de session</string>
-    <string name="post_record_intro_default_text">Comment vous sentez-vous, là, maintenant?</string>
-    <string name="post_record_intro_text">Comment vous sentez-vous, là, maintenant?</string>
-    <string name="post_record_intro_manual_entry_text">Comment vous sentiez-vous?</string>
-    <string name="notes_label">Notes :</string>
-    <string name="post_record_notes_hint">Vous pouvez noter ici vos remarques sur la session…</string>
-    <string name="post_record_guide_mp3_hint">Vous pouvez noter ici le support sonore que vous avez utilisé…</string>
-    <string name="post_record_cancel_warning_message">La session ne sera pas enregistrée!</string>
-    <string name="post_record_cancel_ok_do_not_record">Ne pas enregistrer la session</string>
+    <string name="post_record_dialog_default_title" translatable="true">Et à présent…</string>
+    <string name="post_record_dialog_manual_entry_title" translatable="true">Fin de session</string>
+    <string name="post_record_intro_default_text" translatable="true">Comment vous sentez-vous, là, maintenant?</string>
+    <string name="post_record_intro_text" translatable="true">Comment vous sentez-vous, là, maintenant?</string>
+    <string name="post_record_intro_manual_entry_text" translatable="true">Comment vous sentiez-vous?</string>
+    <string name="notes_label" translatable="true">Notes :</string>
+    <string name="post_record_notes_hint" translatable="true">Vous pouvez noter ici vos remarques sur la session…</string>
+    <string name="post_record_guide_mp3_hint" translatable="true">Vous pouvez noter ici le support sonore que vous avez utilisé…</string>
+    <string name="post_record_cancel_warning_message" translatable="true">La session ne sera pas enregistrée!</string>
+    <string name="post_record_cancel_ok_do_not_record" translatable="true">Ne pas enregistrer la session</string>
+    <string name="guided_session_filename_unknown" translatable="true">fichier-audio-inconnu</string>
+
 
     <!--Viz activity optionsMenu-->
-    <string name="add_action_string">Ajouter une session</string>
-    <string name="view_list_action_string">Voir en liste</string>
-    <string name="view_calendar_action_string">Voir en calendrier</string>
-    <string name="view_stats_action_string">Voir les statistiques</string>
-    <string name="edit_session_action_string">Modifier la session</string>
+    <string name="add_action_string" translatable="true">Ajouter une session</string>
+    <string name="view_list_action_string" translatable="true">Voir en liste</string>
+    <string name="view_calendar_action_string" translatable="true">Voir en calendrier</string>
+    <string name="view_stats_action_string" translatable="true">Voir les statistiques</string>
+    <string name="edit_session_action_string" translatable="true">Modifier la session</string>
+    <string name="view_stats_day_action_string" translatable="true">Voir les statistiques sur une journée</string>
+    <string name="view_stats_week_action_string" translatable="true">Voir les statistiques sur une semaine</string>
+    <string name="view_stats_month_action_string" translatable="true">Voir les statistiques sur un mois</string>
+    <string name="view_stats_duration_action_string" translatable="true">Voir les statistiques en fonction de la durée des sessions</string>
+    <string name="view_stats_mp3_action_string" translatable="true">Voir les statistiques d\'utilisation de supports sonores</string>
 
-    <string name="edit_session_dialog_title">Modifier la session</string>
-    <string name="delete_session_dialog_title">SUPPRIMER la session</string>
-    <string name="loading_sessions_list_message">Chargement des sessions enregistrées…</string>
-    <string name="empty_sessions_list_message">Aucune session à afficher…</string>
+    <string name="edit_session_dialog_title" translatable="true">Modifier la session</string>
+    <string name="delete_session_dialog_title" translatable="true">SUPPRIMER la session</string>
+    <string name="loading_sessions_list_message" translatable="true">Chargement des sessions enregistrées…</string>
+    <string name="empty_sessions_list_message" translatable="true">Aucune session à afficher…</string>
 
     <!--session details -->
-    <string name="real_duration_vs_planned_LESS">Session moins longue que prévu</string>
-    <string name="real_duration_vs_planned_MORE">Session plus longue que prévu</string>
-    <string name="body_state_start_default_content_description">État physique en début de session : %1$s</string>
-    <string name="body_state_end_default_content_description">État physique en fin de session : %1$s</string>
-    <string name="thoughts_state_start_default_content_description">État mental en début de session : %1$s</string>
-    <string name="thoughts_state_end_default_content_description">État mental en fin de session : %1$s</string>
-    <string name="feelings_state_start_default_content_description">État émotionnel en début de session : %1$s</string>
-    <string name="feelings_state_end_default_content_description">État émotionnel en fin de session : %1$s</string>
-    <string name="global_state_start_default_content_description">État global en début de session : %1$s</string>
-    <string name="global_state_end_default_content_description">État global en fin de session : %1$s</string>
+    <string name="real_duration_vs_planned_LESS" translatable="true">Session moins longue que prévu</string>
+    <string name="real_duration_vs_planned_MORE" translatable="true">Session plus longue que prévu</string>
+    <string name="body_state_start_default_content_description" translatable="true">État physique en début de session : %1$s</string>
+    <string name="body_state_end_default_content_description" translatable="true">État physique en fin de session : %1$s</string>
+    <string name="thoughts_state_start_default_content_description" translatable="true">État mental en début de session : %1$s</string>
+    <string name="thoughts_state_end_default_content_description" translatable="true">État mental en fin de session : %1$s</string>
+    <string name="feelings_state_start_default_content_description" translatable="true">État émotionnel en début de session : %1$s</string>
+    <string name="feelings_state_end_default_content_description" translatable="true">État émotionnel en fin de session : %1$s</string>
+    <string name="global_state_start_default_content_description" translatable="true">État global en début de session : %1$s</string>
+    <string name="global_state_end_default_content_description" translatable="true">État global en fin de session : %1$s</string>
     <string name="state_set_content_description_complement">/5</string>
-    <string name="state_not_set_content_description_complement">Non renseigné</string>
+    <string name="state_not_set_content_description_complement" translatable="true">Non renseigné</string>
 
     <!--Calendar View-->
-    <string name="no_sessions_on_this_day_to_show">Aucune session ce jour-là</string>
-    <string name="select_day_to_show">Sélectionner un jour</string>
+    <string name="no_sessions_on_this_day_to_show" translatable="true">Aucune session ce jour-là</string>
+    <string name="select_day_to_show" translatable="true">Sélectionner un jour</string>
+
+
+    <!--WEEKDAYS-->
+    <string name="monday" translatable="true">Lundi</string>
+    <string name="tuesday" translatable="true">Mardi</string>
+    <string name="wednesday" translatable="true">Mercredi</string>
+    <string name="thursday" translatable="true">Jeudi</string>
+    <string name="friday" translatable="true">Vendredi</string>
+    <string name="saturday" translatable="true">Samedi</string>
+    <string name="sunday" translatable="true">Dimanche</string>
+
 
     <!--MISC-->
-    <string name="singing_bowl">Bol chantant</string>
-    <string name="silent">Silence</string>
-    <string name="launch_session_for">Démarrer une session de</string>
-    <string name="pause">Pause…</string>
-    <string name="finish">Terminer</string>
-    <string name="resume">Reprendre</string>
-    <string name="date">Date</string>
+    <string name="silent" translatable="true">Silence</string>
+    <string name="launch_session_for" translatable="true">Démarrer une session de</string>
+    <string name="pause" translatable="true">Pause…</string>
+    <string name="finish" translatable="true">Terminer</string>
+    <string name="resume" translatable="true">Reprendre</string>
+    <string name="date" translatable="true">Date</string>
     <string name="fake_date">01/02/3456</string>
-    <string name="time">Heure</string>
+    <string name="time" translatable="true">Heure</string>
     <string name="fake_time">13:47</string>
     <string name="fake_calendar_title">Septembre 2018</string>
-    <string name="start">Début :</string>
-    <string name="end">Fin :</string>
-    <string name="duration">Durée</string>
-    <string name="pauses_count_label">Nombre de pauses :</string>
-    <string name="export_sessions_csv_file_name">export_sessions_practice_coach</string>
+    <string name="start" translatable="true">Début :</string>
+    <string name="end" translatable="true">Fin :</string>
+    <string name="duration" translatable="true">Durée</string>
+    <string name="pauses_count_label" translatable="true">Nombre de pauses :</string>
+    <string name="export_sessions_csv_file_name">export_sessions_every_day</string>
     <string name="mp3">MP3</string>
-    <string name="guide_mp3_label">Support sonore :</string>
-    <string name="fake_mp3_name">fake fichier-son_support.mp3</string>
-    <string name="arrow_to_left">Flèche vers la gauche</string>
-    <string name="arrow_to_right">Flèche vers la droite</string>
-    <string name="arrow_up">Flèche vers le haut</string>
-    <string name="arrow_down">Flèche vers le bas</string>
+    <string name="guide_mp3_label" translatable="true">Support sonore :</string>
+    <string name="arrow_to_left" translatable="true">Flèche vers la gauche</string>
+    <string name="arrow_to_right" translatable="true">Flèche vers la droite</string>
+    <string name="arrow_up" translatable="true">Flèche vers le haut</string>
+    <string name="arrow_down" translatable="true">Flèche vers le bas</string>
     <string name="colon_character">:</string>
-    <string name="today_short">Auj.</string>
-    <string name="with">Avec</string>
-    <string name="without">Sans</string>
-    <string name="search">Rechercher…</string>
-    <string name="cross">Croix en \'X\'</string>
-    <string name="magnifier">Loupe</string>
-
+    <string name="today_short" translatable="true">Auj.</string>
+    <string name="search" translatable="true">Rechercher…</string>
+    <string name="cross" translatable="true">Croix en \'X\'</string>
+    <string name="magnifier" translatable="true">Loupe</string>
+    <string name="midnight" translatable="true">minuit</string>
+    <string name="zero" translatable="true">zéro</string>
 
 </resources>
