@@ -49,24 +49,30 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
         super.onPause();
     }
 
+
 ////////////////////////////////////////
 //Monitoring changes to SharedPrefs
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key) {
-       Log.d(TAG, "onSharedPreferenceChanged::key = " + key);
-        if (key.equals(getString(R.string.pref_duration_key))) {
-            setDurationPreferenceSummary();
-        } else if(key.equals(getString(R.string.pref_intermediate_intervals_key))){
-            setIntermediateIntervalsLengthPreferenceSummary();
-        } else if(key.equals(getString(R.string.pref_active_notification_key))) {
-            setNotificationActiveChildrenState();
-        } else if(key.equals(getString(R.string.pref_notification_time_key))) {
-            setNotificationTimePreferenceSummary();
-            //pref_notification_time_key can only be changed if the alarm is set to ACTIVE so we set the alarm now :
-            setAlarm(true);
-        }else if(key.equals(getString(R.string.pref_notification_text_key))) {
-            setNotificationTextSummary();
-        }else if(key.equals(getString(R.string.pref_switch_do_not_disturb_key))){
-            checkIfPermissionGrantedforDND();
+        Log.d(TAG, "onSharedPreferenceChanged::key = " + key);
+        if(isAdded()) {
+            if (key.equals(getString(R.string.pref_duration_key))) {
+                setDurationPreferenceSummary();
+            } else if (key.equals(getString(R.string.pref_intermediate_intervals_key))) {
+                setIntermediateIntervalsLengthPreferenceSummary();
+            } else if (key.equals(getString(R.string.pref_active_notification_key))) {
+                setNotificationActiveChildrenState();
+            } else if (key.equals(getString(R.string.pref_notification_time_key))) {
+                setNotificationTimePreferenceSummary();
+                //pref_notification_time_key can only be changed if the alarm is set to ACTIVE so we set the alarm now :
+                setAlarm(true);
+            } else if (key.equals(getString(R.string.pref_notification_text_key))) {
+                setNotificationTextSummary();
+            } else if (key.equals(getString(R.string.pref_switch_do_not_disturb_key))) {
+                checkIfPermissionGrantedforDND();
+            }
+        }else{
+            Log.e(TAG, "onSharedPreferenceChanged:: Fragment not attached to Activity");
         }
     }
 

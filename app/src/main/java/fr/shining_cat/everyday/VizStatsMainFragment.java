@@ -37,6 +37,7 @@ public class VizStatsMainFragment   extends Fragment{
     private List<SessionRecord> mAllSessions;
 
     private ProgressBar mLoadingIndicator;
+    private TextView mNoSessionMessage;
     private TextView mTotalSessionsValueTxtVw;
     private TextView mLongestSessionValueTxtVw;
     private TextView mLongestStreakValueTxtVw;
@@ -70,6 +71,7 @@ public class VizStatsMainFragment   extends Fragment{
         //
         mLoadingIndicator = rootView.findViewById(R.id.loading_indicator);
         mLoadingIndicator.setVisibility(View.VISIBLE);
+        mNoSessionMessage = rootView.findViewById(R.id.no_session_recorded_txtvw);
         //General statistics
         mTotalSessionsValueTxtVw = rootView.findViewById(R.id.total_sessions_value);
         mLongestSessionValueTxtVw = rootView.findViewById(R.id.longest_session_value);
@@ -128,13 +130,17 @@ public class VizStatsMainFragment   extends Fragment{
     public void setAllSessionsList(List<SessionRecord> allSessions) {
         mLoadingIndicator.setVisibility(View.GONE);
         mAllSessions = allSessions;
-        updateGeneralStatistics();
-        //only show buttons when data is available
-        mViewStatsDayBtn.setVisibility(View.VISIBLE);
-        mViewStatsWeekBtn.setVisibility(View.VISIBLE);
-        mViewStatsMonthBtn.setVisibility(View.VISIBLE);
-        mViewStatsDurationBtn.setVisibility(View.VISIBLE);
-        updateMp3StatsBtnVisibility();
+        if(allSessions.size() == 0){
+            mNoSessionMessage.setVisibility(View.VISIBLE);
+        }else {
+            updateGeneralStatistics();
+            //only show buttons when data is available
+            mViewStatsDayBtn.setVisibility(View.VISIBLE);
+            mViewStatsWeekBtn.setVisibility(View.VISIBLE);
+            mViewStatsMonthBtn.setVisibility(View.VISIBLE);
+            mViewStatsDurationBtn.setVisibility(View.VISIBLE);
+            updateMp3StatsBtnVisibility();
+        }
     }
 
     private void updateGeneralStatistics(){

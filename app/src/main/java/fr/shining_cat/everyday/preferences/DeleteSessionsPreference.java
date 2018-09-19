@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import fr.shining_cat.everyday.R;
-import fr.shining_cat.everyday.data.EveryDayRepository;
+import fr.shining_cat.everyday.data.EveryDaySessionsDataRepository;
 import fr.shining_cat.everyday.data.SessionRecordViewModel;
 
 public class DeleteSessionsPreference extends DialogPreference {
@@ -35,7 +35,7 @@ public class DeleteSessionsPreference extends DialogPreference {
         if(positiveResult){
             Log.d(TAG, "onDialogClosed:: DELETING ALL DATAS !!");
             SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(mContext).get(SessionRecordViewModel.class);
-            sessionRecordViewModel.deleteAllSessions((EveryDayRepository.EveryDayRepoListener)mContext);
+            sessionRecordViewModel.deleteAllSessions((EveryDaySessionsDataRepository.EveryDaySessionsRepoListener)mContext);
         }
     }
 }

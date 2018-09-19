@@ -63,4 +63,6 @@ public class MoodRecord {
 
     public String getGuideMp3(){return mGuideMp3;}
     public void setGuideMp3(String guideMp3) {this.mGuideMp3 = guideMp3;}
+
+
 }

@@ -63,7 +63,7 @@
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/sessions_list_duration_toggle_filter"
+            app:layout_constraintEnd_toStartOf="@id/sessions_list_duration_toggle_filter"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -79,9 +79,9 @@
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/sessions_list_mp3_toggle_filter"
+            app:layout_constraintEnd_toStartOf="@id/sessions_list_mp3_toggle_filter"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/sessions_list_date_toggle_filter"
+            app:layout_constraintStart_toEndOf="@id/sessions_list_date_toggle_filter"
             app:layout_constraintTop_toTopOf="parent" />
 
         <fr.shining_cat.everyday.widgets.SessionsListFilterToggleButton
@@ -95,7 +95,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/searchBarWidget"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/sessions_list_duration_toggle_filter"
+            app:layout_constraintStart_toEndOf="@id/sessions_list_duration_toggle_filter"
             app:layout_constraintTop_toTopOf="parent" />
 
         <fr.shining_cat.everyday.widgets.SearchBarWidget
@@ -107,7 +107,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/sessions_list_mp3_toggle_filter"
+            app:layout_constraintStart_toEndOf="@id/sessions_list_mp3_toggle_filter"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

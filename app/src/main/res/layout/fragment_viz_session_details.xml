@@ -1,387 +1,403 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viz_session_details_cardview"
+    app:cardUseCompatPadding="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardCornerRadius="15dp">
 
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier_session_details_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="143dp"
-        app:barrierDirection="end"
-        app:constraint_referenced_ids="start_label,end_label,duration_label,pauses_count_label,guide_mp3_label"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/start_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/start"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/start_date_txtvw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
-        app:layout_constraintTop_toTopOf="@+id/start_label"
-        tools:text="@string/fake_date" />
-
-    <TextView
-        android:id="@+id/start_time_txtvw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        app:layout_constraintStart_toEndOf="@+id/start_date_txtvw"
-        app:layout_constraintTop_toTopOf="@+id/start_date_txtvw"
-        tools:text="@string/fake_time" />
-
-
-    <TextView
-        android:id="@+id/end_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/end"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_label" />
-
-    <TextView
-        android:id="@+id/end_date_txtvw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
-        app:layout_constraintTop_toTopOf="@+id/end_label"
-        tools:text="@string/fake_date" />
-
-    <TextView
-        android:id="@+id/end_time_txtvw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        app:layout_constraintStart_toEndOf="@+id/end_date_txtvw"
-        app:layout_constraintTop_toTopOf="@+id/end_date_txtvw"
-        tools:text="@string/fake_time" />
-
-    <TextView
-        android:id="@+id/duration_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/duration"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/end_label" />
-
-    <TextView
-        android:id="@+id/duration_txtvw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
-        app:layout_constraintTop_toTopOf="@+id/duration_label" />
-
-    <TextView
-        android:id="@+id/pauses_count_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/pauses_count_label"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/duration_label" />
-
-    <TextView
-        android:id="@+id/pauses_count_txtvw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@+id/pauses_count_label"
-        app:layout_constraintTop_toTopOf="@+id/pauses_count_label" />
-
-    <TextView
-        android:id="@+id/real_duration_vs_planned-duration_txtvw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pauses_count_label"
-        tools:text="@string/real_duration_vs_planned_LESS" />
-
-    <TextView
-        android:id="@+id/guide_mp3_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/guide_mp3_label"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/real_duration_vs_planned-duration_txtvw" />
-
-    <TextView
-        android:id="@+id/guide_mp3_txtvw"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
-        app:layout_constraintTop_toTopOf="@+id/guide_mp3_label" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_v_session_details_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-
-    <!-- VALUES ARRAY -->
-    <!--ARRAY LABELS-->
-    <TextView
-        android:id="@+id/start_mood_array_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/start"
-        android:textAlignment="viewEnd"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/body_array_start_value"
-        app:layout_constraintStart_toEndOf="@+id/body_array_start_value"
-        app:layout_constraintTop_toBottomOf="@+id/guide_mp3_label" />
-
-    <TextView
-        android:id="@+id/end_mood_array_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/end"
-        android:textAlignment="viewStart"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/body_array_end_value"
-        app:layout_constraintStart_toEndOf="@+id/body_array_end_value"
-        app:layout_constraintTop_toTopOf="@+id/start_mood_array_label" />
-
-    <ImageView
-        android:id="@+id/body_array_start_value"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/body_state_start_default_content_description"
-        android:src="@drawable/smiley_ok"
-        app:layout_constraintEnd_toEndOf="@+id/barrier_session_details_array_left_2"
-        app:layout_constraintTop_toBottomOf="@+id/start_mood_array_label" />
-
-    <ImageView
-        android:id="@+id/thoughts_array_start_value"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/thoughts_state_start_default_content_description"
-        android:src="@drawable/smiley_ok"
-        app:layout_constraintEnd_toEndOf="@+id/barrier_session_details_array_left_2"
-        app:layout_constraintTop_toBottomOf="@+id/body_array_start_value" />
-
-    <ImageView
-        android:id="@+id/feelings_array_start_value"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/feelings_state_start_default_content_description"
-        android:src="@drawable/smiley_ok"
-        app:layout_constraintEnd_toEndOf="@+id/barrier_session_details_array_left_2"
-        app:layout_constraintTop_toBottomOf="@+id/thoughts_array_start_value" />
-
-    <ImageView
-        android:id="@+id/global_array_start_value"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/global_state_start_default_content_description"
-        android:src="@drawable/smiley_ok"
-        app:layout_constraintEnd_toEndOf="@+id/barrier_session_details_array_left_2"
-        app:layout_constraintTop_toBottomOf="@+id/feelings_array_start_value" />
-
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier_session_details_array_left_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        app:barrierDirection="start"
-        app:constraint_referenced_ids="body_array_label,thoughts_array_label,feelings_array_label,global_array_label"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/body_array_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/label_body"
-        android:textAlignment="viewEnd"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/body_array_start_value"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
-        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
-        app:layout_constraintTop_toBottomOf="@+id/body_array_start_value" />
-
-    <TextView
-        android:id="@+id/thoughts_array_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/label_thoughts"
-        android:textAlignment="viewEnd"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/thoughts_array_start_value"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
-        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
-        app:layout_constraintTop_toBottomOf="@+id/thoughts_array_start_value" />
-
-    <TextView
-        android:id="@+id/feelings_array_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/label_feelings"
-        android:textAlignment="viewEnd"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/feelings_array_start_value"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
-        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
-        app:layout_constraintTop_toBottomOf="@+id/feelings_array_start_value" />
-
-    <TextView
-        android:id="@+id/global_array_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/label_global"
-        android:textAlignment="viewEnd"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/global_array_start_value"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
-        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
-        app:layout_constraintTop_toBottomOf="@+id/global_array_start_value" />
-    <!--VALUES HOLDERS -->
-
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier_session_details_array_right_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="222dp"
-        app:barrierDirection="end"
-        app:constraint_referenced_ids="body_array_label,thoughts_array_label,feelings_array_label,global_array_label"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/body_array_end_value"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:contentDescription="@string/body_state_end_default_content_description"
-        android:src="@drawable/smiley_ok"
-        app:layout_constraintBottom_toTopOf="@+id/body_array_start_value"
-        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_array_right_1"
-        app:layout_constraintTop_toBottomOf="@+id/body_array_start_value" />
-
-    <ImageView
-        android:id="@+id/thoughts_array_end_value"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:contentDescription="@string/thoughts_state_end_default_content_description"
-        android:src="@drawable/smiley_ok"
-        app:layout_constraintBottom_toTopOf="@+id/thoughts_array_start_value"
-        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_array_right_1"
-        app:layout_constraintTop_toBottomOf="@+id/thoughts_array_start_value" />
-
-    <ImageView
-        android:id="@+id/feelings_array_end_value"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:contentDescription="@string/feelings_state_end_default_content_description"
-        android:src="@drawable/smiley_ok"
-        app:layout_constraintBottom_toTopOf="@+id/feelings_array_start_value"
-        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_array_right_1"
-        app:layout_constraintTop_toBottomOf="@+id/feelings_array_start_value" />
-
-    <ImageView
-        android:id="@+id/global_array_end_value"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:contentDescription="@string/global_state_end_default_content_description"
-        android:src="@drawable/smiley_ok"
-        app:layout_constraintBottom_toTopOf="@+id/global_array_start_value"
-        app:layout_constraintStart_toEndOf="@+id/barrier_session_details_array_right_1"
-        app:layout_constraintTop_toBottomOf="@+id/global_array_start_value" />
-
-    <!--NOTES -->
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <android.support.constraint.Barrier
-        android:id="@+id/barrier_session_details_notes_middle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="458dp"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="guideline2,global_array_end_value,global_array_start_value"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/notes_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/notes_label"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/barrier_session_details_notes_middle" />
-
-    <TextView
-        android:id="@+id/notes_txtvw"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notes_label" />
+        android:layout_marginBottom="8dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier_session_details_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="143dp"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="start_label,end_label,duration_label,pauses_count_label,guide_mp3_label"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/start_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/start"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/start_date_txtvw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
+                app:layout_constraintTop_toTopOf="@+id/start_label"
+                tools:text="@string/fake_date" />
+
+            <TextView
+                android:id="@+id/start_time_txtvw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                app:layout_constraintStart_toEndOf="@+id/start_date_txtvw"
+                app:layout_constraintTop_toTopOf="@+id/start_date_txtvw"
+                tools:text="@string/fake_time" />
 
 
+            <TextView
+                android:id="@+id/end_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/end"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/start_label" />
 
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/end_date_txtvw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
+                app:layout_constraintTop_toTopOf="@+id/end_label"
+                tools:text="@string/fake_date" />
+
+            <TextView
+                android:id="@+id/end_time_txtvw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                app:layout_constraintStart_toEndOf="@+id/end_date_txtvw"
+                app:layout_constraintTop_toTopOf="@+id/end_date_txtvw"
+                tools:text="@string/fake_time" />
+
+            <TextView
+                android:id="@+id/duration_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/duration"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/end_label" />
+
+            <TextView
+                android:id="@+id/duration_txtvw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
+                app:layout_constraintTop_toTopOf="@+id/duration_label" />
+
+            <TextView
+                android:id="@+id/pauses_count_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/pauses_count_label"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/duration_label" />
+
+            <TextView
+                android:id="@+id/pauses_count_txtvw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@+id/pauses_count_label"
+                app:layout_constraintTop_toTopOf="@+id/pauses_count_label" />
+
+            <TextView
+                android:id="@+id/real_duration_vs_planned-duration_txtvw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pauses_count_label"
+                tools:text="@string/real_duration_vs_planned_LESS" />
+
+            <TextView
+                android:id="@+id/guide_mp3_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/guide_mp3_label"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/real_duration_vs_planned-duration_txtvw" />
+
+            <TextView
+                android:id="@+id/guide_mp3_txtvw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/barrier_session_details_top"
+                app:layout_constraintTop_toTopOf="@+id/guide_mp3_label" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline_v_session_details_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+
+            <!-- VALUES ARRAY -->
+            <!--ARRAY LABELS-->
+            <TextView
+                android:id="@+id/start_mood_array_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/start"
+                android:textAlignment="viewEnd"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/body_array_start_value"
+                app:layout_constraintStart_toEndOf="@+id/body_array_start_value"
+                app:layout_constraintTop_toBottomOf="@+id/guide_mp3_txtvw" />
+
+            <TextView
+                android:id="@+id/end_mood_array_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/end"
+                android:textAlignment="viewStart"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/body_array_end_value"
+                app:layout_constraintStart_toEndOf="@+id/body_array_end_value"
+                app:layout_constraintTop_toTopOf="@+id/start_mood_array_label" />
+
+            <ImageView
+                android:id="@+id/body_array_start_value"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/body_state_start_default_content_description"
+                android:src="@drawable/smiley_ok"
+                app:layout_constraintEnd_toEndOf="@+id/barrier_session_details_array_left_2"
+                app:layout_constraintTop_toBottomOf="@+id/start_mood_array_label" />
+
+            <ImageView
+                android:id="@+id/thoughts_array_start_value"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/thoughts_state_start_default_content_description"
+                android:src="@drawable/smiley_ok"
+                app:layout_constraintEnd_toEndOf="@+id/barrier_session_details_array_left_2"
+                app:layout_constraintTop_toBottomOf="@+id/body_array_start_value" />
+
+            <ImageView
+                android:id="@+id/feelings_array_start_value"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/feelings_state_start_default_content_description"
+                android:src="@drawable/smiley_ok"
+                app:layout_constraintEnd_toEndOf="@+id/barrier_session_details_array_left_2"
+                app:layout_constraintTop_toBottomOf="@+id/thoughts_array_start_value" />
+
+            <ImageView
+                android:id="@+id/global_array_start_value"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/global_state_start_default_content_description"
+                android:src="@drawable/smiley_ok"
+                app:layout_constraintEnd_toEndOf="@+id/barrier_session_details_array_left_2"
+                app:layout_constraintTop_toBottomOf="@+id/feelings_array_start_value" />
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier_session_details_array_left_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="162dp"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="body_array_label,thoughts_array_label,feelings_array_label,global_array_label"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/body_array_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/label_body"
+                android:textAlignment="viewEnd"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/body_array_start_value"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
+                app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/body_array_start_value" />
+
+            <TextView
+                android:id="@+id/thoughts_array_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/label_thoughts"
+                android:textAlignment="viewEnd"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/thoughts_array_start_value"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
+                app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/thoughts_array_start_value" />
+
+            <TextView
+                android:id="@+id/feelings_array_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/label_feelings"
+                android:textAlignment="viewEnd"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/feelings_array_start_value"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
+                app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/feelings_array_start_value" />
+
+            <TextView
+                android:id="@+id/global_array_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/label_global"
+                android:textAlignment="viewEnd"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/global_array_start_value"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_details_fragment"
+                app:layout_constraintStart_toStartOf="@+id/guideline_v_session_details_fragment"
+                app:layout_constraintTop_toBottomOf="@+id/global_array_start_value" />
+            <!--VALUES HOLDERS -->
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier_session_details_array_right_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="222dp"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="body_array_label,thoughts_array_label,feelings_array_label,global_array_label"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/body_array_end_value"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:contentDescription="@string/body_state_end_default_content_description"
+                android:src="@drawable/smiley_ok"
+                app:layout_constraintBottom_toTopOf="@+id/body_array_start_value"
+                app:layout_constraintStart_toEndOf="@+id/barrier_session_details_array_right_1"
+                app:layout_constraintTop_toBottomOf="@+id/body_array_start_value" />
+
+            <ImageView
+                android:id="@+id/thoughts_array_end_value"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:contentDescription="@string/thoughts_state_end_default_content_description"
+                android:src="@drawable/smiley_ok"
+                app:layout_constraintBottom_toTopOf="@+id/thoughts_array_start_value"
+                app:layout_constraintStart_toEndOf="@+id/barrier_session_details_array_right_1"
+                app:layout_constraintTop_toBottomOf="@+id/thoughts_array_start_value" />
+
+            <ImageView
+                android:id="@+id/feelings_array_end_value"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:contentDescription="@string/feelings_state_end_default_content_description"
+                android:src="@drawable/smiley_ok"
+                app:layout_constraintBottom_toTopOf="@+id/feelings_array_start_value"
+                app:layout_constraintStart_toEndOf="@+id/barrier_session_details_array_right_1"
+                app:layout_constraintTop_toBottomOf="@+id/feelings_array_start_value" />
+
+            <ImageView
+                android:id="@+id/global_array_end_value"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:contentDescription="@string/global_state_end_default_content_description"
+                android:src="@drawable/smiley_ok"
+                app:layout_constraintBottom_toTopOf="@+id/global_array_start_value"
+                app:layout_constraintStart_toEndOf="@+id/barrier_session_details_array_right_1"
+                app:layout_constraintTop_toBottomOf="@+id/global_array_start_value" />
+
+            <!--NOTES -->
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrier_session_details_notes_middle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="458dp"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="guideline2,global_array_end_value,global_array_start_value"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/notes_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/notes_label"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/barrier_session_details_notes_middle" />
+
+            <TextView
+                android:id="@+id/notes_txtvw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/notes_label" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</android.support.v7.widget.CardView>

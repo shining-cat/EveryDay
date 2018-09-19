@@ -8,11 +8,12 @@ import android.content.Context;
 
 ////////////////////////////////////////
 //Application RoomDatabase
-//todo : add bestioles entity to create table
-@Database(entities = {SessionRecord.class}, version = 1)
+
+@Database(entities = {SessionRecord.class, Reward.class}, version = 1)
 public abstract class EveryDayRoomDatabase extends RoomDatabase {
 
     public abstract SessionRecordDAO sessionRecordDao();
+    public abstract RewardDAO rewardDao();
 
     //singleton to prevent having multiple instances of the database opened at the same time :
     private static EveryDayRoomDatabase INSTANCE;

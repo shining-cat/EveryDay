@@ -182,18 +182,28 @@ public class SessionRecord {
         }else if(getRealDurationVsPlanned() > 0){
             realDurationVsPlannedString = "MORE";
         }
+        //0 is for NOT SET so export it has such
+        String startBodyValue       = (getStartBodyValue() == 0) ? "NOT SET" : String.valueOf(getStartBodyValue());
+        String startThoughtsValue   = (getStartThoughtsValue() == 0) ? "NOT SET" : String.valueOf(getStartThoughtsValue());
+        String startFeelingsValue   = (getStartFeelingsValue() == 0) ? "NOT SET" : String.valueOf(getStartFeelingsValue());
+        String startGlobalValue     = (getStartGlobalValue() == 0) ? "NOT SET" : String.valueOf(getStartGlobalValue());
+        String endBodyValue         = (getEndBodyValue() == 0) ? "NOT SET" : String.valueOf(getEndBodyValue());
+        String endThoughtsValue     = (getEndThoughtsValue() == 0) ? "NOT SET" : String.valueOf(getEndThoughtsValue());
+        String endFeelingsValue     = (getEndFeelingsValue() == 0) ? "NOT SET" : String.valueOf(getEndFeelingsValue());
+        String endGlobalValue       = (getEndGlobalValue() == 0) ? "NOT SET" : String.valueOf(getEndGlobalValue());
+        //
         String[] values = { sdf.format(getStartTimeOfRecord()),
                             sdf.format(getEndTimeOfRecord()),
                             String.valueOf(getSessionRealDuration()/60000), //duration is converted to minutes for csv export (same as import)
                             getNotes(),
-                            String.valueOf(getStartBodyValue()),
-                            String.valueOf(getStartThoughtsValue()),
-                            String.valueOf(getStartFeelingsValue()),
-                            String.valueOf(getStartGlobalValue()),
-                            String.valueOf(getEndBodyValue()),
-                            String.valueOf(getEndThoughtsValue()),
-                            String.valueOf(getEndFeelingsValue()),
-                            String.valueOf(getEndGlobalValue()),
+                            startBodyValue,
+                            startThoughtsValue,
+                            startFeelingsValue,
+                            startGlobalValue,
+                            endBodyValue,
+                            endThoughtsValue,
+                            endFeelingsValue,
+                            endGlobalValue,
                             String.valueOf(getPausesCount()),
                             realDurationVsPlannedString,
                             getGuideMp3()

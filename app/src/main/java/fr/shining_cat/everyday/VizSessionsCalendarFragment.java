@@ -24,6 +24,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -37,7 +38,6 @@ import fr.shining_cat.everyday.utils.TimeOperations;
  * A simple {@link Fragment} subclass.
  */
 public class VizSessionsCalendarFragment extends Fragment {
-
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
     public static final String VIEW_SESSION_CALANEDAR_FRAGMENT_TAG = "view_session_calendar_Fragment-tag";
@@ -106,9 +106,12 @@ public class VizSessionsCalendarFragment extends Fragment {
         mCalendarView.shouldDrawIndicatorsBelowSelectedDays(true);
         //
         mCalendarTitle = mRootView.findViewById(R.id.calendar_title_txtvw);
+
         if(mCurrentDate == null){
             //no previously stored date to go back to, calendarView will default to NOW, just update currentDate as NOW too
             updateStoredCurrentDate(TimeOperations.giveTodayMidnightDate());
+            /*DateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+            Log.d(TAG, "onCreateView:: test Date = " + sdf.format(mCurrentDate));*/
         } else{
             mCalendarView.setCurrentDate(mCurrentDate);
         }
@@ -173,6 +176,8 @@ public class VizSessionsCalendarFragment extends Fragment {
         public void onMonthScroll(Date firstDayOfNewMonth) {
             Log.d(TAG, "Month was scrolled to: " + firstDayOfNewMonth);
             updateCalendarTitle(firstDayOfNewMonth);
+            List<Event> eventsForMonth = mCalendarView.getEventsForMonth(firstDayOfNewMonth);
+            //Log.d(TAG, "onMonthScroll eventsForMonth size = " + eventsForMonth.size());
         }
     };
 
@@ -186,14 +191,20 @@ public class VizSessionsCalendarFragment extends Fragment {
     }
 
     private void updateCalendarViewContent(List<SessionRecord> sessionsRecords){
-        mCalendarView.removeAllEvents();
-        List<Event> eventsList = new ArrayList<>();
-        for(SessionRecord sessionRecord : sessionsRecords){
-            Event event = new Event(Color.GREEN, sessionRecord.getStartTimeOfRecord(), sessionRecord);
-            eventsList.add(event);
+        if(sessionsRecords!=null) {
+            //Log.d(TAG, "updateCalendarViewContent:: sessionsRecords size = " + sessionsRecords.size());
+            mCalendarView.removeAllEvents();
+            List<Event> eventsList = new ArrayList<>();
+            for(SessionRecord sessionRecord : sessionsRecords){
+                Event event = new Event(Color.GREEN, sessionRecord.getStartTimeOfRecord(), sessionRecord);
+                eventsList.add(event);
+            }
+            //Log.d(TAG, "updateCalendarViewContent:: eventsList size = " + eventsList.size());
+            mCalendarView.addEvents(eventsList);
+            updateEventsListOfDay(mCurrentDate);
+        }else{
+            Log.e(TAG, "updateCalendarViewContent sessionsRecords is NULL!");
         }
-        mCalendarView.addEvents(eventsList);
-        updateEventsListOfDay(mCurrentDate);
     }
 
     private void updateEventsListOfDay(Date date){
@@ -205,18 +216,13 @@ public class VizSessionsCalendarFragment extends Fragment {
         }
         showLoadingSessionsMessage(false);
         Log.d(TAG, "updateEventsListOfDay sessionsRecords = " + sessionsRecords.size());
-        if(sessionsRecords!=null) {
-            // Update the cached copy of the sessions in the adapter.
-            mVizSessionsListAdapter.setSessions(sessionsRecords);
-            showSelectDayMessageOrNot(false);
-            if(sessionsRecords.size()==0){
-                showEmptyListMessageOrNot(true);
-                //mVizSessionsListAdapter.notifyDataSetChanged();
-            }else{
-                showEmptyListMessageOrNot(false);
-            }
+        // Update the cached copy of the sessions in the adapter.
+        mVizSessionsListAdapter.setSessions(sessionsRecords);
+        showSelectDayMessageOrNot(false);
+        if(sessionsRecords.size()==0){
+            showEmptyListMessageOrNot(true);
         }else{
-            Log.e(TAG, "updateEventsListOfDay sessionsRecords is NULL!");
+            showEmptyListMessageOrNot(false);
         }
     }
 

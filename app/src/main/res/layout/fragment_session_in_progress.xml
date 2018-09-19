@@ -8,20 +8,36 @@
     android:background="@color/buddhist_brown"
     tools:context=".SessionInProgressFragment">
 
+    <TextView
+        android:id="@+id/session_in_progress_pause_instruction_txtview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/how_to_pause_instruction"
+        android:textColor="@color/buddhist_cream"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/bubble_counter_int"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/bubble_timer_int_content_description"
         android:src="@drawable/counter_circle_int"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_h_session_in_progress"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"
-        app:layout_constraintStart_toStartOf="@+id/guideline_v_session_in_progress"
-        app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/bubble_counter_ext"
@@ -37,21 +53,6 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_v_session_in_progress"
         app:layout_constraintStart_toStartOf="@+id/guideline_v_session_in_progress"
         app:layout_constraintTop_toTopOf="@+id/guideline_h_session_in_progress" />
-
-    <TextView
-        android:id="@+id/session_in_progress_pause_instruction_txtview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:gravity="center_horizontal"
-        android:text="@string/how_to_pause_instruction"
-        android:textColor="@color/buddhist_cream"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/session_in_progress_countdown_txtview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/session_running_countdown_txtview"
@@ -98,6 +99,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
-
 
 </android.support.constraint.ConstraintLayout>

@@ -3,6 +3,7 @@ package fr.shining_cat.everyday;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import fr.shining_cat.everyday.data.SessionRecord;
+import fr.shining_cat.everyday.utils.CardAdapter;
 import fr.shining_cat.everyday.utils.TimeOperations;
 
 
-public class VizSessionDetailsFragment extends Fragment {
+public class VizSessionDetailsCardFragment extends Fragment {
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
@@ -28,15 +30,16 @@ public class VizSessionDetailsFragment extends Fragment {
 
     private View mRootView;
     private SessionRecord mSessionRecord;
+    private CardView mCardView;
 
 ////////////////////////////////////////
-// this fragment is used by the VizSessionsDetailsFragmentStatePagerAdapter. It shows all the details of one session
-    public VizSessionDetailsFragment() {
+// this fragment is used by the VizSessionDetailsCardFragmentPagerAdapter. It shows all the details of one session
+    public VizSessionDetailsCardFragment() {
         // Required empty public constructor
     }
 
-    public static VizSessionDetailsFragment newInstance() {
-        return new VizSessionDetailsFragment();
+    public static VizSessionDetailsCardFragment newInstance() {
+        return new VizSessionDetailsCardFragment();
     }
 
 ////////////////////////////////////////
@@ -52,6 +55,8 @@ public class VizSessionDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_viz_session_details, container, false);
+        mCardView = mRootView.findViewById(R.id.viz_session_details_cardview);
+        mCardView.setMaxCardElevation(mCardView.getCardElevation() * CardAdapter.MAX_ELEVATION_FACTOR);
         //
         if(mSessionRecord!=null){
             DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -60,6 +65,7 @@ public class VizSessionDetailsFragment extends Fragment {
             TextView startDateTxtvw = mRootView.findViewById(R.id.start_date_txtvw);
             //Log.d(TAG, "onCreateView::startDateTxtvw = " + startDateTxtvw);
             startDateTxtvw.setText(sdf.format(mSessionRecord.getStartTimeOfRecord()));
+            Log.d(TAG, "onCreateView::StartTimeOfRecord = " + mSessionRecord.getStartTimeOfRecord());
             TextView startTimeTxtvw = mRootView.findViewById(R.id.start_time_txtvw);
             startTimeTxtvw.setText(tdf.format(mSessionRecord.getStartTimeOfRecord()));
             TextView endDateTxtvw = mRootView.findViewById(R.id.end_date_txtvw);
@@ -236,6 +242,10 @@ public class VizSessionDetailsFragment extends Fragment {
         }
         //
         return mRootView;
+    }
+
+    public CardView getCardView() {
+        return mCardView;
     }
 
 }

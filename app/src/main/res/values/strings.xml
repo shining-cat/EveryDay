@@ -25,11 +25,12 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="generic_string_SHORT_MINUTES" translatable="true">mn</string>
     <string name="generic_string_SHORT_SECONDS" translatable="true">s</string>
     <string name="generic_string_WARNING" translatable="true">Attention</string>
+    <string name="generic_string_SHARE" translatable="true">Partager</string>
     <string name="generic_string_EDIT" translatable="true">Modifier</string>
     <string name="generic_string_DELETE" translatable="true">Supprimer</string>
     <string name="generic_string_ERROR" translatable="true">Erreur</string>
 
-    <!--DATABASE OPERATIONS CONFIRMATION MESSAGES-->
+    <!--DATABASE SESSIONS TABLE OPERATIONS CONFIRMATION MESSAGES-->
     <string name="delete_all_sessions_task_completed_message" translatable="true">Toutes les sessions enregistrées ont été effacées.</string>
     <string name="delete_one_session_task_completed_message" translatable="true">La session a été effacée.</string>
     <string name="insert_one_session_task_completed_message" translatable="true">La session a été enregistrée.</string>
@@ -49,9 +50,15 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="session_ended_notification_text" translatable="true">Session terminée, vous avez pratiqué %1$s, enregistrez votre état présent!</string>
 
     <!-- Main Activity-->
-    <string name="view_stats_btn_txt_default" translatable="true">Voir les statistiques</string>
+    <string name="statistics" translatable="true">Statistiques</string>
+    <string name="view_rewards_btn_txt_default" translatable="true">Récompenses</string>
     <string name="start_guided_session_btn_txt" translatable="true">Faire une session sur un support Audio</string>
     <string name="start_session_btn_or_more_txt" translatable="true">ou plus…</string>
+    <string name="checking_existing_rewards_message" translatable="true">Vérification de l\'existence des récompenses…</string>
+    <string name="generating_possible_rewards_message" translatable="true">Premier lancement, génération des récompenses…</string>
+    <string name="inserting_possible_rewards_message" translatable="true">Premier lancement, enregistrement des récompenses…</string>
+    <string name="looking_for_last_recorded_session_progress_dialog_title" translatable="true">Recherche de la dernière sessions enregistrée…</string>
+    <string name="checking_for_streaks_breaks_progress_dialog_title" translatable="true">Recherche de récompenses perdues…</string>
 
     <!--moodrecorder-->
     <string name="label_body" translatable="true">Corps</string>
@@ -61,6 +68,7 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
 
     <!--Session Activity -->
     <string name="title_activity_session" translatable="true">SessionActivity</string>
+    <string name="title_dialog_audio_duration_manual_entry" translatable="true">Impossible d\'obtenir la durée du fichier, entrer une durée</string>
 
     <string name="pre_record_dialog_default_title" translatable="true">Avant de commencer…</string>
     <string name="pre_record_dialog_manual_entry_title" translatable="true">Début de session</string>
@@ -84,8 +92,9 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="post_record_guide_mp3_hint" translatable="true">Vous pouvez noter ici le support sonore que vous avez utilisé…</string>
     <string name="post_record_cancel_warning_message" translatable="true">La session ne sera pas enregistrée!</string>
     <string name="post_record_cancel_ok_do_not_record" translatable="true">Ne pas enregistrer la session</string>
-    <string name="guided_session_filename_unknown" translatable="true">fichier-audio-inconnu</string>
-
+    <string name="guided_session_filename_unknown" translatable="true">Fichier audio inconnu</string>
+    <string name="guided_session_artist_unknown" translatable="true">Artiste inconnu</string>
+    <string name="guided_session_album_unknown" translatable="true">Album inconnu</string>
 
     <!--Viz activity optionsMenu-->
     <string name="add_action_string" translatable="true">Ajouter une session</string>
@@ -122,6 +131,45 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="no_sessions_on_this_day_to_show" translatable="true">Aucune session ce jour-là</string>
     <string name="select_day_to_show" translatable="true">Sélectionner un jour</string>
 
+    <!--REWARDS LIST-->
+    <string name="rewards" translatable="true">Récompenses</string>
+    <string name="empty_rewards_list_message" translatable="true">Aucune récompense à afficher</string>
+    <string name="loading_rewards_list_message" translatable="true">Chargement des récompenses enregistrées…</string>
+    <string name="level" translatable="true">Niveau</string>
+    <string name="obtained" translatable="true">Acquises</string>
+    <string name="lost" translatable="true">Perdues</string>
+    <string name="possible" translatable="true">Possibles</string>
+    <string name="active_status_filter_label" translatable="true">Présente</string>
+
+    <string name="reward_level" translatable="true">Niveau %1$s</string>
+    <string name="reward_obtained_last_date" translatable="true">Reçu le %1$s</string>
+    <string name="reward_lost_last_date" translatable="true">Perdu le %1$s</string>
+
+    <string name="reward_part_content_description_flower">composant de récompense : fleur</string>
+    <string name="reward_part_content_description_legs">composant de récompense : jambes</string>
+    <string name="reward_part_content_description_body">composant de récompense : corps</string>
+    <string name="reward_part_content_description_arms">composant de récompense : bras</string>
+    <string name="reward_part_content_description_mouth">composant de récompense : bouche</string>
+    <string name="reward_part_content_description_eyes">composant de récompense : yeux</string>
+    <string name="reward_part_content_description_horns">composant de récompense : fleur</string>
+
+    <!--REWARDS edit-->
+    <string name="edit_reward_dialog_title" translatable="true">Personnalisation</string>
+    <string name="edit_reward_color_slider_legs_label" translatable="true">Couleur des jambes</string>
+    <string name="edit_reward_color_slider_body_label" translatable="true">Couleur du corps</string>
+    <string name="edit_reward_color_slider_arms_label" translatable="true">Couleur des bras</string>
+    <string name="edit_reward_name_label" translatable="true">Nom</string>
+    <string name="edit_reward_name_hint" translatable="true">Choisir un nom</string>
+    <string name="edit_reward_cancel_message" translatable="true">Aucune modification</string>
+    <string name="edit_reward_confirm_message" translatable="true">Modifications enregistrées</string>
+
+    <!--REWARDS obtained / lost-->
+    <string name="rewards_obtained_title" translatable="true">%1$d récompense(s)</string>
+    <string name="rewards_lost_title" translatable="true">Pas de pratique depuis %1$d jour(s), %2$d récompense(s) perdue(s)</string>
+    <string name="no_more_rewards_obtained_list_message" translatable="true">Plus aucune récompense disponible!</string>
+    <string name="loading_rewards_obtained_list_message" translatable="true">Chargement de la (des) récompense(s) obtenue(s)…</string>
+    <string name="rewards_obtained_recorded_message" translatable="true">Récompense(s) obtenue(s) enregistrée(s)</string>
+    <string name="rewards_escaped_recorded_message" translatable="true">Récompense(s) perdue(s) enregistrée(s)</string>
 
     <!--WEEKDAYS-->
     <string name="monday" translatable="true">Lundi</string>
@@ -131,7 +179,6 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="friday" translatable="true">Vendredi</string>
     <string name="saturday" translatable="true">Samedi</string>
     <string name="sunday" translatable="true">Dimanche</string>
-
 
     <!--MISC-->
     <string name="silent" translatable="true">Silence</string>
@@ -148,7 +195,10 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="end" translatable="true">Fin :</string>
     <string name="duration" translatable="true">Durée</string>
     <string name="pauses_count_label" translatable="true">Nombre de pauses :</string>
-    <string name="export_sessions_csv_file_name">export_sessions_every_day</string>
+    <string name="export_picture_folder_name">EveryDay</string>
+    <string name="export_picture_file_base_name">%1$s_EveryDay.jpg</string>
+    <string name="export_sessions_csv_folder_name">EveryDay-datas</string>
+    <string name="export_sessions_csv_file_base_name">%1$s_export_sessions_every_day.csv</string>
     <string name="mp3">MP3</string>
     <string name="guide_mp3_label" translatable="true">Support sonore :</string>
     <string name="arrow_to_left" translatable="true">Flèche vers la gauche</string>
@@ -162,5 +212,8 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="magnifier" translatable="true">Loupe</string>
     <string name="midnight" translatable="true">minuit</string>
     <string name="zero" translatable="true">zéro</string>
+    <string name="share_image_intent_chooser_title" translatable="true">Partager l\'image via</string>
+    <string name="started" translatable="true">Démarré</string>
+    <string name="completed" translatable="true">Terminé</string>
 
 </resources>

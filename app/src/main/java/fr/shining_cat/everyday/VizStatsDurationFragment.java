@@ -2,6 +2,7 @@ package fr.shining_cat.everyday;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class VizStatsDurationFragment extends VizStatsDetailsFragment{
 
     @Override
     protected List<List<SessionRecord>> arrangeSessionsOnDesiredFrame(){
-        return DurationStats.arrangeSessionsByDuration(mAllSessions);
+        return DurationStats.arrangeSessionsByDuration(mAllSessions, null);
     }
 
 ////////////////////////////////////////
@@ -101,24 +102,32 @@ public class VizStatsDurationFragment extends VizStatsDetailsFragment{
         colors.add(Color.BLUE);
         //
         List<Float> numberOfPausesPerDurationSlice = new ArrayList<>();
+        int totalPauses = 0;
         for (List<SessionRecord> sessionsForDurationSlice : mAllSessionsArranged) {
-            numberOfPausesPerDurationSlice.add((float) GeneralStats.getTotalNumberOfPauses(sessionsForDurationSlice));
+            int numberOfPausesForADurationSlice = GeneralStats.getTotalNumberOfPauses(sessionsForDurationSlice);
+            totalPauses += numberOfPausesForADurationSlice;
+            numberOfPausesPerDurationSlice.add((float) numberOfPausesForADurationSlice);
         }
-        ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
-        yValuesLists.add(numberOfPausesPerDurationSlice);
-        //
-        mPausesCountChartViewHolder.setChartData(
-                MiscUtils.getEmptyList(mAllSessionsArranged.size()),
-                legends,
-                colors,
-                yValuesLists,
-                getString(R.string.duration_stats_pauses_count_clicked_value),
-                ChartDisplay.DISPLAY_ROUNDING_INT,
-                false,
-                true,
-                true,
-                getString(R.string.duration_stats_pauses_count_help_message));
-        mPausesCountChartViewHolder.setListener(this);
+        //do not display chart if there is no pauses at all
+        if(totalPauses == 0) {
+            mPausesCountChartViewHolder.hideMeIHaveNoDataToShow(getString(R.string.duration_stats_pauses_count_legend) + ":\n" + getString(R.string.stats_pauses_count_nothing_to_display));
+        } else {
+            ArrayList<List<Float>> yValuesLists = new ArrayList<>();
+            yValuesLists.add(numberOfPausesPerDurationSlice);
+            //
+            mPausesCountChartViewHolder.setChartData(
+                    MiscUtils.getEmptyList(mAllSessionsArranged.size()),
+                    legends,
+                    colors,
+                    yValuesLists,
+                    getString(R.string.duration_stats_pauses_count_clicked_value),
+                    ChartDisplay.DISPLAY_ROUNDING_INT,
+                    false,
+                    true,
+                    true,
+                    getString(R.string.duration_stats_pauses_count_help_message));
+            mPausesCountChartViewHolder.setListener(this);
+        }
     }
 
 ////////////////////////////////////////
@@ -132,24 +141,32 @@ public class VizStatsDurationFragment extends VizStatsDetailsFragment{
         colors.add(Color.BLUE);
         //
         List<Float> averageNumberOfPausesBySessionPerDurationSlice = new ArrayList<>();
+        float totalPauses = 0;
         for (List<SessionRecord> sessionsForDurationSlice : mAllSessionsArranged) {
-            averageNumberOfPausesBySessionPerDurationSlice.add(GeneralStats.getAverageNumberOfPausesBySession(sessionsForDurationSlice));
+            float numberOfPausesForASession = GeneralStats.getAverageNumberOfPausesBySession(sessionsForDurationSlice);
+            totalPauses += numberOfPausesForASession;
+            averageNumberOfPausesBySessionPerDurationSlice.add(numberOfPausesForASession);
         }
-        ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
-        yValuesLists.add(averageNumberOfPausesBySessionPerDurationSlice);
-        //
-        mPausesPerSessionChartViewHolder.setChartData(
-                MiscUtils.getEmptyList(mAllSessionsArranged.size()),
-                legends,
-                colors,
-                yValuesLists,
-                getString(R.string.duration_stats_pauses_per_session_clicked_value),
-                ChartDisplay.DISPLAY_ROUNDING_FLOAT,
-                false,
-                true,
-                true,
-                getString(R.string.duration_stats_pauses_per_session_help_message));
-        mPausesPerSessionChartViewHolder.setListener(this);
+        //do not display chart if there is no pauses at all
+        if(totalPauses == 0) {
+            mPausesPerSessionChartViewHolder.hideMeIHaveNoDataToShow(getString(R.string.duration_stats_pauses_per_session_legend) + ":\n" + getString(R.string.stats_pauses_count_nothing_to_display));
+        } else {
+            ArrayList<List<Float>> yValuesLists = new ArrayList<>();
+            yValuesLists.add(averageNumberOfPausesBySessionPerDurationSlice);
+            //
+            mPausesPerSessionChartViewHolder.setChartData(
+                    MiscUtils.getEmptyList(mAllSessionsArranged.size()),
+                    legends,
+                    colors,
+                    yValuesLists,
+                    getString(R.string.duration_stats_pauses_per_session_clicked_value),
+                    ChartDisplay.DISPLAY_ROUNDING_FLOAT,
+                    false,
+                    true,
+                    true,
+                    getString(R.string.duration_stats_pauses_per_session_help_message));
+            mPausesPerSessionChartViewHolder.setListener(this);
+        }
     }
 
 ////////////////////////////////////////
@@ -164,16 +181,20 @@ public class VizStatsDurationFragment extends VizStatsDetailsFragment{
         colors.add(Color.GREEN);
         colors.add(Color.RED);
         //Here we can not work with mAllSessionsArranged, we have to FIRST filter starting and stopping streak sessions, THEN arrange those by hour of day, otherwise the filter method will compare only sessions in the same time slice, but two sessions can be consecutive (next day) and NOT in the same time slice...
+        //BUT the numberOfSessionsStartingAStreakPerDurationSlice and numberOfSessionsStoppingAStreakPerDurationSlice must be the same size as mAllSessions to keep the graph consistent with the others
+        // (there could be different numbers of items in onlyStartingStreakSessionsByDurationSlice and onlyStoppingStreakSessionsByDurationSlice..)
         List<Float> numberOfSessionsStartingAStreakPerDurationSlice = new ArrayList<>();
         List<SessionRecord> onlyStartingStreakSessions = GeneralStats.filterGetOnlyStartingStreakSessions(mAllSessions);
-        List<List<SessionRecord>> onlyStartingStreakSessionsByDurationSlice = DurationStats.arrangeSessionsByDuration(onlyStartingStreakSessions);
+        long longestDurationOfAllSessions = GeneralStats.getLongestSession(mAllSessions);
+        //we need to give the longest of all sessions duration here because once filtered, the longest resulting may not have the same length and we would end up with different sizes of Lists, breaking the ChartDisplay and the consistence of the whole page
+        List<List<SessionRecord>> onlyStartingStreakSessionsByDurationSlice = DurationStats.arrangeSessionsByDuration(onlyStartingStreakSessions, longestDurationOfAllSessions);
         for (List<SessionRecord> startingStreakSessionsForDurationSlice : onlyStartingStreakSessionsByDurationSlice) {
             numberOfSessionsStartingAStreakPerDurationSlice.add((float) startingStreakSessionsForDurationSlice.size());
         }
         //
         List<Float> numberOfSessionsStoppingAStreakPerDurationSlice = new ArrayList<>();
         List<SessionRecord> onlyStoppingStreakSessions = GeneralStats.filterGetOnlyStoppingStreakSessions(mAllSessions);
-        List<List<SessionRecord>> onlyStoppingStreakSessionsByDurationSlice = DurationStats.arrangeSessionsByDuration(onlyStoppingStreakSessions);
+        List<List<SessionRecord>> onlyStoppingStreakSessionsByDurationSlice = DurationStats.arrangeSessionsByDuration(onlyStoppingStreakSessions, longestDurationOfAllSessions);
         for (List<SessionRecord> stoppingStreakSessionsForDurationSlice : onlyStoppingStreakSessionsByDurationSlice) {
             numberOfSessionsStoppingAStreakPerDurationSlice.add((float) stoppingStreakSessionsForDurationSlice.size());
         }
@@ -181,6 +202,7 @@ public class VizStatsDurationFragment extends VizStatsDetailsFragment{
         ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
         yValuesLists.add(numberOfSessionsStartingAStreakPerDurationSlice);
         yValuesLists.add(numberOfSessionsStoppingAStreakPerDurationSlice);
+
         //
         mStartingStoppingStreakSessionsCountChartViewHolder.setChartData(
                 MiscUtils.getEmptyList(mAllSessionsArranged.size()),
@@ -217,10 +239,11 @@ public class VizStatsDurationFragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsInOneDurationSlice : mAllSessionsArranged) {
-            bodyValues.add(GeneralStats.getAverageStartBodyValue(sessionsInOneDurationSlice));
-            thoughtsValues.add(GeneralStats.getAverageStartThoughtsValue(sessionsInOneDurationSlice));
-            feelingsValues.add(GeneralStats.getAverageStartFeelingsValue(sessionsInOneDurationSlice));
-            globalValues.add(GeneralStats.getAverageStartGlobalValue(sessionsInOneDurationSlice));
+            //here we will insert 0 when there is no value to calculate an average in the hour examined since 0 is a value that could only be obtained if every value is unset => same case
+            bodyValues.add((GeneralStats.getAverageStartBodyValue(sessionsInOneDurationSlice) != null) ? GeneralStats.getAverageStartBodyValue(sessionsInOneDurationSlice) : 0);
+            thoughtsValues.add((GeneralStats.getAverageStartThoughtsValue(sessionsInOneDurationSlice) != null) ? GeneralStats.getAverageStartThoughtsValue(sessionsInOneDurationSlice) : 0);
+            feelingsValues.add((GeneralStats.getAverageStartFeelingsValue(sessionsInOneDurationSlice) != null) ? GeneralStats.getAverageStartFeelingsValue(sessionsInOneDurationSlice) : 0);
+            globalValues.add((GeneralStats.getAverageStartGlobalValue(sessionsInOneDurationSlice) != null) ? GeneralStats.getAverageStartGlobalValue(sessionsInOneDurationSlice) : 0);
         }
         //
         ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
@@ -264,10 +287,11 @@ public class VizStatsDurationFragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsInOneDurationSlice : mAllSessionsArranged) {
-            bodyValues.add(GeneralStats.getAverageEndBodyValue(sessionsInOneDurationSlice));
-            thoughtsValues.add(GeneralStats.getAverageEndThoughtsValue(sessionsInOneDurationSlice));
-            feelingsValues.add(GeneralStats.getAverageEndFeelingsValue(sessionsInOneDurationSlice));
-            globalValues.add(GeneralStats.getAverageEndGlobalValue(sessionsInOneDurationSlice));
+            //here we will insert 0 when there is no value to calculate an average in the hour examined since 0 is a value that could only be obtained if every value is unset => same case
+            bodyValues.add((GeneralStats.getAverageEndBodyValue(sessionsInOneDurationSlice) != null) ? GeneralStats.getAverageEndBodyValue(sessionsInOneDurationSlice) : 0);
+            thoughtsValues.add((GeneralStats.getAverageEndThoughtsValue(sessionsInOneDurationSlice) != null) ? GeneralStats.getAverageEndThoughtsValue(sessionsInOneDurationSlice) : 0);
+            feelingsValues.add((GeneralStats.getAverageEndFeelingsValue(sessionsInOneDurationSlice) != null) ? GeneralStats.getAverageEndFeelingsValue(sessionsInOneDurationSlice) : 0);
+            globalValues.add((GeneralStats.getAverageEndGlobalValue(sessionsInOneDurationSlice) != null) ? GeneralStats.getAverageEndGlobalValue(sessionsInOneDurationSlice) : 0);
         }
         //
         ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
@@ -311,6 +335,8 @@ public class VizStatsDurationFragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsInOneDurationSlice : mAllSessionsArranged) {
+            //here we will insert value as is, since it will be 0f if calculation is not possible (no start or no end value)
+            // => it will appear on the chart as "no variation between start and end of session", just as it would if there were actually no variation...
             bodyValues.add(GeneralStats.getAverageDiffBodyValue(sessionsInOneDurationSlice));
             thoughtsValues.add(GeneralStats.getAverageDiffThoughtsValue(sessionsInOneDurationSlice));
             feelingsValues.add(GeneralStats.getAverageDiffFeelingsValue(sessionsInOneDurationSlice));

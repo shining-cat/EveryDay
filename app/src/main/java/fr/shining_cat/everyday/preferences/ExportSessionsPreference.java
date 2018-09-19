@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import fr.shining_cat.everyday.R;
-import fr.shining_cat.everyday.data.EveryDayRepository;
+import fr.shining_cat.everyday.data.EveryDaySessionsDataRepository;
 import fr.shining_cat.everyday.data.SessionRecordViewModel;
 
 public class ExportSessionsPreference extends DialogPreference {
@@ -19,7 +19,7 @@ public class ExportSessionsPreference extends DialogPreference {
 
 ////////////////////////////////////////
 //Preference Dialog that will ask for confirmation then get all sessions records. Since exporting is the only case where we will ask for a NOT LIVE List of this data,
-// the EveryDayRepository callback onGetAllSessionsNotLiveComplete is handled by parent SettingsActivity, which will then actually proceed to export the data to a csv file
+// the EveryDaySessionsDataRepository callback onGetAllSessionsNotLiveComplete is handled by parent SettingsActivity, which will then actually proceed to export the data to a csv file
     public ExportSessionsPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = (AppCompatActivity) context;
@@ -35,7 +35,7 @@ public class ExportSessionsPreference extends DialogPreference {
         if(positiveResult){
             Log.d(TAG, "onDialogClosed:: EXPORTING ALL DATAS !!");
             SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(mContext).get(SessionRecordViewModel.class);
-            sessionRecordViewModel.getAllSessionsRecordsInBunch((EveryDayRepository.EveryDayRepoListener)mContext);
+            sessionRecordViewModel.getAllSessionsRecordsInBunch((EveryDaySessionsDataRepository.EveryDaySessionsRepoListener)mContext);
         }
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="default_session_start_sound">notif_bol_tibetain</string>
-    <string name="default_intermediate_interval_sound">notif_bol_tibetain</string>
-    <string name="default_session_end_sound">notif_bol_tibetain</string>
-    <string name="default_notification_sound">notif_bol_tibetain</string>
+    <string name="default_session_start_sound">notif_bol_tibetain_grave_1_coup_long</string>
+    <string name="default_intermediate_interval_sound">notif_bol_chantant_aigu_1_coup_court</string>
+    <string name="default_session_end_sound">notif_bol_tibetain_grave_1_coup_long</string>
+    <string name="default_notification_sound">notif_bol_chantant_aigu_2_coups_courts_rapides</string>
     <string name="default_infinite_session">false</string>
     <string name="default_vibration_active">false</string>
     <string name="default_keep_screen_on">false</string>
@@ -11,13 +11,15 @@
     <string name="default_notification_active">false</string>
     <string name="default_show_numerical_stats">false</string>
     <string name="default_collect_stats">true</string>
-    <string name="default_collector_active">true</string>
+    <string name="default_rewards_collector_active">true</string>
     <string name="default_duration">180000</string>
     <string name="default_intermediate_interval_length">0</string>
     <string name="default_time_picker">12:00</string>
     <string name="pause_instruction_hide_delay">5000</string>
     <string name="start_session_countdown_delay">5000</string>
     <string name="run_session_countdown_update_interval">1000</string>
+    <string name="default_rewards_grid_span">3</string>
+
 
     <!--pulse animation values -->
     <string name="anim_pulse_expand_duration">2000</string>

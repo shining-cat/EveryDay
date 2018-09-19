@@ -21,10 +21,12 @@
     <string name="view_day_of_month_stats" translatable="true">Sur un mois</string>
     <string name="view_durations_stats" translatable="true">En fonction de la durée</string>
     <string name="mp3_stats_label" translatable="true">Support sonore</string>
+    <string name="no_sessions_recorded" translatable="true">Aucune session enregistrée</string>
 
 
     <string name="chart_help_btn_description" translatable="true">Infos sur le graphique</string>
     <string name="chart_help_dialog_title_description" translatable="true">Infos sur le graphique</string>
+    <string name="stats_pauses_count_nothing_to_display" translatable="true">Aucune interruption enregistrée</string>
 
     <!--STATS DAY view -->
     <string name="day_stats_duration_legend" translatable="true">Durée moyenne d\'une session suivant l\'heure de démarrage (minutes)</string>
@@ -52,14 +54,14 @@
     <string name="day_stats_thoughts_at_session_start_legend" translatable="true">\"Pensées\" en début de session</string>
     <string name="day_stats_feelings_at_session_start_legend" translatable="true">\"Émotions\" en début de session</string>
     <string name="day_stats_global_at_session_start_legend" translatable="true">\"Global\" en début de session</string>
-    <string name="day_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant l\'heure de démarrage dans la journée. (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="day_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant l\'heure de démarrage dans la journée.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
     <string name="day_stats_user_state_on_session_start_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s au début des sessions commencées entre %5$s et %6$s</string>
 
     <string name="day_stats_body_at_session_end_legend" translatable="true">\"Corps\" en fin de session</string>
     <string name="day_stats_thoughts_at_session_end_legend" translatable="true">\"Pensées\" en fin de session</string>
     <string name="day_stats_feelings_at_session_end_legend" translatable="true">\"Émotions\" en fin de session</string>
     <string name="day_stats_global_at_session_end_legend" translatable="true">\"Global\" en fin de session</string>
-    <string name="day_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant l\'heure de démarrage dans la journée. (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="day_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant l\'heure de démarrage dans la journée.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
     <string name="day_stats_user_state_on_session_end_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s à la fin des sessions commencées entre %5$s et %6$s</string>
 
     <string name="day_stats_body_diff_legend" translatable="true">\"Corps\" différence entre début et fin de session</string>
@@ -95,14 +97,14 @@
     <string name="week_stats_thoughts_at_session_start_legend" translatable="true">\"Pensées\" en début de session</string>
     <string name="week_stats_feelings_at_session_start_legend" translatable="true">\"Émotions\" en début de session</string>
     <string name="week_stats_global_at_session_start_legend" translatable="true">\"Global\" en début de session</string>
-    <string name="week_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant le jour de la semaine. (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="week_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant le jour de la semaine.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
     <string name="week_stats_user_state_on_session_start_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s au début des sessions le %5$s</string>
 
     <string name="week_stats_body_at_session_end_legend" translatable="true">\"Corps\" en fin de session</string>
     <string name="week_stats_thoughts_at_session_end_legend" translatable="true">\"Pensées\" en fin de session</string>
     <string name="week_stats_feelings_at_session_end_legend" translatable="true">\"Émotions\" en fin de session</string>
     <string name="week_stats_global_at_session_end_legend" translatable="true">\"Global\" en fin de session</string>
-    <string name="week_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant le jour de la semaine. (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="week_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant le jour de la semaine.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
     <string name="week_stats_user_state_on_session_end_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s à la fin des sessions le %5$s</string>
 
     <string name="week_stats_body_diff_legend" translatable="true">\"Corps\" différence entre début et fin de session</string>
@@ -138,14 +140,14 @@
     <string name="month_stats_thoughts_at_session_start_legend" translatable="true">\"Pensées\" en début de session</string>
     <string name="month_stats_feelings_at_session_start_legend" translatable="true">\"Émotions\" en début de session</string>
     <string name="month_stats_global_at_session_start_legend" translatable="true">\"Global\" en début de session</string>
-    <string name="month_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant le jour du mois. (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="month_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant le jour du mois.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
     <string name="month_stats_user_state_on_session_start_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s au début des sessions le %5$s du mois</string>
 
     <string name="month_stats_body_at_session_end_legend" translatable="true">\"Corps\" en fin de session</string>
     <string name="month_stats_thoughts_at_session_end_legend" translatable="true">\"Pensées\" en fin de session</string>
     <string name="month_stats_feelings_at_session_end_legend" translatable="true">\"Émotions\" en fin de session</string>
     <string name="month_stats_global_at_session_end_legend" translatable="true">\"Global\" en fin de session</string>
-    <string name="month_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant le jour du mois. (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="month_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant le jour du mois.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
     <string name="month_stats_user_state_on_session_end_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s à la fin des sessions le %5$s du mois</string>
 
     <string name="month_stats_body_diff_legend" translatable="true">\"Corps\" différence entre début et fin de session</string>
@@ -155,7 +157,7 @@
     <string name="month_stats_user_state_diff_help_message" translatable="true">Différence (fin - début) moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") pour les sessions suivant le jour du mois.\n(Les valeurs négatives montrent donc une diminution de la valeur et les valeurs positives une augmentation)\n (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
     <string name="month_stats_user_state_diff_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s entre le début et la fin des sessions le %5$s du mois</string>
 
-    <!--STATS DAY view -->
+    <!--STATS DURATION view -->
 
     <string name="duration_stats_sessions_number_legend" translatable="true">Nombre de sessions suivant la durée</string>
     <string name="duration_stats_sessions_number_help_message" translatable="true">Nombre total de sessions enregistrées suivant la durée de la session.</string>
@@ -172,28 +174,28 @@
     <string name="duration_stats_starting_streak_sessions_count_legend" translatable="true">Nombre de sessions initiant une série suivant la durée de la session</string>
     <string name="duration_stats_stopping_streak_sessions_count_legend" translatable="true">Nombre de sessions interrompant une série suivant la durée de la session</string>
     <string name="duration_stats_starting_stopping_streak_sessions_count_help_message" translatable="true">Nombre total de sessions initiant ou interrompant une série suivant la durée de la session.</string>
-    <string name="duration_stats_starting_stopping_streak_sessions_count_clicked_value" translatable="true">%1$s démarrage(s) et %2$s rupture(s) de séries pour les sessions d\'une durée comprise entre %2$s et %3$s</string>
+    <string name="duration_stats_starting_stopping_streak_sessions_count_clicked_value" translatable="true">%1$s démarrage(s) et %2$s rupture(s) de séries pour les sessions d\'une durée comprise entre %3$s et %4$s</string>
 
     <string name="duration_stats_body_at_session_start_legend" translatable="true">\"Corps\" en début de session</string>
     <string name="duration_stats_thoughts_at_session_start_legend" translatable="true">\"Pensées\" en début de session</string>
     <string name="duration_stats_feelings_at_session_start_legend" translatable="true">\"Émotions\" en début de session</string>
     <string name="duration_stats_global_at_session_start_legend" translatable="true">\"Global\" en début de session</string>
-    <string name="duration_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant la durée de la session. (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
-    <string name="duration_stats_user_state_on_session_start_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s au début des sessions d\'une durée comprise entre %2$s et %3$s</string>
+    <string name="duration_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant la durée de la session.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="duration_stats_user_state_on_session_start_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s au début des sessions d\'une durée comprise entre %5$s et %6$s</string>
 
     <string name="duration_stats_body_at_session_end_legend" translatable="true">\"Corps\" en fin de session</string>
     <string name="duration_stats_thoughts_at_session_end_legend" translatable="true">\"Pensées\" en fin de session</string>
     <string name="duration_stats_feelings_at_session_end_legend" translatable="true">\"Émotions\" en fin de session</string>
     <string name="duration_stats_global_at_session_end_legend" translatable="true">\"Global\" en fin de session</string>
-    <string name="duration_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant la durée de la session. (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
-    <string name="duration_stats_user_state_on_session_end_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s à la fin des sessions d\'une durée comprise entre %2$s et %3$s</string>
+    <string name="duration_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant la durée de la session.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="duration_stats_user_state_on_session_end_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s à la fin des sessions d\'une durée comprise entre %5$s et %6$s</string>
 
     <string name="duration_stats_body_diff_legend" translatable="true">\"Corps\" différence entre début et fin de session</string>
     <string name="duration_stats_thoughts_diff_legend" translatable="true">\"Pensées\" différence entre début et fin de session</string>
     <string name="duration_stats_feelings_diff_legend" translatable="true">\"Émotions\" différence entre début et fin de session</string>
     <string name="duration_stats_global_diff_legend" translatable="true">\"Global\" différence entre début et fin de session</string>
     <string name="duration_stats_user_state_diff_help_message" translatable="true">Différence (fin - début) moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") pour les sessions suivant la durée de la session.\n(Les valeurs négatives montrent donc une diminution de la valeur et les valeurs positives une augmentation)\n (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
-    <string name="duration_stats_user_state_diff_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s entre le début et la fin des sessions d\'une durée comprise entre %2$s et %3$s</string>
+    <string name="duration_stats_user_state_diff_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s entre le début et la fin des sessions d\'une durée comprise entre %5$s et %6$s</string>
 
 
 
@@ -219,27 +221,27 @@
     <string name="mp3_stats_starting_streak_sessions_count_legend" translatable="true">Nombre de sessions initiant une série suivant le fichier Mp3</string>
     <string name="mp3_stats_stopping_streak_sessions_count_legend" translatable="true">Nombre de sessions interrompant une série suivant le fichier Mp3</string>
     <string name="mp3_stats_starting_stopping_streak_sessions_count_help_message" translatable="true">Nombre total de sessions initiant ou interrompant une série suivant le fichier audio utilisé comme guide. La liste commence par les sessions sans guide audio s\'il y en a.</string>
-    <string name="mp3_stats_starting_stopping_streak_sessions_count_clicked_value" translatable="true">%1$s démarrage(s) et %2$s rupture(s) de séries pour les sessions guidée(s) par : \"%2$s\"</string>
+    <string name="mp3_stats_starting_stopping_streak_sessions_count_clicked_value" translatable="true">%1$s démarrage(s) et %2$s rupture(s) de séries pour les sessions guidée(s) par : \"%3$s\"</string>
 
     <string name="mp3_stats_body_at_session_start_legend" translatable="true">\"Corps\" en début de session</string>
     <string name="mp3_stats_thoughts_at_session_start_legend" translatable="true">\"Pensées\" en début de session</string>
     <string name="mp3_stats_feelings_at_session_start_legend" translatable="true">\"Émotions\" en début de session</string>
     <string name="mp3_stats_global_at_session_start_legend" translatable="true">\"Global\" en début de session</string>
-    <string name="mp3_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant le fichier audio utilisé comme guide.\nLa liste commence par les sessions sans guide audio s\'il y en a.\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
-    <string name="mp3_stats_user_state_on_session_start_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s au début des sessions guidée(s) par : \"%2$s\"</string>
+    <string name="mp3_stats_user_state_on_session_start_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") au début des sessions suivant le fichier audio utilisé comme guide.\nLa liste commence par les sessions sans guide audio s\'il y en a.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="mp3_stats_user_state_on_session_start_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s au début des sessions guidée(s) par : \"%5$s\"</string>
 
     <string name="mp3_stats_body_at_session_end_legend" translatable="true">\"Corps\" en fin de session</string>
     <string name="mp3_stats_thoughts_at_session_end_legend" translatable="true">\"Pensées\" en fin de session</string>
     <string name="mp3_stats_feelings_at_session_end_legend" translatable="true">\"Émotions\" en fin de session</string>
     <string name="mp3_stats_global_at_session_end_legend" translatable="true">\"Global\" en fin de session</string>
-    <string name="mp3_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant le fichier audio utilisé comme guide.\nLa liste commence par les sessions sans guide audio s\'il y en a.\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
-    <string name="mp3_stats_user_state_on_session_end_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s à la fin des sessions guidée(s) par : \"%2$s\"</string>
+    <string name="mp3_stats_user_state_on_session_end_help_message" translatable="true">Moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") à la fin des sessions suivant le fichier audio utilisé comme guide.\nLa liste commence par les sessions sans guide audio s\'il y en a.\nLes valeurs vont de 1 (le plus mauvais) à 5 (le meilleur). 0 pour \"Aucune valeur enregistrée\".\n(Les sessions sans valeur renseignée sont ignorées du calcul)</string>
+    <string name="mp3_stats_user_state_on_session_end_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s à la fin des sessions guidée(s) par : \"%5$s\"</string>
 
     <string name="mp3_stats_body_diff_legend" translatable="true">\"Corps\" différence entre début et fin de session</string>
     <string name="mp3_stats_thoughts_diff_legend" translatable="true">\"Pensées\" différence entre début et fin de session</string>
     <string name="mp3_stats_feelings_diff_legend" translatable="true">\"Émotions\" différence entre début et fin de session</string>
     <string name="mp3_stats_global_diff_legend" translatable="true">\"Global\" différence entre début et fin de session</string>
     <string name="mp3_stats_user_state_diff_help_message" translatable="true">Différence (fin - début) moyenne des valeurs enregistrées (\"Corps\", \"Pensées\", \"Émotions\" et \"Global\") pour les sessions suivant le fichier audio utilisé comme guide.\nLa liste commence par les sessions sans guide audio s\'il y en a.\n(Les valeurs négatives montrent donc une diminution de la valeur et les valeurs positives une augmentation)\n (Les sessions sans valeur renseignée sont ignorées du calcul)</string>
-    <string name="mp3_stats_user_state_diff_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s entre le début et la fin des sessions guidée(s) par : \"%2$s\"</string>
+    <string name="mp3_stats_user_state_diff_clicked_value" translatable="true">Corps: %1$s, Pensées: %2$s, Émotions: %3$s, Global: %4$s entre le début et la fin des sessions guidée(s) par : \"%5$s\"</string>
 
 </resources>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/color_slider_legs_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/edit_reward_color_slider_legs_label"
+        app:layout_constraintBottom_toTopOf="@+id/edit_reward_colorSlider_legs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.rtugeek.android.colorseekbar.ColorSeekBar
+        android:id="@+id/edit_reward_colorSlider_legs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:colorSeeds="@array/material_colors"
+        app:showAlphaBar="false"
+        app:barHeight="10dp"
+        app:thumbHeight="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/color_slider_body_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_slider_legs_label" />
+
+    <TextView
+        android:id="@+id/color_slider_body_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/edit_reward_color_slider_body_label"
+        app:layout_constraintBottom_toTopOf="@+id/edit_reward_colorSlider_body"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_reward_colorSlider_legs" />
+
+    <com.rtugeek.android.colorseekbar.ColorSeekBar
+        android:id="@+id/edit_reward_colorSlider_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:colorSeeds="@array/material_colors"
+        app:showAlphaBar="false"
+        app:barHeight="10dp"
+        app:thumbHeight="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/color_slider_arms_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_slider_body_label" />
+
+    <TextView
+        android:id="@+id/color_slider_arms_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/edit_reward_color_slider_arms_label"
+        app:layout_constraintBottom_toTopOf="@+id/edit_reward_colorSlider_arms"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_reward_colorSlider_body" />
+
+    <com.rtugeek.android.colorseekbar.ColorSeekBar
+        android:id="@+id/edit_reward_colorSlider_arms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:colorSeeds="@array/material_colors"
+        app:showAlphaBar="false"
+        app:barHeight="10dp"
+        app:thumbHeight="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_edit_reward"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/color_slider_arms_label" />
+
+    <TextView
+        android:id="@+id/edit_reward_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/edit_reward_name_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_edit_reward" />
+
+    <EditText
+        android:id="@+id/edit_reward_name_editTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/edit_reward_name_hint"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_reward_name_label" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_v_edit_reward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_h_edit_reward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+</android.support.constraint.ConstraintLayout>

@@ -9,79 +9,75 @@
     <string name="pref_duration_picker_title" translatable="true">Durée d\'une session</string>
 
     <string name="pref_switch_infinite_session_title" translatable="true">Session infinie</string>
-    <string name="pref_switch_infinite_session_summary_ON" translatable="true">Poursuivre la session une fois la durée prévue écoulée</string>
-    <string name="pref_switch_infinite_session_summary_OFF" translatable="true">Arrêter le compteur une fois la durée prévue écoulée</string>
+        <string name="pref_switch_infinite_session_summary_ON" translatable="true">Poursuivre la session une fois la durée prévue écoulée</string>
+        <string name="pref_switch_infinite_session_summary_OFF" translatable="true">Arrêter le compteur une fois la durée prévue écoulée</string>
 
-    <string name="pref_intermediate_intervals_title" translatable="true">Intervalles intermédiaires</string>
+    <string name="pref_intermediate_intervals_title" translatable="true">Intervalles intermédiaires (inactif sur un support audio)</string>
     <string name="pref_intermediate_intervals_notice" translatable="true">0 pour désactiver les intervalles</string>
-    <string name="pref_intermediate_intervals_summary_ON" translatable="true">Toutes les %1$s</string>
-    <string name="pref_intermediate_intervals_summary_OFF" translatable="true">Aucun</string>
+        <string name="pref_intermediate_intervals_summary_ON" translatable="true">Toutes les %1$s</string>
+        <string name="pref_intermediate_intervals_summary_OFF" translatable="true">Aucun</string>
 
     <string name="pref_ringtones_vibration_title" translatable="true">Sons, vibration</string>
-    <string name="pref_ringtone_start_title" translatable="true">Son au début de la session</string>
-    <string name="pref_ringtone_intermediate_intervals_title" translatable="true">Son pour les intervalles intermédiaires</string>
-    <string name="pref_ringtone_end_title" translatable="true">Son à la fin de la session</string>
-    <string name="ringtoneSummary" translatable="true">%s</string>
-    <string name="pref_switch_vibration_title" translatable="true">Vibration</string>
-    <string name="pref_switch_vibration_summary_ON" translatable="true">Vibration en début, aux intervalles intermédiaires, et en fin de session</string>
-    <string name="pref_switch_vibration_summary_OFF" translatable="true">Pas de vibration en début, aux intervalles intermédiaires, et en fin de session</string>
+        <string name="pref_ringtone_start_title" translatable="true">Son au début de la session</string>
+        <string name="pref_ringtone_intermediate_intervals_title" translatable="true">Son pour les intervalles intermédiaires (inactif sur un support audio)</string>        <string name="pref_ringtone_end_title" translatable="true">Son à la fin de la session</string>
+        <string name="ringtoneSummary" translatable="true">%s</string>
+        <string name="pref_switch_vibration_title" translatable="true">Vibration</string>
+        <string name="pref_switch_vibration_summary_ON" translatable="true">Vibration en début, aux intervalles intermédiaires, et en fin de session</string>
+        <string name="pref_switch_vibration_summary_OFF" translatable="true">Pas de vibration en début, aux intervalles intermédiaires, et en fin de session</string>
 
     <string name="pref_switch_keep_screen_on_title" translatable="true">Garder l\'appareil allumé</string>
-    <string name="pref_switch_keep_screen_on_summary_ON" translatable="true">Empêcher la mise en veille de l\'appareil pendant la session</string>
-    <string name="pref_switch_keep_screen_on_summary_OFF" translatable="true">Autoriser la mise en veille de l\'appareil pendant la session</string>
+        <string name="pref_switch_keep_screen_on_summary_ON" translatable="true">Empêcher la mise en veille de l\'appareil pendant la session</string>
+        <string name="pref_switch_keep_screen_on_summary_OFF" translatable="true">Autoriser la mise en veille de l\'appareil pendant la session</string>
 
     <string name="pref_switch_do_not_disturb_title" translatable="true">Ne pas déranger</string>
-    <string name="pref_switch_do_not_disturb_summary_ON" translatable="true">Couper toutes les notifications pendant la session (compter un délai de 30s en début de session pour laisser le temps au son de se jouer)</string>
-    <string name="pref_switch_do_not_disturb_summary_OFF" translatable="true">Autoriser toutes les notifications pendant la session</string>
-    <string name="pref_switch_do_not_disturb_author_dialog_title" translatable="true">Demande d\'autorisation</string>
-    <string name="pref_switch_do_not_disturb_author_dialog_text" translatable="true">Autoriser l\'application à modifier le réglage "Ne pas déranger" de l\'appareil dans l\'écran suivant.</string>
-
+        <string name="pref_switch_do_not_disturb_summary_ON" translatable="true">Couper toutes les notifications pendant la session (activé entre les sonneries réglées pour début et fin de session et les intervalles intermédiaires)</string>
+        <string name="pref_switch_do_not_disturb_summary_OFF" translatable="true">Autoriser toutes les notifications pendant la session</string>
+        <string name="pref_switch_do_not_disturb_author_dialog_title" translatable="true">Demande d\'autorisation</string>
+        <string name="pref_switch_do_not_disturb_author_dialog_text" translatable="true">Autoriser l\'application à modifier le réglage "Ne pas déranger" de l\'appareil dans l\'écran suivant.</string>
 
     <string name="pref_notification_settings_title" translatable="true">Rappel</string>
-    <string name="pref_notification_active_title" translatable="true">Émettre une notification si aucune session n\'a été faite dans la journée</string>
-    <string name="pref_notification_active_summary" translatable="true">(Sur certains appareils, il faut autoriser l\'ouverture au démarrage dans les réglages de sécurité ou d\'économie d\'énergie pour que le rappel se réactive automatiquement après un redémarrage)</string>
-    <string name="pref_notification_time_title" translatable="true">Heure de la notification </string>
-    <string name="pref_notification_ringtone_title" translatable="true">Son de notification</string>
-    <string name="pref_notification_text_title" translatable="true">Texte de rappel</string>
+        <string name="pref_notification_active_title" translatable="true">Émettre une notification si aucune session n\'a été faite dans la journée</string>
+        <string name="pref_notification_active_summary" translatable="true">(Sur certains appareils, il faut autoriser l\'ouverture au démarrage dans les réglages de sécurité ou d\'économie d\'énergie pour que le rappel se réactive automatiquement après un redémarrage)</string>
+        <string name="pref_notification_time_title" translatable="true">Heure de la notification </string>
+        <string name="pref_notification_ringtone_title" translatable="true">Son de notification</string>
+        <string name="pref_notification_text_title" translatable="true">Texte de rappel</string>
 
     <string name="pref_advanced_settings_title" translatable="true">Avancés</string>
 
-    <string name="pref_modify_app_basics_title" translatable="true">Modifier le comportement basique</string>
-    <string name="pref_collector_active_title" translatable="true">Gamification — PAS ENCORE OPERATIONNELLE</string>
-    <string name="pref_collector_active_summary_ON" translatable="true">Collecte des petits animaux activée</string>
-    <string name="pref_collector_active_summary_OFF" translatable="true">Collecte des petits animaux désactivée</string>
-    <string name="pref_switch_stats_show_numeric_title" translatable="true">Affichage des statistiques — PAS ENCORE OPERATIONNEL</string>
-    <string name="pref_switch_stats_show_numeric_summary_ON" translatable="true">Utiliser des valeurs numériques</string>
-    <string name="pref_switch_stats_show_numeric_summary_OFF" translatable="true">Utiliser le code couleur</string>
+        <string name="pref_records_management_title" translatable="true">Gestion des données enregistrées</string>
+            <string name="pref_delete_sessions_title" translatable="true">Effacer les données enregistrées</string>
+            <string name="pref_delete_all_sessions_title" translatable="true">SUPPRIMER les session</string>
+            <string name="pref_delete_all_sessions_message" translatable="true">Effacer toutes les sessions enregistrées</string>
 
-    <string name="pref_switch_collect_stats_title" translatable="true">Enregistrement des statistiques (pas d\'impact sur les données déjà enregistrées)</string>
-    <string name="pref_switch_collect_stats_summary_ON" translatable="true">Enregistrer les informations de chaque session</string>
-    <string name="pref_switch_collect_stats_summary_OFF" translatable="true">Ne pas enregistrer les informations de chaque session</string>
+            <string name="pref_export_all_sessions_pref_title" translatable="true">Exporter les sessions</string>
+            <string name="pref_export_sessions_dialog_title" translatable="true">Exporter les données enregistrées</string>
+            <string name="pref_export_all_sessions_dialog_message" translatable="true">Exporter toutes les sessions enregistrées</string>
+            <string name="pref_export_all_sessions_export_button" translatable="true">Exporter</string>
+            <string name="pref_export_no_sessions_found_error_message" translatable="true">Aucune session trouvée.</string>
+            <string name="export_sessions_to_csv_task_progressdialog_title" translatable="true">Export en cours</string>
 
-    <string name="pref_records_management_title" translatable="true">Gestion des données enregistrées</string>
+            <string name="pref_import_all_sessions_pref_title" translatable="true">Importer des sessions</string>
+            <string name="pref_import_sessions_dialog_title" translatable="true">Importer des sessions depuis un fichier .csv</string>
+            <string name="pref_import_all_sessions_dialog_message" translatable="true">
+                                Les sessions importées seront ajoutées à la base.\n
+                                Si vous réimportez un fichier généré par la fonction d\'export il sera déjà formatté correctement.\n\n
+                                Dans un autre cas :\n
+                                La première ligne sera ignorée (entêtes), point-virgule ; comme séparateur.\n
+                                Pour un modèle de fichier, enregistrer une session fictive et l\'exporter en .csv.
+                            </string>
+            <string name="pref_import_all_sessions_choose_file_button" translatable="true">Fichier…</string>
+            <string name="parse_sessions_from_csv_task_progressdialog_title" translatable="true">Lecture du fichier en cours</string>
+            <string name="import_sessions_from_csv_task_progressdialog_title" translatable="true">Import en cours</string>
 
-    <string name="pref_delete_sessions_title" translatable="true">Effacer les données enregistrées</string>
-    <string name="pref_delete_all_sessions_title" translatable="true">SUPPRIMER les session</string>
-    <string name="pref_delete_all_sessions_message" translatable="true">Effacer toutes les sessions enregistrées</string>
+        <string name="pref_modify_app_appearance_title" translatable="true">Modifier l\'apparence de l\'application  — PAS ENCORE OPERATIONNELLE</string>
 
-    <string name="pref_export_all_sessions_pref_title" translatable="true">Exporter les sessions</string>
-    <string name="pref_export_sessions_dialog_title" translatable="true">Exporter les données enregistrées</string>
-    <string name="pref_export_all_sessions_dialog_message" translatable="true">Exporter toutes les sessions enregistrées</string>
-    <string name="pref_export_all_sessions_export_button" translatable="true">Exporter</string>
-    <string name="pref_export_no_sessions_found_error_message" translatable="true">Aucune session trouvée.</string>
-    <string name="export_sessions_to_csv_task_progressdialog_title" translatable="true">Export en cours</string>
+        <string name="pref_modify_app_basics_title" translatable="true">Modifier le comportement basique</string>
+            <string name="pref_collector_active_title" translatable="true">Gamification</string>
+            <string name="pref_collector_active_summary_ON" translatable="true">Collecte des récompenses activée</string>
+            <string name="pref_collector_active_summary_OFF" translatable="true">Collecte des petits récompenses désactivée\n(Ne désactive pas la perte de récompense en cas de rupture de série)</string>
 
-    <string name="pref_import_all_sessions_pref_title" translatable="true">Importer des sessions</string>
-    <string name="pref_import_sessions_dialog_title" translatable="true">Importer des sessions depuis un fichier .csv</string>
-    <string name="pref_import_all_sessions_dialog_message" translatable="true">
-                        Les sessions importées seront ajoutées à la base.\n
-                        Si vous réimportez un fichier généré par la fonction d\'export il sera déjà formatté correctement.\n\n
-                        Dans un autre cas :\n
-                        La première ligne sera ignorée (entêtes), point-virgule ; comme séparateur.\n
-                        Pour un modèle de fichier, enregistrer une session fictive et l\'exporter en .csv.
-                    </string>
-    <string name="pref_import_all_sessions_choose_file_button" translatable="true">Fichier…</string>
-    <string name="parse_sessions_from_csv_task_progressdialog_title" translatable="true">Lecture du fichier en cours</string>
-    <string name="import_sessions_from_csv_task_progressdialog_title" translatable="true">Import en cours</string>
 
+            <string name="pref_switch_collect_stats_title" translatable="true">Enregistrement des statistiques (pas d\'impact sur les données déjà enregistrées)</string>
+            <string name="pref_switch_collect_stats_summary_ON" translatable="true">Enregistrer les informations de chaque session</string>
+            <string name="pref_switch_collect_stats_summary_OFF" translatable="true">Ne pas enregistrer les informations de chaque session</string>
 </resources>

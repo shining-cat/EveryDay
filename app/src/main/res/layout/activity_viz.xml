@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".VizActivity">
    <FrameLayout
-        android:id="@+id/viz_activity_fragments_holder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:gravity="center"/>
+      android:id="@+id/viz_activity_fragments_holder"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:fitsSystemWindows="true"
+      android:gravity="center"/>
+
 </FrameLayout>

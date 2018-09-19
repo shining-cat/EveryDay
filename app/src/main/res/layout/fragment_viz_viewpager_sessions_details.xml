@@ -11,40 +11,16 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/sessions_details_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingBottom="30dp"
+        android:paddingTop="30dp"
+        android:paddingEnd="50dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:paddingStart="50dp">
 
     </android.support.v4.view.ViewPager>
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_h_viewpager_session_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-    <ImageButton
-        android:id="@+id/previous_session_details_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_arrow_back_grey_24dp"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_h_viewpager_session_details"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_h_viewpager_session_details"
-        android:contentDescription="@string/arrow_to_left" />
-
-    <ImageButton
-        android:id="@+id/next_session_details_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_arrow_forward_grey_24dp"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_h_viewpager_session_details"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_h_viewpager_session_details"
-        android:contentDescription="@string/arrow_to_right" />
 
 </android.support.constraint.ConstraintLayout>

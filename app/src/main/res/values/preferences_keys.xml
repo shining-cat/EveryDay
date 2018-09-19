@@ -31,10 +31,11 @@
     <string name="pref_modify_app_appearance_key">pref_modify_app_appearance_key</string>
 
     <string name="pref_modify_app_basics_key">pref_modify_app_basics_key</string>
-        <string name="pref_collector_active_key">pref_collector_active_key</string>
-        <string name="pref_switch_stats_show_numeric_key">pref_switch_stats_show_numeric_key</string>
+        <string name="pref_rewards_collector_active_key">pref_rewards_collector_active_key</string>
         <string name="pref_switch_collect_stats_key">pref_switch_collect_stats_key</string>
 
+    <string name="pref_rewards_already_generated_key">pref_rewards_already_generated_key</string>
+    <string name="pref_rewards_escaped_date_key">pref_rewards_escaped_date_key</string>
 
 
 </resources>

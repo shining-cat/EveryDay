@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--
+    thes buttons have been moved inside RewardDetailsCardFragment because of the difficulty to access current item from FragmentPagerAdapter
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/share_reward_action_string"
+        android:icon="@drawable/ic_share_white_24dp"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_edit"
+        android:title="@string/edit_reward_action_string"
+        android:icon="@drawable/ic_edit_white_24dp"
+        app:showAsAction="ifRoom" /> -->
+</menu>

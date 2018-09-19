@@ -27,7 +27,7 @@ public class DurationPickerPreferenceHoursMinutesNoZero extends DialogPreference
     public DurationPickerPreferenceHoursMinutesNoZero(Context context, AttributeSet attrs) {
 
         super(context, attrs);
-        setDialogLayoutResource(R.layout.dialog_duration_picker);
+        setDialogLayoutResource(R.layout.preference_dialog_duration_picker);
         setPositiveButtonText(R.string.generic_string_VALIDATE);
         setNegativeButtonText(R.string.generic_string_CANCEL);
         mDefaultDuration = Long.parseLong(context.getString(R.string.default_duration));

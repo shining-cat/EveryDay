@@ -158,18 +158,11 @@
         <PreferenceScreen
             android:key="@string/pref_modify_app_basics_key"
             android:title="@string/pref_modify_app_basics_title">
+
+            <!--TODO: implement this preferences! -->
             <SwitchPreference
-                android:key="@string/pref_switch_stats_show_numeric_key"
-                android:defaultValue="@string/default_show_numerical_stats"
-                android:title="@string/pref_switch_stats_show_numeric_title"
-                android:summaryOn="@string/pref_switch_stats_show_numeric_summary_ON"
-                android:summaryOff="@string/pref_switch_stats_show_numeric_summary_OFF"
-                android:switchTextOff="@string/generic_string_NO"
-                android:switchTextOn="@string/generic_string_YES"
-            />
-            <SwitchPreference
-                android:key="@string/pref_collector_active_key"
-                android:defaultValue="@string/default_collector_active"
+                android:key="@string/pref_rewards_collector_active_key"
+                android:defaultValue="@string/default_rewards_collector_active"
                 android:title="@string/pref_collector_active_title"
                 android:summaryOn="@string/pref_collector_active_summary_ON"
                 android:summaryOff="@string/pref_collector_active_summary_OFF"

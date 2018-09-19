@@ -12,7 +12,7 @@ import android.widget.TextView;
 import fr.shining_cat.everyday.R;
 
 
-public class SessionsListFilterToggleButton extends ConstraintLayout {
+public class ListFilterToggleButton extends ConstraintLayout {
 
     public static final String ARROW_MODE = "toggle in ARROW mode";
     public static final String CHECK_MODE = "toggle in CHECK mode";
@@ -27,6 +27,8 @@ public class SessionsListFilterToggleButton extends ConstraintLayout {
     public static final String OPTION_NO = "toggle set to option NO";
 
 
+    private static final float ACTIVE_STATUS_ALPHA      = 1f;
+    private static final float INACTIVE_STATUS_ALPHA    = .3f;
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
@@ -40,7 +42,7 @@ public class SessionsListFilterToggleButton extends ConstraintLayout {
     private String mMode;
     private String mActiveOption;
 
-    public SessionsListFilterToggleButton(Context context, AttributeSet attrs) {
+    public ListFilterToggleButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setInactive();
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,11 +72,11 @@ public class SessionsListFilterToggleButton extends ConstraintLayout {
     public void setModeCheckOrArrow(String mode){
         mMode = mode;
         updateMode();
-        Log.d(TAG, "setModeCheckOrArrow :: mode = " + mode);
+        //Log.d(TAG, "setModeCheckOrArrow :: mode = " + mode);
     }
 
     private void updateMode(){
-        Log.d(TAG, "updateMode");
+        //Log.d(TAG, "updateMode");
         if(mMode == null) mMode = ARROW_MODE;
         switch(mMode){
             case CHECK_MODE:
@@ -93,16 +95,16 @@ public class SessionsListFilterToggleButton extends ConstraintLayout {
     }
 
     public void setActive(String option){
-        Log.d(TAG, "setActive::option = " + option);
-        if(mLabel != null) mLabel.setAlpha(1f);
+        //Log.d(TAG, "setActive::option = " + option);
+        if(mLabel != null) mLabel.setAlpha(ACTIVE_STATUS_ALPHA);
         switch(option){
             case OPTION_B:
             case OPTION_DOWN:
             case OPTION_NO:
-                if(mArrowOptionA != null) mArrowOptionA.setAlpha(.5f);
-                if(mCheckOptionA != null) mCheckOptionA.setAlpha(.5f);
-                if(mArrowOptionB != null) mArrowOptionB.setAlpha(1f);
-                if(mCheckOptionB != null) mCheckOptionB.setAlpha(1f);
+                if(mArrowOptionA != null) mArrowOptionA.setAlpha(INACTIVE_STATUS_ALPHA);
+                if(mCheckOptionA != null) mCheckOptionA.setAlpha(INACTIVE_STATUS_ALPHA);
+                if(mArrowOptionB != null) mArrowOptionB.setAlpha(ACTIVE_STATUS_ALPHA);
+                if(mCheckOptionB != null) mCheckOptionB.setAlpha(ACTIVE_STATUS_ALPHA);
                 //
                 mActiveOption = OPTION_B;
                 break;
@@ -110,10 +112,10 @@ public class SessionsListFilterToggleButton extends ConstraintLayout {
             case OPTION_UP:
             case OPTION_YES:
             default:
-                if(mArrowOptionA != null) mArrowOptionA.setAlpha(1f);
-                if(mCheckOptionA != null) mCheckOptionA.setAlpha(1f);
-                if(mArrowOptionB != null) mArrowOptionB.setAlpha(.5f);
-                if(mCheckOptionB != null) mCheckOptionB.setAlpha(.5f);
+                if(mArrowOptionA != null) mArrowOptionA.setAlpha(ACTIVE_STATUS_ALPHA);
+                if(mCheckOptionA != null) mCheckOptionA.setAlpha(ACTIVE_STATUS_ALPHA);
+                if(mArrowOptionB != null) mArrowOptionB.setAlpha(INACTIVE_STATUS_ALPHA);
+                if(mCheckOptionB != null) mCheckOptionB.setAlpha(INACTIVE_STATUS_ALPHA);
                 //
                 mActiveOption = OPTION_A;
                 break;
@@ -121,11 +123,11 @@ public class SessionsListFilterToggleButton extends ConstraintLayout {
     }
 
     public void setInactive(){
-        if(mLabel != null) mLabel.setAlpha(.5f);
-        if(mArrowOptionA != null) mArrowOptionA.setAlpha(.5f);
-        if(mCheckOptionA != null) mCheckOptionA.setAlpha(.5f);
-        if(mArrowOptionB != null) mArrowOptionB.setAlpha(.5f);
-        if(mCheckOptionB != null) mCheckOptionB.setAlpha(.5f);
+        if(mLabel != null) mLabel.setAlpha(INACTIVE_STATUS_ALPHA);
+        if(mArrowOptionA != null) mArrowOptionA.setAlpha(INACTIVE_STATUS_ALPHA);
+        if(mCheckOptionA != null) mCheckOptionA.setAlpha(INACTIVE_STATUS_ALPHA);
+        if(mArrowOptionB != null) mArrowOptionB.setAlpha(INACTIVE_STATUS_ALPHA);
+        if(mCheckOptionB != null) mCheckOptionB.setAlpha(INACTIVE_STATUS_ALPHA);
         //
         mActiveOption = OPTION_NONE;
     }

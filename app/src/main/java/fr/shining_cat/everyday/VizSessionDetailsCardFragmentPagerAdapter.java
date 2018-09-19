@@ -3,22 +3,23 @@ package fr.shining_cat.everyday;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 
 import java.util.List;
 
 import fr.shining_cat.everyday.data.SessionRecord;
+import fr.shining_cat.everyday.utils.CardAdapter;
 
-public class VizSessionsDetailsFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
+public class VizSessionDetailsCardFragmentPagerAdapter  extends FragmentStatePagerAdapter
+                                                        implements CardAdapter {
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
     private List<SessionRecord> mSessions; // Cached copy of sessions
+    private float mBaseElevation;
 
-////////////////////////////////////////
-//FragmentStatePagerAdapter used by VizViewPagerSessionsDetailsFragment on the ViewPager to display details info for one session in a VizViewPagerSessionsDetailsFragment
-//does not go far from usage described in documentation except hacking getItemPosition to allow current fragment update on notifyDataSetChanged
-    public VizSessionsDetailsFragmentStatePagerAdapter(FragmentManager fm){
+    public VizSessionDetailsCardFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -28,18 +29,33 @@ public class VizSessionsDetailsFragmentStatePagerAdapter extends FragmentStatePa
         notifyDataSetChanged();
     }
 
+    public void setBaseElevation(float baseElevation){
+        mBaseElevation = baseElevation;
+    }
+
     @Override
     public Fragment getItem(int position) {
         if(mSessions !=null){
             SessionRecord currentSession = mSessions.get(position);
-            VizSessionDetailsFragment vizSessionDetailsFragment = VizSessionDetailsFragment.newInstance();
-            vizSessionDetailsFragment.setContent(currentSession);
-            return vizSessionDetailsFragment;
+            VizSessionDetailsCardFragment vizSessionDetailsCardFragment = VizSessionDetailsCardFragment.newInstance();
+            vizSessionDetailsCardFragment.setContent(currentSession);
+            return vizSessionDetailsCardFragment;
         }else{
             //data not yet ready
             Log.d(TAG, "getItem::data not available!");
             return null;
         }
+    }
+
+
+    @Override
+    public float getBaseElevation() {
+        return mBaseElevation;
+    }
+
+    @Override
+    public CardView getCardViewAt(int position) {
+        return ((VizSessionDetailsCardFragment) getItem(position)).getCardView();
     }
 
     public SessionRecord getSessionRecordAtPosition(int position){

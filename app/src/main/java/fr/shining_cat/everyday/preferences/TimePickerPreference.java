@@ -22,7 +22,7 @@ public class TimePickerPreference extends DialogPreference {
 //Preference Dialog that will store a Time of the day selected with 2 android TimePickers
     public TimePickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setDialogLayoutResource(R.layout.dialog_time_picker);
+        setDialogLayoutResource(R.layout.preference_dialog_time_picker);
         setPositiveButtonText(R.string.generic_string_VALIDATE);
         setNegativeButtonText(R.string.generic_string_CANCEL);
         mDefaultTimePickerValue = context.getString(R.string.default_time_picker);

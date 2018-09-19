@@ -207,11 +207,10 @@
             android:paddingStart="48dp"
             android:text="@string/view_hours_of_day_stats"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/view_stats_week_btn"
+            app:layout_constraintTop_toTopOf="@id/barrier_h_viz_stats_main_fragment_2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/barrier_h_viz_stats_main_fragment_2" />
+            app:layout_constraintBottom_toTopOf="@id/view_stats_week_btn" />
 
         <Button
             android:id="@+id/view_stats_week_btn"
@@ -225,12 +224,10 @@
             android:paddingEnd="48dp"
             android:paddingStart="48dp"
             android:text="@string/view_day_of_week_stats"
-            app:layout_constraintBottom_toTopOf="@+id/view_stats_month_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/view_stats_day_btn"
+            app:layout_constraintTop_toBottomOf="@+id/view_stats_day_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_stats_day_btn" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/view_stats_month_btn" />
 
         <Button
             android:id="@+id/view_stats_month_btn"
@@ -244,12 +241,10 @@
             android:paddingEnd="48dp"
             android:paddingStart="48dp"
             android:text="@string/view_day_of_month_stats"
-            app:layout_constraintBottom_toTopOf="@+id/view_stats_duration_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/view_stats_week_btn"
+            app:layout_constraintTop_toBottomOf="@id/view_stats_week_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_stats_week_btn" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/view_stats_duration_btn" />
 
         <Button
             android:id="@+id/view_stats_duration_btn"
@@ -263,12 +258,10 @@
             android:paddingEnd="48dp"
             android:paddingStart="48dp"
             android:text="@string/view_durations_stats"
-            app:layout_constraintBottom_toTopOf="@+id/view_stats_mp3_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/view_stats_month_btn"
+            app:layout_constraintTop_toBottomOf="@id/view_stats_month_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_stats_month_btn" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/view_stats_mp3_btn"/>
 
         <Button
             android:id="@+id/view_stats_mp3_btn"
@@ -284,14 +277,24 @@
             android:text="@string/mp3_stats_label"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/view_stats_month_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_stats_month_btn" />
+            app:layout_constraintTop_toBottomOf="@id/view_stats_duration_btn" />
+
+        <TextView
+            android:id="@+id/no_session_recorded_txtvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/no_sessions_recorded"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/barrier_h_viz_stats_main_fragment_2" />
 
         <ProgressBar
             android:id="@+id/loading_indicator"
-            style="?android:attr/progressBarStyle"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginBottom="8dp"
@@ -299,7 +302,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:indeterminate="true"
-            android:indeterminateTint="@color/buddhist_pink"
+            android:indeterminateTint="@color/buddhist_brown"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

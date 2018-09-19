@@ -38,6 +38,7 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import fr.shining_cat.everyday.utils.TimeOperations;
+import fr.shining_cat.everyday.utils.UiUtils;
 import fr.shining_cat.everyday.utils.WakelockController;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
@@ -104,6 +105,7 @@ public class SessionInProgressFragment extends Fragment {
     private int mAudioFileDuration;
     private MediaPlayer mMediaPlayer;
     private Ringtone mRingtone;
+    private Uri mLastPlayedRingtoneUri;
 
 
 ////////////////////////////////////////
@@ -162,44 +164,72 @@ public class SessionInProgressFragment extends Fragment {
         mRunSessionCountUpIsRunning = false;
         mRingerModeIsOverridden = false;
         mPreviousRingerMode = -1;
-        Log.d(TAG, "AudioManager.RINGER_MODE_VIBRATE = " + AudioManager.RINGER_MODE_VIBRATE +
-                " / AudioManager.RINGER_MODE_SILENT = " + AudioManager.RINGER_MODE_SILENT +
-        " / AudioManager.RINGER_MODE_NORMAL = " + AudioManager.RINGER_MODE_NORMAL);
         mIsNormalBackNavAllowed = true;
         mGuideMp3 = "";
-        //if we were passed an audio file URI for a guided session, retrieve name and duration
+        //if we were passed an audio file URI for a guided session, retrieve name, artist, and duration
         if(mAudioContentUri != null){
-            //duration
             MediaMetadataRetriever mmr = new MediaMetadataRetriever();
             mmr.setDataSource(this.getActivity(), mAudioContentUri);
+            //get audio file display name :
+            String fileNameStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+            if(fileNameStr == null){
+                Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_TITLE :: fileNameStr is NULL!!");
+                mGuideMp3 = getActivity().getString(R.string.guided_session_filename_unknown);
+            }else if(fileNameStr.isEmpty()){
+                Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_TITLE :: fileNameStr is EMPTY!!");
+                mGuideMp3 = getActivity().getString(R.string.guided_session_filename_unknown);
+            }else {
+                mGuideMp3 = fileNameStr;
+            }
+            //get audio file artist name
+            String artistNameStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+            if(artistNameStr == null){
+                Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_ARTIST :: artistNameStr is NULL!!");
+                mGuideMp3 += " - " + getActivity().getString(R.string.guided_session_artist_unknown);
+
+            }else if(artistNameStr.isEmpty()){
+                Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_ARTIST :: artistNameStr is EMPTY!!");
+                mGuideMp3 += " - " + getActivity().getString(R.string.guided_session_artist_unknown);
+            }else {
+                mGuideMp3 += " - " + artistNameStr;
+            }
+            //get audio file album name
+            String albumNameStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
+            if(albumNameStr == null){
+                Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_ALBUM :: albumNameStr is NULL!!");
+                mGuideMp3 += " - " + getActivity().getString(R.string.guided_session_album_unknown);
+
+            }else if(albumNameStr.isEmpty()){
+                Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_ALBUM :: artistNameStr is EMPTY!!");
+                mGuideMp3 += " - " + getActivity().getString(R.string.guided_session_album_unknown);
+            }else {
+                mGuideMp3 += " - " + albumNameStr;
+            }
+            Log.d(TAG, "onAttach::mGuideMp3 = " + mGuideMp3 + " / mAudioFileDuration in minutes = " + mAudioFileDuration/60000);
+            //get audio file duration :
             String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
             if(durationStr == null){
-                //TODO : bug chez zoe avec calme et attentif : durationStr == null
                 Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_DURATION :: durationStr is NULL!!");
+                if(mListener!=null) {
+                    mListener.askForManualAudioDurationEntry();
+                }else{
+                    Log.e(TAG, "onAttach::no listener!!");
+                }
             }else if(durationStr.isEmpty()){
                 Log.e(TAG, "onAttach::MediaMetadataRetriever could not retrieve METADATA_KEY_DURATION :: durationStr is EMPTY!!");
-            }else {
-                //TODO: bug if duration not there : voir calme et attentif comme une grenouille => ajouter dialogue et inviter à entrer manuellement une durée?
-                mAudioFileDuration = Integer.parseInt(durationStr);
-            }
-            //file name
-            Cursor returnCursor = this.getActivity().getContentResolver().query(mAudioContentUri, null, null, null, null);
-            if (returnCursor != null) {
-                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                returnCursor.moveToFirst();
-                mGuideMp3 = returnCursor.getString(nameIndex);
-                if(mGuideMp3 == null || mGuideMp3.isEmpty()){
-                    Log.e(TAG, "onAttach::nothing in cursor OpenableColumns.DISPLAY_NAME!! could not get audio file name");
-                    mGuideMp3 = getActivity().getString(R.string.guided_session_filename_unknown);
+                if(mListener!=null) {
+                    mListener.askForManualAudioDurationEntry();
+                }else{
+                    Log.e(TAG, "onAttach::no listener!!");
                 }
-                returnCursor.close();
-            }else{
-                Log.e(TAG, "onAttach::returnCursor is NULL!! could not get audio file name");
+            }else {
+                mAudioFileDuration = Integer.parseInt(durationStr);
+                Log.d(TAG, "onAttach::mGuideMp3 = " + mGuideMp3 + " /  mAudioFileDuration = " + mAudioFileDuration / 60000);
+                prepareStart();
             }
-            Log.d(TAG, "onAttach::mGuideMp3 = " + mGuideMp3 + " / mAudioFileDuration = " + mAudioFileDuration);
+        }else{
+            prepareStart();
         }
-        //
-        prepareStart();
         return mRootView;
     }
 
@@ -208,7 +238,7 @@ public class SessionInProgressFragment extends Fragment {
         Log.d(TAG, "onDetach");
         super.onDetach();
         mListener = null;
-        destroyBubbleTimerAnimation();
+        destroyBubbleTimerAnimations();
         destroyAllCountDownTimers();
         if(mMediaPlayer!=null){
             mMediaPlayer.release();
@@ -230,6 +260,16 @@ public class SessionInProgressFragment extends Fragment {
         handleAlarmPostponing();
 
     }
+
+
+////////////////////////////////////////
+//manual duration entry (mAudioFileDuration) called if audio file duration could not be obtained from MediaMetadataRetriever
+
+    public void onManualAudioDurationEntryCallback(long manualAudioDuration){
+        mAudioFileDuration = (int) manualAudioDuration; //safe cast because duration can not exceed 24hrs as Ms
+        prepareStart();
+    }
+
 ////////////////////////////////////////
 //if user has set a reminder alarm in saved Sharedprefs, we cancel it for the current day when he starts a session
     private void handleAlarmPostponing() {
@@ -308,7 +348,7 @@ String mCountdownTxt;
                 return true;
             }
         });
-        playSessionSound(PLAY_START_SESSION_SOUND);
+        playRingtoneSound(PLAY_START_SESSION_SOUND);
         handleVibrateDevice();
         launchBubbleTimer();
         sessionIsFinished = false;
@@ -356,9 +396,16 @@ String mCountdownTxt;
 /////////////////
 //actual session start :
 /////////////////
+            //TODO? handle mediaplayer errors and display alertdialogs accordingly
             mRunSessionCountDownIsRunning = true;
             if(mAudioContentUri != null){ // launch audio playback
                 mMediaPlayer = new MediaPlayer();
+                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        mediaPlayer.release();
+                    }
+                });
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 try {
                     mMediaPlayer.setDataSource(getActivity().getApplicationContext(), mAudioContentUri);
@@ -386,7 +433,7 @@ String mCountdownTxt;
                     if(mIntermediateIntervalLength!=0){
                         //Log.d(TAG, "onTick::mElapsedTime % intermediateIntervalLength = " + (mElapsedTime % intermediateIntervalLength));
                         if(mElapsedTime > 0 && mElapsedTime % mIntermediateIntervalLength < 50){ //in case onTick is not precise to the millisecond
-                            playSessionSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
+                            playRingtoneSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
                         }
                     }
                     String differenceBtwnPlannedAndElapsedTime = durationFormattedComplete(Math.min(mPlannedDuration, Math.abs(mPlannedDuration - mElapsedTime)));
@@ -396,14 +443,14 @@ String mCountdownTxt;
 
                 public void onFinish() {
                     handleDoNotDisturbMode(false); //allow end of planned session sound to play
-                    playSessionSound(PLAY_END_SESSION_SOUND);
+                    playRingtoneSound(PLAY_END_SESSION_SOUND);
                     handleVibrateDevice();
                     //mElapsedTime += runSessionCountDownUpdateInterval; //can't rely on this because countdowntimer may skip last onTick if remaining time is < to 1 interval (even for 1 millisecond) => as a result, we neraly always miss 1 interval from total duration
                     //mElapsedTime = mSessionRemainingDuration; //wrong too because then if a pause has occurred, then only the duration remaining at resume time will be acounted for...
                     mElapsedTime = mPlannedDuration;  // if we have reached onFinish here, means we have done the planned duration, we overwrite previous sub-counting in mElapsedTime with the real value (otherwise it would have missed one onTick at least)
                     Log.d(TAG, "onFinish::mElapsedTime = " + mElapsedTime);
                     mRunSessionCountDownIsRunning = false;
-                    destroyBubbleTimerAnimation();
+                    destroyBubbleTimerAnimations();
                     if(mMediaPlayer!=null){
                         mMediaPlayer.stop();
                         mMediaPlayer.release();
@@ -453,7 +500,7 @@ String mCountdownTxt;
                 Log.d(TAG, "launchSessionOverStay::onTick::plannedDuration = " + mPlannedDuration/1000 + " / mElapsedTime = " + mElapsedTime/1000);
                 if(mIntermediateIntervalLength!=0){
                     if(mElapsedTime % mIntermediateIntervalLength < 50){ //in case onTick is not precise to the millisecond
-                        playSessionSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
+                        playRingtoneSound(PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND);
                     }
                 }
                 if(bonusDuration.isEmpty()) {
@@ -490,7 +537,7 @@ String mCountdownTxt;
     private void pauseSession() {
         Log.d(TAG, "pauseSession");
         destroyAllCountDownTimers();
-        stopBubbleTimerAnimation();
+        stopBubbleTimerAnimations();
         showPauseDialog();
         handleKeepScreenOn(false);
         handleDoNotDisturbMode(false);
@@ -523,7 +570,7 @@ String mCountdownTxt;
     private DialogInterface.OnClickListener onPauseDialogEndBtnListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            removeStickyNotification();
+            updateStickyNotification(SESSION_STATE_ENDED);
             endSession();
         }
     };
@@ -540,14 +587,13 @@ String mCountdownTxt;
         Log.d(TAG, "endSession");
         sessionIsFinished = true;
         destroyAllCountDownTimers();
-        stopBubbleTimerAnimation();
+        stopBubbleTimerAnimations();
         handleKeepScreenOn(false);
         handleDoNotDisturbMode(false);
         Log.d(TAG, "endSession::mElapsedTime = " + mElapsedTime);
         int realDurationVsPlanned = Long.compare(mElapsedTime, mPlannedDuration);
         WakelockController.release();
         //do not remove the sticky notification yet, keep it active until mood has been recorded. => removing will be handled then by SessionActivity
-        //removeStickyNotification();
         mListener.onFinishSessionInProgressFragment(mElapsedTime, mPausesCount, realDurationVsPlanned, mGuideMp3);
     }
 
@@ -584,7 +630,7 @@ String mCountdownTxt;
 
     private void startAnimPulseExpand(){
         int animPulseExpandDuration = Integer.parseInt(getString(R.string.anim_pulse_expand_duration));
-        //I chose to set this proportionnal to the square root of the elapsed time because the mind will rather interpret the area than the widht or height as the important data
+        //I chose to set this proportional to the square root of the elapsed time because the mind will rather interpret the area than the widht or height as the important data
         float startScale = Math.max(0f, (float) Math.sqrt((double) mElapsedTime / (double) mPlannedDuration));
         mAnimPulseExpand = new ScaleAnimation(startScale, 1f, startScale, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         mAnimPulseExpand.setDuration(animPulseExpandDuration);
@@ -594,7 +640,7 @@ String mCountdownTxt;
     }
     private void startAnimPulseRetract(){
         int animPulseRetractDuration = Integer.parseInt(getString(R.string.anim_pulse_retract_duration));
-        //I chose to set this proportionnal to the square root of the elapsed time because the mind will rather interpret the area than the widht or height as the important data
+        //I chose to set this proportional to the square root of the elapsed time because the mind will rather interpret the area than the widht or height as the important data
         //Adding the duration of the anim here to be sure to aim at the right value for the end of the anim, and avoid a jump between the value reached and the nex start of mAnimPulseExpand
         float endScale = Math.max(0f, (float) Math.sqrt((float) (mElapsedTime + animPulseRetractDuration) / (float) mPlannedDuration));
         mAnimPulseRetract = new ScaleAnimation(1f, endScale, 1f, endScale, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -652,7 +698,7 @@ String mCountdownTxt;
         @Override
         public void onAnimationRepeat(Animation animation) {}
     };
-    private void stopBubbleTimerAnimation(){//will not really stop them but rather prevent the cycle to start again
+    private void stopBubbleTimerAnimations(){//will not really stop them but rather prevent the cycle to start again
         if(mAnimPulseExpand !=null) {
             mAnimPulseExpand.setAnimationListener(null);
         }
@@ -667,8 +713,8 @@ String mCountdownTxt;
         }
     }
 
-    private void destroyBubbleTimerAnimation(){
-        stopBubbleTimerAnimation();
+    private void destroyBubbleTimerAnimations(){
+        stopBubbleTimerAnimations();
         if(mAnimPulseExpand != null && mAnimPulseExpand.hasStarted()){
             mAnimPulseExpand.cancel();
             mAnimPulseExpand =null;
@@ -689,6 +735,10 @@ String mCountdownTxt;
 
 ////////////////////////////////////////
 //display / update / remove sticky notification while session runs/is paused / ends
+    //TODO : when app is killed by user by swiping it from recent apps, we receive no callback => find a way to remove sticky notif in this case, because it stays there!
+    //see : https://stackoverflow.com/questions/40169163/java-android-close-application-notifications-after-swiping-in-recents
+    //see : https://stackoverflow.com/questions/19568315/how-to-handle-code-when-app-is-killed-by-swiping-in-android
+    //see : https://stackoverflow.com/questions/48525884/how-to-detect-app-is-removed-from-recents-overview-screen-on-android-oreo
     private void displayStickyNotification(){
        Log.d(TAG, "displayStickyNotification");
         String totalPlannedTime = durationFormattedShort(mPlannedDuration);
@@ -749,7 +799,7 @@ String mCountdownTxt;
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 boolean recordStatsPref = prefs.getBoolean(getString(R.string.pref_switch_collect_stats_key), Boolean.valueOf(getString(R.string.default_collect_stats)));
                 if(!recordStatsPref){ // user is not recording any stats : no need to show the end session notification
-                    removeStickyNotification();
+                    UiUtils.removeStickyNotification(mContext, STICKY_SESSION_RUNNING_NOTIFICATION_ID);
                     return;
                 }else{
                     notifText = String.format(getString(R.string.session_ended_notification_text), elapsedTimeShort);
@@ -769,15 +819,7 @@ String mCountdownTxt;
         }
     }
 
-    private void removeStickyNotification(){
-        Log.d(TAG, "removeStickyNotification");
-        NotificationManager notifyManager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
-        if (notifyManager != null) {
-            notifyManager.cancel(STICKY_SESSION_RUNNING_NOTIFICATION_ID);
-        }else{
-            Log.e(TAG, "removeStickyNotification::notifyManager is null!!");
-        }
-    }
+
 
 ////////////////////////////////////////
 //IF a session is running, override backNav to pause the session, otherwise, let parent activity handle the back nav
@@ -864,47 +906,71 @@ String mCountdownTxt;
 
 ////////////////////////////////////////
 //Helper method to play sound set in savedSharedPref
-    private void playSessionSound(String play_session_sound) {
-        if(mAudioContentUri==null) { //override user's prefs if session is audio guided => no start or end sound
+
+// reported bug when playing ringtone: MediaPlayer: error (1, -19) ... could not trace precisely error cause
+// consequence of bug: all sounds on device are broken until killing everyday app.
+// seems the mediaplayer was not released.
+// => added mMediaPlayer.setOnCompletionListener to release it when playing guiding mp3
+// BUT notifs are played through Ringtone which has no release method...
+// => changed code to recycle the existing Ringtone object if it would play the same sound instead of recreating a new instance each time...
+// bug not reported again then
+
+    //TODO: BUG 2x session sur support audio a crashé: une fois avant la fin du support, une fois au milieu de la sonnerie de fin... voir si pb avec pauses... fragment affichÃ© ensuite = mood start recorder pour session sans support audio
+
+    private void playRingtoneSound(String playRingtoneSound) {
+        //if(mAudioContentUri==null) { //override user's prefs if session is audio guided => no start or end sound
+        // => removed because sometimes the audio support has no noticeable end, so we let the user decide and set the notification parameter to off if she does not want it
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String soundString;
-            Log.d(TAG, "playSessionSound " + play_session_sound);
-            switch (play_session_sound) {
+            String ringtoneString = "";
+            Log.d(TAG, "playRingtoneSound " + playRingtoneSound);
+            switch (playRingtoneSound) {
                 case PLAY_START_SESSION_SOUND:
                     String defaultStartSoundUriString = uriFromRaw(getString(R.string.default_session_start_sound)).toString();
-                    soundString = prefs.getString(getString(R.string.pref_ringtone_start_key), defaultStartSoundUriString);
+                    ringtoneString = prefs.getString(getString(R.string.pref_ringtone_start_key), defaultStartSoundUriString);
                     break;
                 case PLAY_END_SESSION_SOUND:
                     String defaultEndSoundUriString = uriFromRaw(getString(R.string.default_session_end_sound)).toString();
-                    soundString = prefs.getString(getString(R.string.pref_ringtone_end_key), defaultEndSoundUriString);
+                    ringtoneString = prefs.getString(getString(R.string.pref_ringtone_end_key), defaultEndSoundUriString);
                     break;
                 case PLAY_INTERMEDIATE_INTERVAL_SESSION_SOUND:
-                    String defaultIntermediateIntervalSoundUriString = uriFromRaw(getString(R.string.default_intermediate_interval_sound)).toString();
-                    soundString = prefs.getString(getString(R.string.pref_ringtone_intermediate_intervals_key), defaultIntermediateIntervalSoundUriString);
+                    if(mAudioContentUri==null) { //only play intermediate interval sounds when there is no audio support already playing, it is too disturbing
+                        String defaultIntermediateIntervalSoundUriString = uriFromRaw(getString(R.string.default_intermediate_interval_sound)).toString();
+                        ringtoneString = prefs.getString(getString(R.string.pref_ringtone_intermediate_intervals_key), defaultIntermediateIntervalSoundUriString);
+                    }
                     break;
                 default:
-                    Log.e(TAG, "Wrong instruction to play session sound");
+                    Log.e(TAG, "playRingtoneSound:: Wrong instruction to play session sound");
                     return;
             }
-            Uri soundUri = Uri.parse(soundString);
-            if (soundUri != null) {
-                if (soundUri.toString().length() > 0) {
-                    //suspend DND so user can hear ringtone (espacially intermediate intervals)
+            Uri ringtoneUri = Uri.parse(ringtoneString);
+            if (ringtoneUri != null) {
+                if (ringtoneUri.toString().length() > 0) {
+                    //suspend DND so user can hear ringtone (especially intermediate intervals)
                     handleDoNotDisturbMode(false);
                     if(mRingtone!=null){
+                        Log.d(TAG, "playRingtoneSound::mRingtone is not null!");
                         if(mRingtone.isPlaying()){ // in case previous ringtone is still playing (long session start sound + short intermediate intervals for example)
+                            Log.d(TAG, "playRingtoneSound::mRingtone.isPlaying() ... stopping...");
                             mRingtone.stop();
                         }
                     }
-                    mRingtone = RingtoneManager.getRingtone(getActivity(), soundUri);
+                    if(mRingtone != null && mLastPlayedRingtoneUri != null && mLastPlayedRingtoneUri.equals(ringtoneUri)){
+                        //last time mRingtone played it was the same sound uri, recycle it
+                        Log.d(TAG, "playRingtoneSound:: recycling mRingtone to play same sound again");
+                    }else{
+                        Log.d(TAG, "playRingtoneSound:: getting new Ringtone to play different sound");
+                        mRingtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
+                    }
+                    mLastPlayedRingtoneUri = ringtoneUri;
+                    Log.d(TAG, "playRingtoneSound::mRingtone = " + mRingtone);
                     mRingtone.play();
                 } else {
-                    Log.d(TAG, "session sound set to silence");
+                    Log.d(TAG, "playRingtoneSound::session sound set to silence");
                 }
             } else {
-                Log.e(TAG, "URI for session sound was null!");
+                Log.e(TAG, "playRingtoneSound::URI for session sound was null!");
             }
-        }
+        //}
     }
     private Uri uriFromRaw(String name) {
         int resId = getActivity().getResources().getIdentifier(name, "raw", getActivity().getPackageName());
@@ -954,7 +1020,7 @@ String mCountdownTxt;
 ////////////////////////////////////////
 //Listener interface
     public interface SessionInProgressFragmentListener {
-        void onAbortSessionInProgressFragment();
+        void askForManualAudioDurationEntry();
         void onFinishSessionInProgressFragment(long duration, int pausesCount, int realVsPlannedDuration, String guideMp3);
     }
 

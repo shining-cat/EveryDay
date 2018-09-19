@@ -27,7 +27,6 @@ import java.util.Locale;
 
 import fr.shining_cat.everyday.widgets.MoodRecorderViewGroup;
 
-
 ////////////////////////////////////////
 //This Fragment handles the interface to record the user's state at the end of a session
 // Used for normal and manual entry, and editting for session beginning user's state
@@ -180,8 +179,10 @@ public class PostRecordFragment extends Fragment {
             mManualDateEditTxt.setVisibility(View.GONE);
             manualTimeFieldLabel.setVisibility(View.GONE);
             mManualTimeEditTxt.setVisibility(View.GONE);
-            guideMp3Label.setVisibility(View.GONE);
-            mGuideMp3EditTxt.setVisibility(View.GONE);
+            //we show the mp3 field in case the user wants to edit the field, or enter something that was not played through this app
+            guideMp3Label.setVisibility(View.VISIBLE);
+            mGuideMp3EditTxt.setVisibility(View.VISIBLE);
+            mGuideMp3EditTxt.setText(mGuideMp3);
         }
         return fragment;
     }
@@ -219,7 +220,6 @@ public class PostRecordFragment extends Fragment {
                     mMoodRecorder.getGlobalValue());
             //for manual entry, calculate duration based on entered start and end time
             if(mManualEntry){
-                mGuideMp3 = mGuideMp3EditTxt.getText().toString();
                 if((mTimestampOfRecordinMillis - mTimeOfSessionStart)>0){
                     mDuration = mTimestampOfRecordinMillis - mTimeOfSessionStart;
                 }else {//prevent incoherent start/end time storage
@@ -227,6 +227,7 @@ public class PostRecordFragment extends Fragment {
                     return;
                 }
             }
+            mGuideMp3 = mGuideMp3EditTxt.getText().toString();
             mood.setSessionRealDuration(mDuration);
             mood.setPausesCount(mPausesCount);
             mood.setRealDurationVsPlanned(mRealDurationVsPlanned);

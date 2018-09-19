@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reward_details_cardview"
+    app:cardUseCompatPadding="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    app:cardCornerRadius="15dp">
+
+    <!--TODO: for testing pruposes, color holders have been put on top of normal parts => reverse when real drawings are available! -->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/reward_details_flower_holder"
+            android:contentDescription="@string/reward_part_content_description_flower"
+            app:srcCompat="@drawable/flower_1"
+            android:adjustViewBounds = "true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/reward_details_legs_holder"
+            android:contentDescription="@string/reward_part_content_description_legs"
+            app:srcCompat="@drawable/legs_0"
+            android:adjustViewBounds = "true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/reward_details_legs_color_holder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/reward_part_content_description_legs"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/legs_0" />
+
+        <ImageView
+            android:id="@+id/reward_details_body_holder"
+            android:contentDescription="@string/reward_part_content_description_body"
+            app:srcCompat="@drawable/body"
+            android:adjustViewBounds = "true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/reward_details_body_color_holder"
+            android:contentDescription="@string/reward_part_content_description_body"
+            app:srcCompat="@drawable/body"
+            android:adjustViewBounds = "true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/reward_details_arms_holder"
+            android:contentDescription="@string/reward_part_content_description_arms"
+            app:srcCompat="@drawable/arms_1"
+            android:adjustViewBounds = "true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/reward_details_arms_color_holder"
+            android:contentDescription="@string/reward_part_content_description_arms"
+            app:srcCompat="@drawable/arms_1"
+            android:adjustViewBounds = "true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/reward_details_mouth_holder"
+            android:contentDescription="@string/reward_part_content_description_mouth"
+            app:srcCompat="@drawable/mouth_1"
+            android:adjustViewBounds = "true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/reward_details_eyes_holder"
+            android:contentDescription="@string/reward_part_content_description_eyes"
+            app:srcCompat="@drawable/eyes_1"
+            android:adjustViewBounds = "true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/reward_details_horns_holder"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/reward_part_content_description_horns"
+            app:srcCompat="@drawable/horns_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/reward_details_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_level"
+            tools:text="Azraël" />
+
+        <TextView
+            android:id="@+id/reward_details_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/reward_details_date"
+            tools:text="Niveau 3" />
+
+        <TextView
+            android:id="@+id/reward_details_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Depuis le 27/03/2017" />
+
+
+        <View
+            android:id="@+id/reward_details_lost_veil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey_n4_alpha90"/>
+
+        <View
+            android:id="@+id/reward_card_share_btn_background"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="0dp"
+            android:background="@color/buddhist_brown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="5dp"/>
+        <ImageView
+            android:id="@+id/reward_card_share_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="0dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_share_white_24dp"
+            android:elevation="6dp"
+            android:contentDescription="@string/generic_string_SHARE" />
+
+        <View
+            android:id="@+id/reward_card_edit_btn_background"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="0dp"
+            android:background="@color/buddhist_brown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="5dp"/>
+        <ImageView
+            android:id="@+id/reward_card_edit_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="0dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_edit_white_24dp"
+            android:elevation="6dp"
+            android:contentDescription="@string/generic_string_EDIT" />
+
+        <View
+            android:id="@+id/reward_card_flash"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white_alpha75"
+            android:visibility="gone"
+            />
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

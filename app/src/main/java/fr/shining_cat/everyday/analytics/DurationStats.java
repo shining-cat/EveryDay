@@ -13,9 +13,16 @@ public abstract class DurationStats {
 
 ////////////////////////////////////////
 //returns a list of sessionRecords lists of 5mn-duration chunks, sessions are sorted into the list corresponding to their respective duration
-    public static List<List<SessionRecord>> arrangeSessionsByDuration(List<SessionRecord> sessions){
+//forcedLongestDuration must be given in case sessions does not contain the same number of sessions as the other graphs represented
+// => otherwise we could end with arrangedSessionsList of a different size than the others because the longest session may not have the same length
+    public static List<List<SessionRecord>> arrangeSessionsByDuration(List<SessionRecord> sessions, Long forcedLongestDuration){
         List<List<SessionRecord>> arrangedSessionsList= new ArrayList<>();
-        long longestDuration = GeneralStats.getLongestSession(sessions);
+        long longestDuration;
+        if(forcedLongestDuration == null) {
+            longestDuration = GeneralStats.getLongestSession(sessions);
+        }else{
+            longestDuration = forcedLongestDuration;
+        }
         int numberOfSlices =((int) longestDuration / DURATION_STAT_SLICE_LENGTH) + 1;
         //generating the empty lists to hold the different sessions
         for(int i = 0; i < numberOfSlices; i ++){

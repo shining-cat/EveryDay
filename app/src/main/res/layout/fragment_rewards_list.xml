@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".VizActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/rewards_general_statistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/level_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/level"
+            android:textAlignment="viewStart"
+            android:textColor="@color/buddhist_cream"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/obtained_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/obtained"
+            android:textAlignment="viewStart"
+            android:textColor="@color/buddhist_brown"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/level_label" />
+
+        <TextView
+            android:id="@+id/lost_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/lost"
+            android:textAlignment="viewStart"
+            android:textColor="@color/buddhist_brown"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/obtained_label" />
+
+        <TextView
+            android:id="@+id/possible_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/possible"
+            android:textAlignment="viewStart"
+            android:textColor="@color/buddhist_brown"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lost_label" />
+
+    <android.support.constraint.Barrier
+        android:id="@+id/rewards_stats_table_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="level_label,obtained_label,possible_label,lost_label"
+        app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/level1_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@color/buddhist_brown"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/level2_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/rewards_stats_table_barrier"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/level2_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="8dp"
+            android:text="2"
+            android:textAlignment="center"
+            android:textColor="@color/buddhist_brown"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/level3_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/level1_header"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/level3_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="8dp"
+            android:text="3"
+            android:textAlignment="center"
+            android:textColor="@color/buddhist_brown"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/level4_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/level2_header"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/level4_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="8dp"
+            android:text="4"
+            android:textAlignment="center"
+            android:textColor="@color/buddhist_brown"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/level5_header"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/level3_header"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/level5_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="5"
+            android:textAlignment="center"
+            android:textColor="@color/buddhist_brown"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/level4_header"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/level1_obtained_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level1_header"
+            app:layout_constraintStart_toStartOf="@+id/level1_header"
+            app:layout_constraintTop_toTopOf="@+id/obtained_label" />
+
+        <TextView
+            android:id="@+id/level1_lost_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level1_header"
+            app:layout_constraintStart_toStartOf="@+id/level1_header"
+            app:layout_constraintTop_toTopOf="@+id/lost_label" />
+
+        <TextView
+            android:id="@+id/level1_possible_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level1_header"
+            app:layout_constraintStart_toStartOf="@+id/level1_header"
+            app:layout_constraintTop_toTopOf="@+id/possible_label" />
+
+        <TextView
+            android:id="@+id/level2_obtained_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level2_header"
+            app:layout_constraintStart_toStartOf="@+id/level2_header"
+            app:layout_constraintTop_toTopOf="@+id/obtained_label" />
+
+        <TextView
+            android:id="@+id/level2_lost_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level2_header"
+            app:layout_constraintStart_toStartOf="@+id/level2_header"
+            app:layout_constraintTop_toTopOf="@+id/lost_label" />
+
+        <TextView
+            android:id="@+id/level2_possible_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level2_header"
+            app:layout_constraintStart_toStartOf="@+id/level2_header"
+            app:layout_constraintTop_toTopOf="@+id/possible_label" />
+
+        <TextView
+            android:id="@+id/level3_obtained_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level3_header"
+            app:layout_constraintStart_toStartOf="@+id/level3_header"
+            app:layout_constraintTop_toTopOf="@+id/obtained_label" />
+
+        <TextView
+            android:id="@+id/level3_lost_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level3_header"
+            app:layout_constraintStart_toStartOf="@+id/level3_header"
+            app:layout_constraintTop_toTopOf="@+id/lost_label" />
+
+        <TextView
+            android:id="@+id/level3_possible_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level3_header"
+            app:layout_constraintStart_toStartOf="@+id/level3_header"
+            app:layout_constraintTop_toTopOf="@+id/possible_label" />
+
+        <TextView
+            android:id="@+id/level4_obtained_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level4_header"
+            app:layout_constraintStart_toStartOf="@+id/level4_header"
+            app:layout_constraintTop_toTopOf="@+id/obtained_label" />
+
+        <TextView
+            android:id="@+id/level4_lost_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level4_header"
+            app:layout_constraintStart_toStartOf="@+id/level4_header"
+            app:layout_constraintTop_toTopOf="@+id/lost_label" />
+
+        <TextView
+            android:id="@+id/level4_possible_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level4_header"
+            app:layout_constraintStart_toStartOf="@+id/level4_header"
+            app:layout_constraintTop_toTopOf="@+id/possible_label" />
+
+
+        <TextView
+            android:id="@+id/level5_obtained_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level5_header"
+            app:layout_constraintStart_toStartOf="@+id/level5_header"
+            app:layout_constraintTop_toTopOf="@+id/obtained_label" />
+
+        <TextView
+            android:id="@+id/level5_lost_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level5_header"
+            app:layout_constraintStart_toStartOf="@+id/level5_header"
+            app:layout_constraintTop_toTopOf="@+id/lost_label" />
+
+
+        <TextView
+            android:id="@+id/level5_possible_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/buddhist_brown"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="@+id/level5_header"
+            app:layout_constraintStart_toStartOf="@+id/level5_header"
+            app:layout_constraintTop_toTopOf="@+id/possible_label" />
+
+
+    </android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rewards_list_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/rewards_list_filters_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rewards_general_statistics"
+        tools:listitem="@layout/rewards_list_recyclerview_item"/>
+
+    <TextView
+        android:id="@+id/empty_rewards_list_message"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/empty_rewards_list_message"
+        android:textColor="@color/buddhist_brown"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/rewards_list_filters_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/loading_rewards_list_message"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/loading_rewards_list_message"
+        android:textColor="@color/buddhist_brown"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/rewards_list_filters_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- artificial shadow because elevation only allows drop shadow in one direction but I wanted it to be on top of the bottom zone-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/topshadow"
+        app:layout_constraintBottom_toTopOf="@id/rewards_list_filters_layout" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/rewards_list_filters_layout"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/buddhist_brown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <fr.shining_cat.everyday.widgets.ListFilterToggleButton
+            android:id="@+id/rewards_list_date_toggle_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rewards_list_level_toggle_filter"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <fr.shining_cat.everyday.widgets.ListFilterToggleButton
+            android:id="@+id/rewards_list_level_toggle_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rewards_list_active_status_toggle_filter"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/rewards_list_date_toggle_filter"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <fr.shining_cat.everyday.widgets.ListFilterToggleButton
+            android:id="@+id/rewards_list_active_status_toggle_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/rewards_list_level_toggle_filter"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

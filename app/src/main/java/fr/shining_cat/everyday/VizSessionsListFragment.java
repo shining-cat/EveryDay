@@ -18,7 +18,7 @@ import java.util.List;
 import fr.shining_cat.everyday.data.SessionRecord;
 import fr.shining_cat.everyday.data.SessionRecordViewModel;
 import fr.shining_cat.everyday.widgets.SearchBarWidget;
-import fr.shining_cat.everyday.widgets.SessionsListFilterToggleButton;
+import fr.shining_cat.everyday.widgets.ListFilterToggleButton;
 
 public class VizSessionsListFragment extends Fragment implements SearchBarWidget.SearchWidgetListener {
 
@@ -39,9 +39,9 @@ public class VizSessionsListFragment extends Fragment implements SearchBarWidget
     private View mRootView;
     private RecyclerView mSessionsListRecyclerView;
     private VizSessionsListAdapter mVizSessionsListAdapter;
-    private SessionsListFilterToggleButton mDateFilterToggleBtn;
-    private SessionsListFilterToggleButton mDurationFilterToggleBtn;
-    private SessionsListFilterToggleButton mMp3FilterToggleBtn;
+    private ListFilterToggleButton mDateFilterToggleBtn;
+    private ListFilterToggleButton mDurationFilterToggleBtn;
+    private ListFilterToggleButton mMp3FilterToggleBtn;
     private SearchBarWidget mSearchBarWidget;
 
     private String mCurrentFilterAndSortField;
@@ -75,24 +75,24 @@ public class VizSessionsListFragment extends Fragment implements SearchBarWidget
         //
         mDateFilterToggleBtn = mRootView.findViewById(R.id.sessions_list_date_toggle_filter);
         mDateFilterToggleBtn.setLabel(getString(R.string.date));
-        mDateFilterToggleBtn.setModeCheckOrArrow(SessionsListFilterToggleButton.ARROW_MODE);
+        mDateFilterToggleBtn.setModeCheckOrArrow(ListFilterToggleButton.ARROW_MODE);
         mDateFilterToggleBtn.setOnClickListener(mOnDateFilterToggleClickListener);
         //
         mDurationFilterToggleBtn = mRootView.findViewById(R.id.sessions_list_duration_toggle_filter);
         mDurationFilterToggleBtn.setLabel(getString(R.string.duration));
         mDurationFilterToggleBtn.setOnClickListener(mOnDurationFilterToggleClickListener);
-        mDurationFilterToggleBtn.setModeCheckOrArrow(SessionsListFilterToggleButton.ARROW_MODE);
+        mDurationFilterToggleBtn.setModeCheckOrArrow(ListFilterToggleButton.ARROW_MODE);
         //
         mMp3FilterToggleBtn = mRootView.findViewById(R.id.sessions_list_mp3_toggle_filter);
         mMp3FilterToggleBtn.setLabel(getString(R.string.mp3));
         mMp3FilterToggleBtn.setOnClickListener(mOnMp3FilterToggleClickListener);
-        mMp3FilterToggleBtn.setModeCheckOrArrow(SessionsListFilterToggleButton.CHECK_MODE);
+        mMp3FilterToggleBtn.setModeCheckOrArrow(ListFilterToggleButton.CHECK_MODE);
         //
         mSearchBarWidget = mRootView.findViewById(R.id.searchBarWidget);
         mSearchBarWidget.setListener(this);
         //
         //default sessions list filter and sorting is on date descendant
-        mDateFilterToggleBtn.setActive(SessionsListFilterToggleButton.OPTION_DOWN);
+        mDateFilterToggleBtn.setActive(ListFilterToggleButton.OPTION_DOWN);
         filterAndSortSessionsList(SORT_FIELD_DATE, SORT_DIRECTION_DESC);
         setOtherFiltersInactive(mDateFilterToggleBtn);
         setSearchBarInactive();
@@ -106,10 +106,10 @@ public class VizSessionsListFragment extends Fragment implements SearchBarWidget
         @Override
         public void onClick(View v) {
             if(mDateFilterToggleBtn.isActive()){
-                String dateFilterDirection = (mDateFilterToggleBtn.toggle().equals(SessionsListFilterToggleButton.OPTION_UP)) ? SORT_DIRECTION_ASC : SORT_DIRECTION_DESC;
+                String dateFilterDirection = (mDateFilterToggleBtn.toggle().equals(ListFilterToggleButton.OPTION_UP)) ? SORT_DIRECTION_ASC : SORT_DIRECTION_DESC;
                 filterAndSortSessionsList(SORT_FIELD_DATE, dateFilterDirection);
             }else{
-                mDateFilterToggleBtn.setActive(SessionsListFilterToggleButton.OPTION_UP);
+                mDateFilterToggleBtn.setActive(ListFilterToggleButton.OPTION_UP);
                 filterAndSortSessionsList(SORT_FIELD_DATE, SORT_DIRECTION_ASC);
                 setOtherFiltersInactive(mDateFilterToggleBtn);
                 setSearchBarInactive();
@@ -120,10 +120,10 @@ public class VizSessionsListFragment extends Fragment implements SearchBarWidget
         @Override
         public void onClick(View v) {
             if(mDurationFilterToggleBtn.isActive()){
-                String durationFilterDirection = (mDurationFilterToggleBtn.toggle().equals(SessionsListFilterToggleButton.OPTION_UP)) ? SORT_DIRECTION_ASC : SORT_DIRECTION_DESC;
+                String durationFilterDirection = (mDurationFilterToggleBtn.toggle().equals(ListFilterToggleButton.OPTION_UP)) ? SORT_DIRECTION_ASC : SORT_DIRECTION_DESC;
                 filterAndSortSessionsList(SORT_FIELD_DURATION, durationFilterDirection);
             }else{
-                mDurationFilterToggleBtn.setActive(SessionsListFilterToggleButton.OPTION_UP);
+                mDurationFilterToggleBtn.setActive(ListFilterToggleButton.OPTION_UP);
                 filterAndSortSessionsList(SORT_FIELD_DURATION, SORT_DIRECTION_ASC);
                 setOtherFiltersInactive(mDurationFilterToggleBtn);
                 setSearchBarInactive();
@@ -134,10 +134,10 @@ public class VizSessionsListFragment extends Fragment implements SearchBarWidget
         @Override
         public void onClick(View v) {
             if(mMp3FilterToggleBtn.isActive()){
-                String mp3FilterParam = (mMp3FilterToggleBtn.toggle().equals(SessionsListFilterToggleButton.OPTION_YES)) ? SORT_WITH : SORT_WITHOUT;
+                String mp3FilterParam = (mMp3FilterToggleBtn.toggle().equals(ListFilterToggleButton.OPTION_YES)) ? SORT_WITH : SORT_WITHOUT;
                 filterAndSortSessionsList(SORT_FIELD_MP3, mp3FilterParam);
             }else{
-                mMp3FilterToggleBtn.setActive(SessionsListFilterToggleButton.OPTION_YES);
+                mMp3FilterToggleBtn.setActive(ListFilterToggleButton.OPTION_YES);
                 filterAndSortSessionsList(SORT_FIELD_MP3, SORT_WITH);
                 setOtherFiltersInactive(mMp3FilterToggleBtn);
                 setSearchBarInactive();
@@ -159,7 +159,7 @@ public class VizSessionsListFragment extends Fragment implements SearchBarWidget
         filterAndSortSessionsList(SEARCH, null);
     }
 
-    private void setOtherFiltersInactive(SessionsListFilterToggleButton onlyActiveToggle){
+    private void setOtherFiltersInactive(ListFilterToggleButton onlyActiveToggle){
         if(onlyActiveToggle != mDateFilterToggleBtn) mDateFilterToggleBtn.setInactive();
         if(onlyActiveToggle != mDurationFilterToggleBtn) mDurationFilterToggleBtn.setInactive();
         if(onlyActiveToggle != mMp3FilterToggleBtn) mMp3FilterToggleBtn.setInactive();

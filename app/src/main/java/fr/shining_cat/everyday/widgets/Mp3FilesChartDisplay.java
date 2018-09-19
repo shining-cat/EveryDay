@@ -26,7 +26,7 @@ public class Mp3FilesChartDisplay extends ChartDisplay {
     @Override
     protected String buildDisplayValueString(String baseString, ArrayList<String> elements, float xPosition) {
         String displayString = "";
-        String[] displayStringElements = new String[elements.size() + 2];
+        String[] displayStringElements = new String[elements.size() + 1];
         for(int i = 0; i < elements.size(); i ++){
             displayStringElements[i] = elements.get(i);
         }
@@ -48,6 +48,8 @@ public class Mp3FilesChartDisplay extends ChartDisplay {
                 iobe.printStackTrace();
                 return String.valueOf(xPos);
             }
+        }else{
+            Log.e(TAG, "convertXposToMp3FileNameForDisplay :: mMp3Filenames is NULL!");
         }
         return String.valueOf(xPos);
     }

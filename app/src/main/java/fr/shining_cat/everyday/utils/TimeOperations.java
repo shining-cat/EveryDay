@@ -128,4 +128,16 @@ public abstract class TimeOperations {
         return modifyingCalendar.getTimeInMillis();
     }
 
+////////////////////////////////////////
+//static helper method returns a the number of days between 2 timestamps in Ms
+    public static int getNumberOfFullDaysBetween2TimestampsInMillis(long earlyTimestamp, long lateTimestamp){
+        Calendar earlyTimestampCal = Calendar.getInstance();
+        earlyTimestampCal.setTimeInMillis(earlyTimestamp);
+        Calendar lateTimestampCal = Calendar.getInstance();
+        lateTimestampCal.setTimeInMillis(lateTimestamp);
+        long lateAtMidnight = setTimePartOfDateToMidnight(lateTimestampCal);
+        long earlyAtMidnight = setTimePartOfDateToMidnight(earlyTimestampCal);
+        return(int) TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight);
+    }
+
 }

@@ -321,111 +321,228 @@ public abstract class GeneralStats {
 
 ////////////////////////////////////////
 //Sessions BODY values operations
-    public static float getAverageStartBodyValue(List<SessionRecord> sessions){
+
+    //returns null if no session has any record for start body value
+    public static Float getAverageStartBodyValue(List<SessionRecord> sessions){
+        Float averageStartBodyValue = null;
         if(sessions.size() != 0) {
             long totalStartBodyValue = 0;
+            int numberOfRecordsWithValueSet = 0;
             for (SessionRecord session : sessions) {
-                totalStartBodyValue += session.getStartBodyValue();
+                int value = session.getStartBodyValue();
+                //only take into account values when set (actual value range is from 1 -WORST- to 5 -BEST- and 0 is for NOT SET)
+                if(value != 0) {
+                    totalStartBodyValue += value;
+                    numberOfRecordsWithValueSet ++;
+                }
             }
-            return ((float)totalStartBodyValue / (float)sessions.size());
-        } else{
-            return 0;
+            if(numberOfRecordsWithValueSet != 0) {
+                averageStartBodyValue = ((float) totalStartBodyValue / (float) numberOfRecordsWithValueSet);
+            }
         }
+        return averageStartBodyValue;
     }
-    public static float getAverageEndBodyValue(List<SessionRecord> sessions){
+
+    //returns null if no session has any record for end body value
+    public static Float getAverageEndBodyValue(List<SessionRecord> sessions){
+        Float averageEndBodyValue = null;
         if(sessions.size() != 0) {
             long totalEndBodyValue = 0;
+            int numberOfRecordsWithValueSet = 0;
             for (SessionRecord session : sessions) {
-                totalEndBodyValue += session.getEndBodyValue();
+                int value = session.getEndBodyValue();
+                //only take into account values when set (actual value range is from 1 -WORST- to 5 -BEST- and 0 is for NOT SET)
+                if(value != 0) {
+                    totalEndBodyValue += value;
+                    numberOfRecordsWithValueSet ++;
+                }
             }
-            return ((float)totalEndBodyValue / (float)sessions.size());
-        } else{
-            return 0;
+            if(numberOfRecordsWithValueSet != 0) {
+                averageEndBodyValue = ((float) totalEndBodyValue / (float) numberOfRecordsWithValueSet);
+            }
         }
+        return averageEndBodyValue;
     }
-    public static float getAverageDiffBodyValue(List<SessionRecord> sessions){
-        return getAverageEndBodyValue(sessions) - getAverageStartBodyValue(sessions);
+
+    //returns 0f if no session has any record for start or end body value =>  diff is assumed to be 0 if calculating it is not possible
+    public static Float getAverageDiffBodyValue(List<SessionRecord> sessions){
+        Float averageDiffBodyValue = 0f;
+        Float averageEndBodyValue = getAverageEndBodyValue(sessions);
+        Float averageStartBodyValue = getAverageStartBodyValue(sessions);
+        //if one of the values can not be calculated because no session has any record to do so, then the diff has no meaning
+        if(averageStartBodyValue != null && averageEndBodyValue != null){
+            averageDiffBodyValue = averageEndBodyValue - averageStartBodyValue;
+        }
+        return averageDiffBodyValue;
     }
 ////////////////////////////////////////
 //Sessions THOUGHTS values operations
-    public static float getAverageStartThoughtsValue(List<SessionRecord> sessions){
+
+    //returns null if no session has any record for start thoughts value
+    public static Float getAverageStartThoughtsValue(List<SessionRecord> sessions){
+        Float averageStartThoughtsValue = null;
         if(sessions.size() != 0) {
             long totalStartThoughtsValue = 0;
+            int numberOfRecordsWithValueSet = 0;
             for (SessionRecord session : sessions) {
-                totalStartThoughtsValue += session.getStartThoughtsValue();
+                int value = session.getStartThoughtsValue();
+                //only take into account values when set (actual value range is from 1 -WORST- to 5 -BEST- and 0 is for NOT SET)
+                if(value != 0) {
+                    totalStartThoughtsValue += value;
+                    numberOfRecordsWithValueSet ++;
+                }
             }
-            return ((float) totalStartThoughtsValue / (float) sessions.size());
-        } else{
-            return 0;
+            if(numberOfRecordsWithValueSet != 0) {
+                averageStartThoughtsValue = ((float) totalStartThoughtsValue / (float) numberOfRecordsWithValueSet);
+            }
         }
+        return averageStartThoughtsValue;
     }
-    public static float getAverageEndThoughtsValue(List<SessionRecord> sessions){
+
+    //returns null if no session has any record for end thoughts value
+    public static Float getAverageEndThoughtsValue(List<SessionRecord> sessions){
+        Float averageEndThoughtsValue = null;
         if(sessions.size() != 0) {
             long totalEndThoughtsValue = 0;
+            int numberOfRecordsWithValueSet = 0;
             for (SessionRecord session : sessions) {
-                totalEndThoughtsValue += session.getEndThoughtsValue();
+                int value = session.getEndThoughtsValue();
+                //only take into account values when set (actual value range is from 1 -WORST- to 5 -BEST- and 0 is for NOT SET)
+                if(value != 0) {
+                    totalEndThoughtsValue += value;
+                    numberOfRecordsWithValueSet ++;
+                }
             }
-            return ((float) totalEndThoughtsValue / (float)sessions.size());
-        } else{
-            return 0;
+            if(numberOfRecordsWithValueSet != 0) {
+                averageEndThoughtsValue = ((float) totalEndThoughtsValue / (float) numberOfRecordsWithValueSet);
+            }
         }
+        return averageEndThoughtsValue;
     }
-    public static float getAverageDiffThoughtsValue(List<SessionRecord> sessions){
-        return getAverageEndThoughtsValue(sessions) - getAverageStartThoughtsValue(sessions);
+
+    //returns 0f if no session has any record for start or end thoughts value =>  diff is assumed to be 0 if calculating it is not possible
+    public static Float getAverageDiffThoughtsValue(List<SessionRecord> sessions){
+        Float averageDiffThoughtsValue = 0f;
+        Float averageEndThoughtsValue = getAverageEndThoughtsValue(sessions);
+        Float averageStartThoughtsValue = getAverageStartThoughtsValue(sessions);
+        //if one of the values can not be calculated because no session has any record to do so, then the diff has no meaning
+        if(averageStartThoughtsValue != null && averageEndThoughtsValue != null){
+            averageDiffThoughtsValue = averageEndThoughtsValue - averageStartThoughtsValue;
+        }
+        return averageDiffThoughtsValue;
     }
 ////////////////////////////////////////
 //Sessions FEELINGS values operations
-    public static float getAverageStartFeelingsValue(List<SessionRecord> sessions){
+
+    //returns null if no session has any record for start feelings value
+    public static Float getAverageStartFeelingsValue(List<SessionRecord> sessions){
+        Float averageStartFeelingsValue = null;
         if(sessions.size() != 0) {
             long totalStartFeelingsValue = 0;
+            int numberOfRecordsWithValueSet = 0;
             for (SessionRecord session : sessions) {
-                totalStartFeelingsValue += session.getStartFeelingsValue();
+                int value = session.getStartFeelingsValue();
+                //only take into account values when set (actual value range is from 1 -WORST- to 5 -BEST- and 0 is for NOT SET)
+                if(value != 0) {
+                    totalStartFeelingsValue += value;
+                    numberOfRecordsWithValueSet ++;
+                }
             }
-            return ((float) totalStartFeelingsValue / (float) sessions.size());
-        } else{
-            return 0;
+            if(numberOfRecordsWithValueSet != 0) {
+                averageStartFeelingsValue = ((float) totalStartFeelingsValue / (float) numberOfRecordsWithValueSet);
+            }
         }
+        return averageStartFeelingsValue;
     }
-    public static float getAverageEndFeelingsValue(List<SessionRecord> sessions){
+
+    //returns null if no session has any record for end feelings value
+    public static Float getAverageEndFeelingsValue(List<SessionRecord> sessions){
+        Float averageEndFeelingsValue = null;
         if(sessions.size() != 0) {
             long totalEndFeelingsValue = 0;
+            int numberOfRecordsWithValueSet = 0;
             for (SessionRecord session : sessions) {
-                totalEndFeelingsValue += session.getEndFeelingsValue();
+                int value = session.getEndFeelingsValue();
+                //only take into account values when set (actual value range is from 1 -WORST- to 5 -BEST- and 0 is for NOT SET)
+                if(value != 0) {
+                    totalEndFeelingsValue += value;
+                    numberOfRecordsWithValueSet ++;
+                }
             }
-            return ((float) totalEndFeelingsValue / (float) sessions.size());
-        } else{
-            return 0;
+            if(numberOfRecordsWithValueSet != 0) {
+                averageEndFeelingsValue = ((float) totalEndFeelingsValue / (float) numberOfRecordsWithValueSet);
+            }
         }
+        return averageEndFeelingsValue;
     }
-    public static float getAverageDiffFeelingsValue(List<SessionRecord> sessions){
-        return getAverageEndFeelingsValue(sessions) - getAverageStartFeelingsValue(sessions);
+
+    //returns 0f if no session has any record for start or end feelings value =>  diff is assumed to be 0 if calculating it is not possible
+    public static Float getAverageDiffFeelingsValue(List<SessionRecord> sessions){
+        Float averageDiffFeelingsValue = 0f;
+        Float averageEndFeelingsValue = getAverageEndFeelingsValue(sessions);
+        Float averageStartFeelingsValue = getAverageStartFeelingsValue(sessions);
+        //if one of the values can not be calculated because no session has any record to do so, then the diff has no meaning
+        if(averageStartFeelingsValue != null && averageEndFeelingsValue != null){
+            averageDiffFeelingsValue = averageEndFeelingsValue - averageStartFeelingsValue;
+        }
+        return averageDiffFeelingsValue;
     }
+
 ////////////////////////////////////////
 //Sessions GLOBAL values operations
-    public static float getAverageStartGlobalValue(List<SessionRecord> sessions){
+
+    //returns null if no session has any record for start global value
+    public static Float getAverageStartGlobalValue(List<SessionRecord> sessions){
+        Float averageStartGlobalValue = null;
         if(sessions.size() != 0) {
             long totalStartGlobalValue = 0;
+            int numberOfRecordsWithValueSet = 0;
             for (SessionRecord session : sessions) {
-                totalStartGlobalValue += session.getStartGlobalValue();
+                int value = session.getStartGlobalValue();
+                //only take into account values when set (actual value range is from 1 -WORST- to 5 -BEST- and 0 is for NOT SET)
+                if (value != 0) {
+                    totalStartGlobalValue += value;
+                    numberOfRecordsWithValueSet++;
+                }
             }
-            return ((float) totalStartGlobalValue / (float) sessions.size());
-        } else{
-            return 0;
+            if(numberOfRecordsWithValueSet != 0) {
+                averageStartGlobalValue = ((float) totalStartGlobalValue / (float) numberOfRecordsWithValueSet);
+            }
         }
+        return averageStartGlobalValue;
     }
-    public static float getAverageEndGlobalValue(List<SessionRecord> sessions){
+
+    //returns null if no session has any record for end global value
+    public static Float getAverageEndGlobalValue(List<SessionRecord> sessions){
+        Float averageEndGlobalValue = null;
         if(sessions.size() != 0) {
             long totalEndGlobalValue = 0;
+            int numberOfRecordsWithValueSet = 0;
             for (SessionRecord session : sessions) {
-                totalEndGlobalValue += session.getEndGlobalValue();
+                int value = session.getEndGlobalValue();
+                //only take into account values when set (actual value range is from 1 -WORST- to 5 -BEST- and 0 is for NOT SET)
+                if(value != 0) {
+                    totalEndGlobalValue += value;
+                    numberOfRecordsWithValueSet ++;
+                }
             }
-            return ((float) totalEndGlobalValue / (float) sessions.size());
-        } else{
-            return 0;
+            if(numberOfRecordsWithValueSet != 0) {
+                averageEndGlobalValue = ((float) totalEndGlobalValue / (float) numberOfRecordsWithValueSet);
+            }
         }
+        return averageEndGlobalValue;
     }
-    public static float getAverageDiffGlobalValue(List<SessionRecord> sessions){
-        return getAverageEndGlobalValue(sessions) - getAverageStartGlobalValue(sessions);
+
+    //returns 0f if no session has any record for start or end global value => diff is assumed to be 0 if calculating it is not possible
+    public static Float getAverageDiffGlobalValue(List<SessionRecord> sessions){
+        Float averageDiffGlobalValue = 0f;
+        Float averageEndGlobalValue = getAverageEndGlobalValue(sessions);
+        Float averageStartGlobalValue = getAverageStartGlobalValue(sessions);
+        //if one of the values can not be calculated because no session has any record to do so, then the diff has no meaning
+        if(averageStartGlobalValue != null && averageEndGlobalValue != null){
+            averageDiffGlobalValue = averageEndGlobalValue - averageStartGlobalValue;
+        }
+        return averageDiffGlobalValue;
     }
 ////////////////////////////////////////
 //Sessions MP3

@@ -58,9 +58,11 @@
         <activity
             android:name=".VizActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".MainActivity" />
-
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".RewardsActivity"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 

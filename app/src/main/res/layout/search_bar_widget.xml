@@ -16,7 +16,7 @@
     android:inputType="text"
     android:imeOptions="actionDone"
     android:textColor="@android:color/white"
-    android:textColorHint="@color/whiteAlpha85"
+    android:textColorHint="@color/white_alpha85"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />

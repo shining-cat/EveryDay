@@ -13,9 +13,13 @@
 
     <string name="error_message_Creating_Export_file" translatable="true">Impossible d\'accéder ou de créer le dossier de destination</string>
 
-    <string name="error_message_Writing_export_file" translatable="true">Impossible d\'écrire le fichier CSV</string>
+    <string name="error_message_Writing_export_csv_file" translatable="true">Impossible d\'écrire le fichier CSV</string>
+
+    <string name="error_message_Writing_export_picture_file" translatable="true">Impossible d\'écrire le fichier image</string>
 
     <string name="error_message_cant_read_import_file" translatable="true">Impossible de lire le fichier CSV</string>
+
+    <string name="error_message_import_file_format_problem" translatable="true">Le fichier CSV ne semple pas être formatté correctement</string>
 
     <string name="error_message_ioe_parsing_file" translatable="true">Fichier CSV illisible</string>
 

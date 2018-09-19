@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/view_stats_btn"
+        android:layout_width="0dp"
+        android:layout_height="111dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/buddhist_cream"
+        app:backgroundTint="@color/buddhist_brown"
+        android:drawableEnd="@drawable/ic_graf_white_24dp"
+        android:drawableStart="@drawable/ic_graf_white_24dp"
+        android:drawableTint="@color/buddhist_cream"
+        android:text="@string/statistics"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_main_activity"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_main_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/view_rewards_btn"
+        android:layout_width="0dp"
+        android:layout_height="111dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/buddhist_cream"
+        app:backgroundTint="@color/buddhist_brown"
+        android:drawableEnd="@drawable/ic_smiley_satisfied_24px"
+        android:drawableStart="@drawable/ic_smiley_satisfied_24px"
+        android:drawableTint="@color/buddhist_cream"
+        android:text="@string/view_rewards_btn_txt_default"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_main_activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_main_activity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/start_guided_session_btn"
+        android:layout_width="0dp"
+        android:layout_height="111dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/buddhist_cream"
+        app:backgroundTint="@color/buddhist_brown"
+        android:drawableEnd="@drawable/ic_music_note_white_24dp"
+        android:drawableStart="@drawable/ic_music_note_white_24dp"
+        android:drawableTint="@color/buddhist_cream"
+        android:text="@string/start_guided_session_btn_txt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_main_activity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_main_activity" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/start_session_btn"
+        android:layout_width="0dp"
+        android:layout_height="112dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/buddhist_cream"
+        app:backgroundTint="@color/buddhist_brown"
+        android:drawableEnd="@drawable/ic_duration_white_24px"
+        android:drawableStart="@drawable/ic_duration_white_24px"
+        android:drawableTint="@color/buddhist_cream"
+        android:text="@string/launch_session_for"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_main_activity"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_main_activity" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_v_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_h_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- TESTING -->
+    <Button
+        android:id="@+id/testlevel1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="niveau 1"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_main_activity"
+        app:layout_constraintEnd_toStartOf="@+id/testlevel2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_main_activity" />
+
+    <Button
+        android:id="@+id/testlevel2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="8dp"
+        android:text="Niveau 2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_main_activity"
+        app:layout_constraintEnd_toStartOf="@+id/testlevel3"
+        app:layout_constraintStart_toEndOf="@+id/testlevel1"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_main_activity" />
+
+    <Button
+        android:id="@+id/testlevel3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Niveau 3"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_main_activity"
+        app:layout_constraintEnd_toStartOf="@+id/testlevel4"
+        app:layout_constraintStart_toEndOf="@+id/testlevel2"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_main_activity" />
+
+    <Button
+        android:id="@+id/testlevel4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="8dp"
+        android:text="Niveau 4"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_main_activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/testlevel5"
+        app:layout_constraintStart_toEndOf="@+id/testlevel3"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_main_activity" />
+
+    <Button
+        android:id="@+id/testlevel5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Niveau 5"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_h_main_activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/testlevel4"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h_main_activity" />
+
+    <Button
+        android:id="@+id/test_escape_rewards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="escape rewards"
+        app:layout_constraintBottom_toTopOf="@+id/view_rewards_btn"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_main_activity"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_main_activity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/test_clear_rewards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="clear rewards"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_main_activity"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_main_activity"
+        app:layout_constraintTop_toBottomOf="@+id/start_guided_session_btn" />
+
+</android.support.constraint.ConstraintLayout>

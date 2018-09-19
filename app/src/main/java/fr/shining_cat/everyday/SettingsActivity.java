@@ -4,35 +4,47 @@ import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
-import fr.shining_cat.everyday.data.EveryDayRepository;
+import fr.shining_cat.everyday.data.EveryDaySessionsDataRepository;
 import fr.shining_cat.everyday.data.SessionRecord;
 import fr.shining_cat.everyday.data.SessionRecordViewModel;
 import fr.shining_cat.everyday.data.SessionsExporterAsync;
 import fr.shining_cat.everyday.data.SessionsImportCSVParsingAsync;
 import fr.shining_cat.everyday.preferences.ImportSessionsPreference;
+import fr.shining_cat.everyday.utils.MiscUtils;
 
 
 public class SettingsActivity extends AppCompatActivity
-            implements EveryDayRepository.EveryDayRepoListener,
+            implements EveryDaySessionsDataRepository.EveryDaySessionsRepoListener,
                         SessionsExporterAsync.SessionsExporterAsyncListener,
-                        SessionsImportCSVParsingAsync.SessionsImportCSVParsingAsyncListener {
+                        SessionsImportCSVParsingAsync.SessionsImportCSVParsingAsyncListener,
+                        MiscUtils.OnMiscUtilsListener{
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 789;
+
     private ProgressDialog mProgressDialog;
+    private List<SessionRecord> mAllSessions;
 
 
     @Override
@@ -64,7 +76,51 @@ public class SettingsActivity extends AppCompatActivity
     }
 
 ////////////////////////////////////////
-//EveryDayRepository callbacks
+//MiscUtils callbacks
+
+    @Override
+    public void onRequestPermissionApi24(String[] whichPermission) {
+        ActivityCompat.requestPermissions(this, whichPermission, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+    }
+
+    //Not actually a MiscUtils callbacks but this callback will be triggered as an answer after call to requestPermissions above
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //authorization granted, ask again for subfolder in DOCUMENTS
+                    String exportCsvFolderName = getString(R.string.export_sessions_csv_folder_name);
+                    MiscUtils.getSubFolderInPublicDocumentStorageDir(exportCsvFolderName, this);
+                } else {
+                    //nothing to do here, we do not store that user has denied authorisation, so he will be asked again if he tries to export the DB again, rather than counting on him to go in the device's settings to understand why the functionality is disabled
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void onPermissionToWriteOnExternalStorageOk(){
+        //authorization granted, ask again for subfolder in DOCUMENTS
+        String exportCsvFolderName = getString(R.string.export_sessions_csv_folder_name);
+        MiscUtils.getSubFolderInPublicDocumentStorageDir(exportCsvFolderName, this);
+    }
+
+    @Override
+    public void onSubFolderInPublicDocumentStorageDirObtained(File subFolderInPublicDocumentStorageDir) {
+        DateFormat sdf = new SimpleDateFormat("yyyyMMdd_HH-mm-ss", Locale.getDefault());
+        String nowString =sdf.format(System.currentTimeMillis());
+        String csvFileName = String.format(getString(R.string.export_sessions_csv_file_base_name), nowString);
+        new SessionsExporterAsync(csvFileName, subFolderInPublicDocumentStorageDir, this).execute(mAllSessions);
+    }
+    @Override
+    public void onSubFolderInPublicPicturesStorageDirObtained(File subFolderInPublicPicturesStorageDir) {}
+
+////////////////////////////////////////
+//EveryDaySessionsDataRepository callbacks
     @Override
     public void onGetAllSessionsNotLiveComplete(List<SessionRecord> allSessions) {
         //The only case when we want to get a non-observable object containing all the data is for creating the export csv file
@@ -80,9 +136,14 @@ public class SettingsActivity extends AppCompatActivity
             });
             builder.show();
         }else{
-            new SessionsExporterAsync(this, this).execute(allSessions);
+            mAllSessions = allSessions;
+            //check external storage permissions before attempting to write
+            MiscUtils.checkExternalAuthorizationAndAskIfNeeded(this, this);
         }
     }
+
+    @Override
+    public void onGetLatestRecordedSessionDateComplete(long latestSessionRecordedDate) {}
 
     @Override
     public void ondeleteOneSessionRecordComplete(int result) {
@@ -126,6 +187,7 @@ public class SettingsActivity extends AppCompatActivity
         Toast.makeText(this, R.string.update_one_session_task_completed_message, Toast.LENGTH_LONG).show();
     }
 
+
 ////////////////////////////////////////
 //SessionsExporterAsync callbacks
     @Override
@@ -133,7 +195,7 @@ public class SettingsActivity extends AppCompatActivity
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle(getString(R.string.export_sessions_to_csv_task_progressdialog_title));
         mProgressDialog.show();
-        Log.d(TAG, "onExportSessionsProgressStarted:: mProgressDialog = " + mProgressDialog + " / mProgressDialog showing : " + mProgressDialog.isShowing());
+        Log.d(TAG, "onExportBitmapStarted:: mProgressDialog = " + mProgressDialog + " / mProgressDialog showing : " + mProgressDialog.isShowing());
     }
 
     @Override
@@ -142,7 +204,7 @@ public class SettingsActivity extends AppCompatActivity
         mProgressDialog.setMax(total);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setProgress(exported);
-        Log.d(TAG, "onExportSessionsProgressUpdate:: mProgressDialog = " + mProgressDialog + " / mProgressDialog showing : " + mProgressDialog.isShowing());
+        Log.d(TAG, "onExportBitmapProgressUpdate:: mProgressDialog = " + mProgressDialog + " / mProgressDialog showing : " + mProgressDialog.isShowing());
     }
 
     @Override
@@ -162,17 +224,11 @@ public class SettingsActivity extends AppCompatActivity
             }
         });
         switch(result){
-            case SessionsExporterAsync.ERROR_EXTERNAL_STORAGE_NOT_ACCESSIBLE:
-                adBuilder.setMessage(getString(R.string.error_message_External_Storage_Not_Accessible));
-                break;
-            case SessionsExporterAsync.ERROR_ACCESSING_CREATING_EXPORT_FOLDER:
-                adBuilder.setMessage(getString(R.string.error_message_Accessing_Creating_Export_Folder));
-                break;
             case SessionsExporterAsync.ERROR_CREATING_EXPORT_FILE:
                 adBuilder.setMessage(getString(R.string.error_message_Creating_Export_file));
                 break;
             case SessionsExporterAsync.ERROR_WRITING_EXPORT_FILE:
-                adBuilder.setMessage(getString(R.string.error_message_Writing_export_file));
+                adBuilder.setMessage(getString(R.string.error_message_Writing_export_csv_file));
                 break;
             default:
                 adBuilder.setTitle(getString(R.string.export_sessions_to_csv_task_completed_title));
@@ -257,6 +313,9 @@ public class SettingsActivity extends AppCompatActivity
             case SessionsImportCSVParsingAsync.ERROR_DATE_PARSING:
                 adBuilder.setMessage(getString(R.string.error_message_date_parsing));
                 break;
+            case SessionsImportCSVParsingAsync.ERROR_NUMBER_PARSING:
+                adBuilder.setMessage(getString(R.string.error_message_import_file_format_problem));
+                break;
             case SessionsImportCSVParsingAsync.ERROR_IOE_PARSING_FILE:
                 adBuilder.setMessage(getString(R.string.error_message_ioe_parsing_file));
                 break;
@@ -284,5 +343,6 @@ public class SettingsActivity extends AppCompatActivity
         mProgressDialog.setIndeterminate(true);//didn't find any simple way to get progress info from DAO multiple insert
         mProgressDialog.show();
     }
+
 
 }

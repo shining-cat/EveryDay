@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
-
 import com.opencsv.CSVWriter;
 
 import java.io.File;
@@ -18,64 +17,41 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.shining_cat.everyday.R;
-import fr.shining_cat.everyday.SessionActivity;
 
-public class SessionsExporterAsync extends AsyncTask <List, Integer, String>{
+public class SessionsExporterAsync  extends AsyncTask <List, Integer, String>{
 
-    public static final String ERROR_EXTERNAL_STORAGE_NOT_ACCESSIBLE = "error_code_External_Storage_Not_Accessible";
-    public static final String ERROR_ACCESSING_CREATING_EXPORT_FOLDER = "error_code_Accessing_Creating_Export_Folder";
     public static final String ERROR_CREATING_EXPORT_FILE = "error_code_Creating_export_file";
     public static final String ERROR_WRITING_EXPORT_FILE = "error_code_Writing_export_file";
-
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
     private SessionsExporterAsync.SessionsExporterAsyncListener mListener;
+    private File mExportCsvFolder;
     private String mExportCsvFileName;
 
 ////////////////////////////////////////
 //AsyncTask actually handling the job of exporting the database datas to a csv file
 //with an interface to dispatch callbacks
 //returns String with error_code or file canonical path is success
-    public SessionsExporterAsync(Context context, SessionsExporterAsync.SessionsExporterAsyncListener listener){
+    public SessionsExporterAsync(String csvFileName, File exportCsvFolderName, SessionsExporterAsync.SessionsExporterAsyncListener listener){
         if (!(listener instanceof SessionsExporterAsync.SessionsExporterAsyncListener)) {
-            throw new RuntimeException(listener.toString()+ " must implement SessionsExporterAsyncListener");
+            throw new RuntimeException(listener.toString()+ " must implement BitmapToFileExporterAsyncListener");
         }
         mListener = listener;
-        //accessing resources
-        DateFormat sdf = new SimpleDateFormat("yyyyMMdd_HH-mm-ss", Locale.getDefault());
-        String nowString =sdf.format(System.currentTimeMillis());
-        mExportCsvFileName = context.getResources().getString(R.string.export_sessions_csv_file_name) + "_" + nowString + ".csv";
+        mExportCsvFolder = exportCsvFolderName;
+        mExportCsvFileName = csvFileName;
     }
 
     @Override
     protected void onPreExecute() {
-        String state = Environment.getExternalStorageState();
-        if(!Environment.MEDIA_MOUNTED.equals(state)){
-            Log.e(TAG, "::onPreExecute:: external storage not available");
-            cancel(true);
-        }else{
-            mListener.onExportSessionsProgressStarted();
-        }
-
+        mListener.onExportSessionsProgressStarted();
     }
+
 
     @Override
     protected String doInBackground(List... sessionRecordsList) {
-        if(isCancelled()){
-            Log.d(TAG, "::doInBackground::isCancelled => abort");
-            return ERROR_EXTERNAL_STORAGE_NOT_ACCESSIBLE;
-        }
-        // Get the directory for the user's public documents directory.
-        File documentsFolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        if(!documentsFolderPath.exists()){
-            if(!documentsFolderPath.mkdir()){
-                Log.e(TAG, "::doInBackground:: could neither access nor create DOCUMENTS folder on external storage");
-                return ERROR_ACCESSING_CREATING_EXPORT_FOLDER;
-            }
-        }
         //create export csv file
-        File exportCsvFile = new File(documentsFolderPath, mExportCsvFileName);
+        File exportCsvFile = new File(mExportCsvFolder, mExportCsvFileName);
         try {
             exportCsvFile.createNewFile();
         } catch (IOException e) {
@@ -127,6 +103,8 @@ public class SessionsExporterAsync extends AsyncTask <List, Integer, String>{
     protected void onPostExecute(String result) {
         mListener.onExportSessionsComplete(result);
     }
+
+
 
 ////////////////////////////////////////
 //Listener interface

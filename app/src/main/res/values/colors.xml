@@ -11,7 +11,28 @@
     <color name="buddhist_cream">#FED362</color>
     <color name="buddhist_pink">#d70380</color>
 
-    <color name="whiteAlpha85">#3cffffff</color>
-    <color name="whiteAlpha192">#c0ffffff</color>
+<!-- greys and whites on various alphas -->
+    <color name="grey_n4">#636363</color>
+    <color name="grey_n3">#979797</color>
+    <color name="grey_n2">#bababa</color>
+    <color name="grey_n1">#e7e7e7</color>
+
+    <color name="grey_n4_alpha95">#f2636363</color>
+    <color name="grey_n3_alpha95">#f2979797</color>
+    <color name="grey_n2_alpha95">#f2bababa</color>
+    <color name="grey_n1_alpha95">#f2e7e7e7</color>
+
+    <color name="grey_n4_alpha90">#cc636363</color>
+    <color name="grey_n3_alpha90">#cc979797</color>
+    <color name="grey_n2_alpha90">#ccbababa</color>
+    <color name="grey_n1_alpha90">#cce7e7e7</color>
+
+    <color name="grey_n4_alpha85">#3C636363</color>
+    <color name="grey_n3_alpha85">#3C979797</color>
+    <color name="grey_n2_alpha85">#3Cbababa</color>
+    <color name="grey_n1_alpha85">#3Ce7e7e7</color>
+
+    <color name="white_alpha85">#3cffffff</color>
+    <color name="white_alpha75">#c0ffffff</color>
 
 </resources>

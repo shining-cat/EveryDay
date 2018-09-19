@@ -122,25 +122,33 @@ public class VizStatsMonthFragment extends VizStatsDetailsFragment{
         colors.add(Color.BLUE);
         //
         List<Float> numberOfPausesPerDay = new ArrayList<>();
+        int totalPauses = 0;
         for (List<SessionRecord> sessionsForDay : mAllSessionsArranged) {
             //Log.d(TAG, "setPausesCountChart::counting for one hour");
-            numberOfPausesPerDay.add((float) GeneralStats.getTotalNumberOfPauses(sessionsForDay));
+            int numberOfPausesForADay = GeneralStats.getTotalNumberOfPauses(sessionsForDay);
+            totalPauses += numberOfPausesForADay;
+            numberOfPausesPerDay.add((float) numberOfPausesForADay);
         }
-        ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
-        yValuesLists.add(numberOfPausesPerDay);
-        //
-        mPausesCountChartViewHolder.setChartData(
-                MiscUtils.getEmptyList(31),
-                legends,
-                colors,
-                yValuesLists,
-                getString(R.string.month_stats_pauses_count_clicked_value),
-                ChartDisplay.DISPLAY_ROUNDING_INT,
-                false,
-                true,
-                true,
-                getString(R.string.month_stats_pauses_count_help_message));
-        mPausesCountChartViewHolder.setListener(this);
+        //do not display chart if there is no pauses at all
+        if(totalPauses == 0) {
+            mPausesCountChartViewHolder.hideMeIHaveNoDataToShow(getString(R.string.month_stats_pauses_count_legend) + ":\n" + getString(R.string.stats_pauses_count_nothing_to_display));
+        } else {
+            ArrayList<List<Float>> yValuesLists = new ArrayList<>();
+            yValuesLists.add(numberOfPausesPerDay);
+            //
+            mPausesCountChartViewHolder.setChartData(
+                    MiscUtils.getEmptyList(31),
+                    legends,
+                    colors,
+                    yValuesLists,
+                    getString(R.string.month_stats_pauses_count_clicked_value),
+                    ChartDisplay.DISPLAY_ROUNDING_INT,
+                    false,
+                    true,
+                    true,
+                    getString(R.string.month_stats_pauses_count_help_message));
+            mPausesCountChartViewHolder.setListener(this);
+        }
     }
 
 ////////////////////////////////////////
@@ -154,24 +162,32 @@ public class VizStatsMonthFragment extends VizStatsDetailsFragment{
         colors.add(Color.BLUE);
         //
         List<Float> averageNumberOfPausesBySessionPerDay = new ArrayList<>();
+        float totalPauses = 0;
         for (List<SessionRecord> sessionsForDay : mAllSessionsArranged) {
-            averageNumberOfPausesBySessionPerDay.add(GeneralStats.getAverageNumberOfPausesBySession(sessionsForDay));
+            float numberOfPausesForASession = GeneralStats.getAverageNumberOfPausesBySession(sessionsForDay);
+            totalPauses += numberOfPausesForASession;
+            averageNumberOfPausesBySessionPerDay.add(numberOfPausesForASession);
         }
-        ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
-        yValuesLists.add(averageNumberOfPausesBySessionPerDay);
-        //
-        mPausesPerSessionChartViewHolder.setChartData(
-                MiscUtils.getEmptyList(31),
-                legends,
-                colors,
-                yValuesLists,
-                getString(R.string.month_stats_pauses_per_session_clicked_value),
-                ChartDisplay.DISPLAY_ROUNDING_FLOAT,
-                false,
-                true,
-                true,
-                getString(R.string.month_stats_pauses_per_session_help_message));
-        mPausesPerSessionChartViewHolder.setListener(this);
+        //do not display chart if there is no pauses at all
+        if(totalPauses == 0) {
+            mPausesPerSessionChartViewHolder.hideMeIHaveNoDataToShow(getString(R.string.month_stats_pauses_per_session_legend) + ":\n" + getString(R.string.stats_pauses_count_nothing_to_display));
+        } else {
+            ArrayList<List<Float>> yValuesLists = new ArrayList<>();
+            yValuesLists.add(averageNumberOfPausesBySessionPerDay);
+            //
+            mPausesPerSessionChartViewHolder.setChartData(
+                    MiscUtils.getEmptyList(31),
+                    legends,
+                    colors,
+                    yValuesLists,
+                    getString(R.string.month_stats_pauses_per_session_clicked_value),
+                    ChartDisplay.DISPLAY_ROUNDING_FLOAT,
+                    false,
+                    true,
+                    true,
+                    getString(R.string.month_stats_pauses_per_session_help_message));
+            mPausesPerSessionChartViewHolder.setListener(this);
+        }
     }
 
 ////////////////////////////////////////
@@ -239,10 +255,11 @@ public class VizStatsMonthFragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsInOneDay : mAllSessionsArranged) {
-            bodyValues.add(GeneralStats.getAverageStartBodyValue(sessionsInOneDay));
-            thoughtsValues.add(GeneralStats.getAverageStartThoughtsValue(sessionsInOneDay));
-            feelingsValues.add(GeneralStats.getAverageStartFeelingsValue(sessionsInOneDay));
-            globalValues.add(GeneralStats.getAverageStartGlobalValue(sessionsInOneDay));
+            //here we will insert 0 when there is no value to calculate an average in the hour examined since 0 is a value that could only be obtained if every value is unset => same case
+            bodyValues.add((GeneralStats.getAverageStartBodyValue(sessionsInOneDay) != null) ? GeneralStats.getAverageStartBodyValue(sessionsInOneDay) : 0);
+            thoughtsValues.add((GeneralStats.getAverageStartThoughtsValue(sessionsInOneDay) != null) ? GeneralStats.getAverageStartThoughtsValue(sessionsInOneDay) : 0);
+            feelingsValues.add((GeneralStats.getAverageStartFeelingsValue(sessionsInOneDay) != null) ? GeneralStats.getAverageStartFeelingsValue(sessionsInOneDay) : 0);
+            globalValues.add((GeneralStats.getAverageStartGlobalValue(sessionsInOneDay) != null) ? GeneralStats.getAverageStartGlobalValue(sessionsInOneDay) : 0);
         }
         //
         ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
@@ -286,10 +303,11 @@ public class VizStatsMonthFragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsInOneDay : mAllSessionsArranged) {
-            bodyValues.add(GeneralStats.getAverageEndBodyValue(sessionsInOneDay));
-            thoughtsValues.add(GeneralStats.getAverageEndThoughtsValue(sessionsInOneDay));
-            feelingsValues.add(GeneralStats.getAverageEndFeelingsValue(sessionsInOneDay));
-            globalValues.add(GeneralStats.getAverageEndGlobalValue(sessionsInOneDay));
+            //here we will insert 0 when there is no value to calculate an average in the hour examined since 0 is a value that could only be obtained if every value is unset => same case
+            bodyValues.add((GeneralStats.getAverageEndBodyValue(sessionsInOneDay) != null) ? GeneralStats.getAverageEndBodyValue(sessionsInOneDay) : 0);
+            thoughtsValues.add((GeneralStats.getAverageEndThoughtsValue(sessionsInOneDay) != null) ? GeneralStats.getAverageEndThoughtsValue(sessionsInOneDay) : 0);
+            feelingsValues.add((GeneralStats.getAverageEndFeelingsValue(sessionsInOneDay) != null) ? GeneralStats.getAverageEndFeelingsValue(sessionsInOneDay) : 0);
+            globalValues.add((GeneralStats.getAverageEndGlobalValue(sessionsInOneDay) != null) ? GeneralStats.getAverageEndGlobalValue(sessionsInOneDay) : 0);
         }
         //
         ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
@@ -333,6 +351,8 @@ public class VizStatsMonthFragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsInOneDay : mAllSessionsArranged) {
+            //here we will insert value as is, since it will be 0f if calculation is not possible (no start or no end value)
+            // => it will appear on the chart as "no variation between start and end of session", just as it would if there were actually no variation...
             bodyValues.add(GeneralStats.getAverageDiffBodyValue(sessionsInOneDay));
             thoughtsValues.add(GeneralStats.getAverageDiffThoughtsValue(sessionsInOneDay));
             feelingsValues.add(GeneralStats.getAverageDiffFeelingsValue(sessionsInOneDay));

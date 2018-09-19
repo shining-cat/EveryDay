@@ -23,7 +23,7 @@ public class VizStatsMp3Fragment extends VizStatsDetailsFragment{
     public static final String VIEW_STATS_MP3_FRAGMENT_TAG = "view_stats_mp3_Fragment-tag";
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
-    
+
     private String mNoMp3Label;
     private List<String> mMp3Filenames;
 
@@ -139,25 +139,33 @@ public class VizStatsMp3Fragment extends VizStatsDetailsFragment{
         colors.add(Color.BLUE);
         //
         List<Float> numberOfPausesPerMp3Filename = new ArrayList<>();
+        int totalPauses = 0;
         for (List<SessionRecord> sessionsForMp3Filename : mAllSessionsArranged) {
-            numberOfPausesPerMp3Filename.add((float) GeneralStats.getTotalNumberOfPauses(sessionsForMp3Filename));
+            int numberOfPausesForAFile = GeneralStats.getTotalNumberOfPauses(sessionsForMp3Filename);
+            totalPauses += numberOfPausesForAFile;
+            numberOfPausesPerMp3Filename.add((float) numberOfPausesForAFile);
         }
-        ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
-        yValuesLists.add(numberOfPausesPerMp3Filename);
-        //
-        ((Mp3FilesChartDisplay) mPausesCountChartViewHolder).setMp3FileNamesLabel(mMp3Filenames);
-        mPausesCountChartViewHolder.setChartData(
-                MiscUtils.getEmptyList(mMp3Filenames.size()),
-                legends,
-                colors,
-                yValuesLists,
-                getString(R.string.mp3_stats_pauses_count_clicked_value),
-                ChartDisplay.DISPLAY_ROUNDING_INT,
-                false,
-                true,
-                true,
-                getString(R.string.mp3_stats_pauses_count_help_message));
-        mPausesCountChartViewHolder.setListener(this);
+        //do not display chart if there is no pauses at all
+        if(totalPauses == 0) {
+            mPausesCountChartViewHolder.hideMeIHaveNoDataToShow(getString(R.string.mp3_stats_pauses_count_legend) + ":\n" + getString(R.string.stats_pauses_count_nothing_to_display));
+        } else {
+            ArrayList<List<Float>> yValuesLists = new ArrayList<>();
+            yValuesLists.add(numberOfPausesPerMp3Filename);
+            //
+            ((Mp3FilesChartDisplay) mPausesCountChartViewHolder).setMp3FileNamesLabel(mMp3Filenames);
+            mPausesCountChartViewHolder.setChartData(
+                    MiscUtils.getEmptyList(mMp3Filenames.size()),
+                    legends,
+                    colors,
+                    yValuesLists,
+                    getString(R.string.mp3_stats_pauses_count_clicked_value),
+                    ChartDisplay.DISPLAY_ROUNDING_INT,
+                    false,
+                    true,
+                    true,
+                    getString(R.string.mp3_stats_pauses_count_help_message));
+            mPausesCountChartViewHolder.setListener(this);
+        }
     }
 
 ////////////////////////////////////////
@@ -171,25 +179,33 @@ public class VizStatsMp3Fragment extends VizStatsDetailsFragment{
         colors.add(Color.BLUE);
         //
         List<Float> averageNumberOfPausesBySessionPerMp3Filename = new ArrayList<>();
+        float totalPauses = 0;
         for (List<SessionRecord> sessionsForMp3Filename : mAllSessionsArranged) {
-            averageNumberOfPausesBySessionPerMp3Filename.add(GeneralStats.getAverageNumberOfPausesBySession(sessionsForMp3Filename));
+            float numberOfPausesForASession = GeneralStats.getAverageNumberOfPausesBySession(sessionsForMp3Filename);
+            totalPauses += numberOfPausesForASession;
+            averageNumberOfPausesBySessionPerMp3Filename.add(numberOfPausesForASession);
         }
-        ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
-        yValuesLists.add(averageNumberOfPausesBySessionPerMp3Filename);
-        //
-        ((Mp3FilesChartDisplay) mPausesPerSessionChartViewHolder).setMp3FileNamesLabel(mMp3Filenames);
-        mPausesPerSessionChartViewHolder.setChartData(
-                MiscUtils.getEmptyList(mMp3Filenames.size()),
-                legends,
-                colors,
-                yValuesLists,
-                getString(R.string.mp3_stats_pauses_per_session_clicked_value),
-                ChartDisplay.DISPLAY_ROUNDING_FLOAT,
-                false,
-                true,
-                true,
-                getString(R.string.mp3_stats_pauses_per_session_help_message));
-        mPausesPerSessionChartViewHolder.setListener(this);
+        //do not display chart if there is no pauses at all
+        if(totalPauses == 0) {
+            mPausesPerSessionChartViewHolder.hideMeIHaveNoDataToShow(getString(R.string.mp3_stats_pauses_per_session_legend) + ":\n" + getString(R.string.stats_pauses_count_nothing_to_display));
+        } else {
+            ArrayList<List<Float>> yValuesLists = new ArrayList<>();
+            yValuesLists.add(averageNumberOfPausesBySessionPerMp3Filename);
+            //
+            ((Mp3FilesChartDisplay) mPausesPerSessionChartViewHolder).setMp3FileNamesLabel(mMp3Filenames);
+            mPausesPerSessionChartViewHolder.setChartData(
+                    MiscUtils.getEmptyList(mMp3Filenames.size()),
+                    legends,
+                    colors,
+                    yValuesLists,
+                    getString(R.string.mp3_stats_pauses_per_session_clicked_value),
+                    ChartDisplay.DISPLAY_ROUNDING_FLOAT,
+                    false,
+                    true,
+                    true,
+                    getString(R.string.mp3_stats_pauses_per_session_help_message));
+            mPausesPerSessionChartViewHolder.setListener(this);
+        }
     }
 
 ////////////////////////////////////////
@@ -258,10 +274,11 @@ public class VizStatsMp3Fragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsWithOneMp3Filename : mAllSessionsArranged) {
-            bodyValues.add(GeneralStats.getAverageStartBodyValue(sessionsWithOneMp3Filename));
-            thoughtsValues.add(GeneralStats.getAverageStartThoughtsValue(sessionsWithOneMp3Filename));
-            feelingsValues.add(GeneralStats.getAverageStartFeelingsValue(sessionsWithOneMp3Filename));
-            globalValues.add(GeneralStats.getAverageStartGlobalValue(sessionsWithOneMp3Filename));
+            //here we will insert 0 when there is no value to calculate an average in the hour examined since 0 is a value that could only be obtained if every value is unset => same case
+            bodyValues.add((GeneralStats.getAverageStartBodyValue(sessionsWithOneMp3Filename) != null) ? GeneralStats.getAverageStartBodyValue(sessionsWithOneMp3Filename) : 0);
+            thoughtsValues.add((GeneralStats.getAverageStartThoughtsValue(sessionsWithOneMp3Filename) != null) ? GeneralStats.getAverageStartThoughtsValue(sessionsWithOneMp3Filename) : 0);
+            feelingsValues.add((GeneralStats.getAverageStartFeelingsValue(sessionsWithOneMp3Filename) != null) ? GeneralStats.getAverageStartFeelingsValue(sessionsWithOneMp3Filename) : 0);
+            globalValues.add((GeneralStats.getAverageStartGlobalValue(sessionsWithOneMp3Filename) != null) ? GeneralStats.getAverageStartGlobalValue(sessionsWithOneMp3Filename) : 0);
         }
         //
         ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
@@ -306,10 +323,11 @@ public class VizStatsMp3Fragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsWithOneMp3Filename : mAllSessionsArranged) {
-            bodyValues.add(GeneralStats.getAverageEndBodyValue(sessionsWithOneMp3Filename));
-            thoughtsValues.add(GeneralStats.getAverageEndThoughtsValue(sessionsWithOneMp3Filename));
-            feelingsValues.add(GeneralStats.getAverageEndFeelingsValue(sessionsWithOneMp3Filename));
-            globalValues.add(GeneralStats.getAverageEndGlobalValue(sessionsWithOneMp3Filename));
+            //here we will insert 0 when there is no value to calculate an average in the hour examined since 0 is a value that could only be obtained if every value is unset => same case
+            bodyValues.add((GeneralStats.getAverageEndBodyValue(sessionsWithOneMp3Filename) != null) ? GeneralStats.getAverageEndBodyValue(sessionsWithOneMp3Filename) : 0);
+            thoughtsValues.add((GeneralStats.getAverageEndThoughtsValue(sessionsWithOneMp3Filename) != null) ? GeneralStats.getAverageEndThoughtsValue(sessionsWithOneMp3Filename) : 0);
+            feelingsValues.add((GeneralStats.getAverageEndFeelingsValue(sessionsWithOneMp3Filename) != null) ? GeneralStats.getAverageEndFeelingsValue(sessionsWithOneMp3Filename) : 0);
+            globalValues.add((GeneralStats.getAverageEndGlobalValue(sessionsWithOneMp3Filename) != null) ? GeneralStats.getAverageEndGlobalValue(sessionsWithOneMp3Filename) : 0);
         }
         //
         ArrayList<List<Float>> yValuesLists =  new ArrayList<>();
@@ -354,6 +372,8 @@ public class VizStatsMp3Fragment extends VizStatsDetailsFragment{
         List<Float> feelingsValues = new ArrayList<>();
         List<Float> globalValues = new ArrayList<>();
         for(List<SessionRecord> sessionsWithOneMp3Filename : mAllSessionsArranged) {
+            //here we will insert value as is, since it will be 0f if calculation is not possible (no start or no end value)
+            // => it will appear on the chart as "no variation between start and end of session", just as it would if there were actually no variation...
             bodyValues.add(GeneralStats.getAverageDiffBodyValue(sessionsWithOneMp3Filename));
             thoughtsValues.add(GeneralStats.getAverageDiffThoughtsValue(sessionsWithOneMp3Filename));
             feelingsValues.add(GeneralStats.getAverageDiffFeelingsValue(sessionsWithOneMp3Filename));

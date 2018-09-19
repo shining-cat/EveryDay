@@ -13,7 +13,7 @@ public class SessionRecordViewModel extends AndroidViewModel {
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
-    private EveryDayRepository mEveryDayRepository;
+    private EveryDaySessionsDataRepository mEveryDaySessionsDataRepository;
 
     private LiveData<List<SessionRecord>> mAllSessionsStartTimeAsc;
     private LiveData<List<SessionRecord>> mAllSessionsStartTimeDesc;
@@ -21,38 +21,37 @@ public class SessionRecordViewModel extends AndroidViewModel {
     private LiveData<List<SessionRecord>> mAllSessionsDurationDesc;
     private LiveData<List<SessionRecord>> mSessionsWithMp3;
     private LiveData<List<SessionRecord>> mSessionsWithoutMp3;
-    private LiveData<List<SessionRecord>> mSessionsSearch;
 
 ////////////////////////////////////////
 //AndroidViewModel for SessionRecords entities data storage operations with some commodity methods
     public SessionRecordViewModel(Application application){
         super(application);
-        mEveryDayRepository = new EveryDayRepository(application);
+        mEveryDaySessionsDataRepository = new EveryDaySessionsDataRepository(application);
     }
 
 ////////////////////////////////////////
 //GET ALL LIVE
     public LiveData<List<SessionRecord>> getAllSessionsRecordsStartTimeAsc() {
         if(mAllSessionsStartTimeAsc == null){
-            mAllSessionsStartTimeAsc = mEveryDayRepository.getAllSessionsRecordsStartTimeAsc();
+            mAllSessionsStartTimeAsc = mEveryDaySessionsDataRepository.getAllSessionsRecordsStartTimeAsc();
         }
         return mAllSessionsStartTimeAsc;
     }
     public LiveData<List<SessionRecord>> getAllSessionsRecordsStartTimeDesc() {
         if(mAllSessionsStartTimeDesc == null){
-            mAllSessionsStartTimeDesc = mEveryDayRepository.getAllSessionsRecordsStartTimeDesc();
+            mAllSessionsStartTimeDesc = mEveryDaySessionsDataRepository.getAllSessionsRecordsStartTimeDesc();
         }
         return mAllSessionsStartTimeDesc;
     }
     public LiveData<List<SessionRecord>> getAllSessionsRecordsDurationAsc() {
         if(mAllSessionsDurationAsc == null){
-            mAllSessionsDurationAsc = mEveryDayRepository.getAllSessionsRecordsDurationAsc();
+            mAllSessionsDurationAsc = mEveryDaySessionsDataRepository.getAllSessionsRecordsDurationAsc();
         }
         return mAllSessionsDurationAsc;
     }
     public LiveData<List<SessionRecord>> getAllSessionsRecordsDurationDesc() {
         if(mAllSessionsDurationDesc == null){
-            mAllSessionsDurationDesc = mEveryDayRepository.getAllSessionsRecordsDurationDesc();
+            mAllSessionsDurationDesc = mEveryDaySessionsDataRepository.getAllSessionsRecordsDurationDesc();
         }
         return mAllSessionsDurationDesc;
     }
@@ -61,13 +60,13 @@ public class SessionRecordViewModel extends AndroidViewModel {
 //GET ONLY WITH / WITHOUT MP3
     public LiveData<List<SessionRecord>> getAllSessionsRecordsWithMp3() {
         if(mSessionsWithMp3 == null){
-            mSessionsWithMp3 = mEveryDayRepository.getAllSessionsRecordsWithMp3();
+            mSessionsWithMp3 = mEveryDaySessionsDataRepository.getAllSessionsRecordsWithMp3();
         }
         return mSessionsWithMp3;
     }
     public LiveData<List<SessionRecord>> getAllSessionsRecordsWithoutMp3() {
         if(mSessionsWithoutMp3 == null){
-            mSessionsWithoutMp3 = mEveryDayRepository.getAllSessionsRecordsWithoutMp3();
+            mSessionsWithoutMp3 = mEveryDaySessionsDataRepository.getAllSessionsRecordsWithoutMp3();
         }
         return mSessionsWithoutMp3;
     }
@@ -77,17 +76,22 @@ public class SessionRecordViewModel extends AndroidViewModel {
     public LiveData<List<SessionRecord>> getSessionsRecordsSearch(String searchRequest) {
         //no caching here
         Log.d(TAG, "getSessionsRecordsSearch::searchRequest = " + searchRequest);
-        return mEveryDayRepository.getSessionsRecordsSearch(searchRequest);
+        return mEveryDaySessionsDataRepository.getSessionsRecordsSearch(searchRequest);
     }
 ////////////////////////////////////////
 //GET ALL NOT LIVE , ORDERED by StartTime Asc
-    public void getAllSessionsRecordsInBunch(EveryDayRepository.EveryDayRepoListener listener){
-        mEveryDayRepository.getAllSessionsRecordsNotObservable(listener);
+    public void getAllSessionsRecordsInBunch(EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
+        mEveryDaySessionsDataRepository.getAllSessionsRecordsNotObservable(listener);
     }
 
 ////////////////////////////////////////
+//GET LATEST RECORDED SESSION DATE NOT LIVE
+    public void getLatestRecordedSessionDate(EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
+        mEveryDaySessionsDataRepository.getLatestRecordedSessionDate(listener);
+    }
+////////////////////////////////////////
 //INSERT ONE providing MoodRecord objects (start and end)
-    public void insertWithMoods (MoodRecord startMood, MoodRecord endMood, EveryDayRepository.EveryDayRepoListener listener){
+    public void insertWithMoods (MoodRecord startMood, MoodRecord endMood, EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
         SessionRecord sessionRecord = new SessionRecord(
                 startMood.getTimeOfRecord(),
                 startMood.getBodyValue(),
@@ -111,22 +115,22 @@ public class SessionRecordViewModel extends AndroidViewModel {
 
 ////////////////////////////////////////
 //INSERT ONE
-    public void insert (SessionRecord sessionRecord, EveryDayRepository.EveryDayRepoListener listener){
-        mEveryDayRepository.insertSessionRecord(sessionRecord, listener);
+    public void insert (SessionRecord sessionRecord, EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
+        mEveryDaySessionsDataRepository.insertSessionRecord(sessionRecord, listener);
     }
 
 ////////////////////////////////////////
 //INSERT MULTIPLE
-    public void insertMultiple (List<SessionRecord> sessionRecordsList, EveryDayRepository.EveryDayRepoListener listener){
+    public void insertMultiple (List<SessionRecord> sessionRecordsList, EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
         SessionRecord[] sessionRecordsArray = sessionRecordsList.toArray(new SessionRecord[sessionRecordsList.size()]);
         Log.d(TAG, "insertMultiple::sessionRecordsList size = " + sessionRecordsList.size());
         Log.d(TAG, "insertMultiple::sessionRecordsArray length = " + sessionRecordsArray.length);
-        mEveryDayRepository.insertMultipleSessionRecords(sessionRecordsArray, listener);
+        mEveryDaySessionsDataRepository.insertMultipleSessionRecords(sessionRecordsArray, listener);
     }
 
 ////////////////////////////////////////
 //UPDATE ONE providing SessionRecord entity's ID and MoodRecord objects (start and end)
-    public void updateWithMoods (long sessionToUpdateId, MoodRecord startMood, MoodRecord endMood, EveryDayRepository.EveryDayRepoListener listener){
+    public void updateWithMoods (long sessionToUpdateId, MoodRecord startMood, MoodRecord endMood, EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
         SessionRecord sessionRecord = new SessionRecord(
                 startMood.getTimeOfRecord(),
                 startMood.getBodyValue(),
@@ -151,20 +155,20 @@ public class SessionRecordViewModel extends AndroidViewModel {
 
 ////////////////////////////////////////
 //UPDATE ONE
-    public void update (SessionRecord sessionRecord, EveryDayRepository.EveryDayRepoListener listener){
-        mEveryDayRepository.updateSessionRecord(sessionRecord, listener);
+    public void update (SessionRecord sessionRecord, EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
+        mEveryDaySessionsDataRepository.updateSessionRecord(sessionRecord, listener);
     }
 
 ////////////////////////////////////////
 //DELETE ONE
-    public void deleteOneSession (SessionRecord sessionRecord, EveryDayRepository.EveryDayRepoListener listener){
-        mEveryDayRepository.deleteSessionRecord(sessionRecord, listener);
+    public void deleteOneSession (SessionRecord sessionRecord, EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
+        mEveryDaySessionsDataRepository.deleteSessionRecord(sessionRecord, listener);
     }
 
 ////////////////////////////////////////
 //DELETE ALL
-    public void deleteAllSessions (EveryDayRepository.EveryDayRepoListener listener){
-        mEveryDayRepository.deleteAllSessionsRecords(listener);
+    public void deleteAllSessions (EveryDaySessionsDataRepository.EveryDaySessionsRepoListener listener){
+        mEveryDaySessionsDataRepository.deleteAllSessionsRecords(listener);
     }
 
 }

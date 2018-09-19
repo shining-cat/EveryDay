@@ -28,7 +28,7 @@ public class IntervalPickerPreferenceHoursMinutesSeconds extends DialogPreferenc
 
     public IntervalPickerPreferenceHoursMinutesSeconds(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setDialogLayoutResource(R.layout.dialog_interval_picker);
+        setDialogLayoutResource(R.layout.preference_dialog_interval_picker);
         setPositiveButtonText(R.string.generic_string_VALIDATE);
         setNegativeButtonText(R.string.generic_string_CANCEL);
         mDefaultLength = Long.parseLong(context.getString(R.string.default_intermediate_interval_length));

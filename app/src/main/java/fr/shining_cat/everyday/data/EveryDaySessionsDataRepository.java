@@ -8,9 +8,9 @@ import java.util.List;
 
 
 ////////////////////////////////////////
-//Repository for all datas : sessions and animals
+//Repository for sessions datas
 //with an interface to dispatch callbacks
-public class EveryDayRepository {
+public class EveryDaySessionsDataRepository {
 
     private SessionRecordDAO mSessionRecordDAO;
     private LiveData<List<SessionRecord>> mAllSessionsStartTimeAsc;
@@ -19,9 +19,8 @@ public class EveryDayRepository {
     private LiveData<List<SessionRecord>> mAllSessionsDurationDesc;
     private LiveData<List<SessionRecord>> mSessionsWithMp3;
     private LiveData<List<SessionRecord>> mSessionsWithoutMp3;
-    private LiveData<List<SessionRecord>> mSessionsSearch;
 
-    EveryDayRepository(Application application) {
+    EveryDaySessionsDataRepository(Application application) {
         EveryDayRoomDatabase db = EveryDayRoomDatabase.getDatabase(application);
         mSessionRecordDAO = db.sessionRecordDao();
     }
@@ -56,6 +55,7 @@ public class EveryDayRepository {
         }
         return mAllSessionsDurationDesc;
     }
+
 ////////////////////////////////////////
 //GET ONLY WITH / WITHOUT MP3
     LiveData<List<SessionRecord>> getAllSessionsRecordsWithMp3() {
@@ -72,24 +72,53 @@ public class EveryDayRepository {
     }
 
 ////////////////////////////////////////
-    //SEARCH REQUEST
+//GET LATEST RECORDED SESSION DATE
+    public void getLatestRecordedSessionDate(EveryDaySessionsRepoListener listener) {
+        if (!(listener instanceof EveryDaySessionsRepoListener)) {
+            throw new RuntimeException(listener.toString()+ " must implement EveryDaySessionsRepoListener");
+        }
+        new GetLatestRecordedSessionDateAsyncTask(mSessionRecordDAO, listener).execute();
+    }
+
+    private static class GetLatestRecordedSessionDateAsyncTask extends AsyncTask<Void, Void, Long> {
+        private SessionRecordDAO mAsyncTaskDao;
+        private EveryDaySessionsRepoListener mListener;
+
+        GetLatestRecordedSessionDateAsyncTask(SessionRecordDAO dao, EveryDaySessionsRepoListener listener){
+            mAsyncTaskDao = dao;
+            mListener = listener;
+        }
+        @Override
+        protected Long doInBackground(final Void... params) {
+            return mAsyncTaskDao.getLatestRecordedSessionDate();
+        }
+        @Override
+        protected void onPostExecute(Long latestSessionRecordedDate) {
+            //super.onPostExecute(result);
+            mListener.onGetLatestRecordedSessionDateComplete(latestSessionRecordedDate);
+        }
+    }
+
+////////////////////////////////////////
+//SEARCH REQUEST
     LiveData<List<SessionRecord>> getSessionsRecordsSearch(String searchRequest) {
         return mSessionRecordDAO.getSessionsSearch(searchRequest);
     }
+
 ////////////////////////////////////////
 //GET ALL NOT LIVE
-    public void getAllSessionsRecordsNotObservable(EveryDayRepoListener listener) {
-        if (!(listener instanceof EveryDayRepoListener)) {
-            throw new RuntimeException(listener.toString()+ " must implement EveryDayRepoListener");
+    public void getAllSessionsRecordsNotObservable(EveryDaySessionsRepoListener listener) {
+        if (!(listener instanceof EveryDaySessionsRepoListener)) {
+            throw new RuntimeException(listener.toString()+ " must implement EveryDaySessionsRepoListener");
         }
-        new getAllSessionsAsyncTask(mSessionRecordDAO, listener).execute();
+        new GetAllSessionsAsyncTask(mSessionRecordDAO, listener).execute();
     }
 
-    private static class getAllSessionsAsyncTask extends AsyncTask<Void, Void, List<SessionRecord>> {
+    private static class GetAllSessionsAsyncTask extends AsyncTask<Void, Void, List<SessionRecord>> {
         private SessionRecordDAO mAsyncTaskDao;
-        private EveryDayRepoListener mListener;
+        private EveryDaySessionsRepoListener mListener;
 
-        getAllSessionsAsyncTask(SessionRecordDAO dao, EveryDayRepoListener listener){
+        GetAllSessionsAsyncTask(SessionRecordDAO dao, EveryDaySessionsRepoListener listener){
             mAsyncTaskDao = dao;
             mListener = listener;
         }
@@ -106,18 +135,18 @@ public class EveryDayRepository {
 
 ////////////////////////////////////////
 //INSERT ONE
-    public void insertSessionRecord (SessionRecord sessionRecord, EveryDayRepoListener listener){
-        if (!(listener instanceof EveryDayRepoListener)) {
-            throw new RuntimeException(listener.toString()+ " must implement EveryDayRepoListener");
+    public void insertSessionRecord (SessionRecord sessionRecord, EveryDaySessionsRepoListener listener){
+        if (!(listener instanceof EveryDaySessionsRepoListener)) {
+            throw new RuntimeException(listener.toString()+ " must implement EveryDaySessionsRepoListener");
         }
-        new insertSessionAsyncTask(mSessionRecordDAO, listener).execute(sessionRecord);
+        new InsertSessionAsyncTask(mSessionRecordDAO, listener).execute(sessionRecord);
     }
 
-    private static class insertSessionAsyncTask extends AsyncTask<SessionRecord, Void, Long> {
+    private static class InsertSessionAsyncTask extends AsyncTask<SessionRecord, Void, Long> {
         private SessionRecordDAO mAsyncTaskDao;
-        private EveryDayRepoListener mListener;
+        private EveryDaySessionsRepoListener mListener;
 
-        insertSessionAsyncTask(SessionRecordDAO dao, EveryDayRepoListener listener){
+        InsertSessionAsyncTask(SessionRecordDAO dao, EveryDaySessionsRepoListener listener){
         mAsyncTaskDao = dao;
             mListener = listener;
         }
@@ -134,18 +163,18 @@ public class EveryDayRepository {
 
 ////////////////////////////////////////
 //INSERT MULTIPLE
-    public void insertMultipleSessionRecords (SessionRecord[] sessionRecords, EveryDayRepoListener listener){
-        if (!(listener instanceof EveryDayRepoListener)) {
-            throw new RuntimeException(listener.toString()+ " must implement EveryDayRepoListener");
+    public void insertMultipleSessionRecords (SessionRecord[] sessionRecords, EveryDaySessionsRepoListener listener){
+        if (!(listener instanceof EveryDaySessionsRepoListener)) {
+            throw new RuntimeException(listener.toString()+ " must implement EveryDaySessionsRepoListener");
         }
-        new insertMultipleSessionsAsyncTask(mSessionRecordDAO, listener).execute(sessionRecords);
+        new InsertMultipleSessionsAsyncTask(mSessionRecordDAO, listener).execute(sessionRecords);
     }
 
-    private static class insertMultipleSessionsAsyncTask extends AsyncTask<SessionRecord, Integer, Long[]> {
+    private static class InsertMultipleSessionsAsyncTask extends AsyncTask<SessionRecord, Integer, Long[]> {
         private SessionRecordDAO mAsyncTaskDao;
-        private EveryDayRepoListener mListener;
+        private EveryDaySessionsRepoListener mListener;
 
-        insertMultipleSessionsAsyncTask(SessionRecordDAO dao, EveryDayRepoListener listener){
+        InsertMultipleSessionsAsyncTask(SessionRecordDAO dao, EveryDaySessionsRepoListener listener){
             mAsyncTaskDao = dao;
             mListener = listener;
         }
@@ -163,18 +192,18 @@ public class EveryDayRepository {
 
 ////////////////////////////////////////
 //UPDATE ONE
-    public void updateSessionRecord (SessionRecord sessionRecord, EveryDayRepoListener listener){
-        if (!(listener instanceof EveryDayRepoListener)) {
-            throw new RuntimeException(listener.toString()+ " must implement EveryDayRepoListener");
+    public void updateSessionRecord (SessionRecord sessionRecord, EveryDaySessionsRepoListener listener){
+        if (!(listener instanceof EveryDaySessionsRepoListener)) {
+            throw new RuntimeException(listener.toString()+ " must implement EveryDaySessionsRepoListener");
         }
-        new updateSessionAsyncTask(mSessionRecordDAO, listener).execute(sessionRecord);
+        new UpdateSessionAsyncTask(mSessionRecordDAO, listener).execute(sessionRecord);
     }
 
-    private static class updateSessionAsyncTask extends AsyncTask<SessionRecord, Void, Integer> {
+    private static class UpdateSessionAsyncTask extends AsyncTask<SessionRecord, Void, Integer> {
         private SessionRecordDAO mAsyncTaskDao;
-        private EveryDayRepoListener mListener;
+        private EveryDaySessionsRepoListener mListener;
 
-        updateSessionAsyncTask(SessionRecordDAO dao, EveryDayRepoListener listener) {
+        UpdateSessionAsyncTask(SessionRecordDAO dao, EveryDaySessionsRepoListener listener) {
             mAsyncTaskDao = dao;
             mListener = listener;
         }
@@ -191,18 +220,18 @@ public class EveryDayRepository {
 
 ////////////////////////////////////////
 //DELETE ONE
-    public void deleteSessionRecord(SessionRecord sessionRecord, EveryDayRepoListener listener){
-        if (!(listener instanceof EveryDayRepoListener)) {
-            throw new RuntimeException(listener.toString()+ " must implement EveryDayRepoListener");
+    public void deleteSessionRecord(SessionRecord sessionRecord, EveryDaySessionsRepoListener listener){
+        if (!(listener instanceof EveryDaySessionsRepoListener)) {
+            throw new RuntimeException(listener.toString()+ " must implement EveryDaySessionsRepoListener");
         }
-        new deleteSessionAsyncTask(mSessionRecordDAO, listener).execute(sessionRecord);
+        new DeleteSessionAsyncTask(mSessionRecordDAO, listener).execute(sessionRecord);
     }
 
-    private static class deleteSessionAsyncTask extends AsyncTask<SessionRecord, Void, Integer> {
+    private static class DeleteSessionAsyncTask extends AsyncTask<SessionRecord, Void, Integer> {
         private SessionRecordDAO mAsyncTaskDao;
-        private EveryDayRepoListener mListener;
+        private EveryDaySessionsRepoListener mListener;
 
-        deleteSessionAsyncTask(SessionRecordDAO dao, EveryDayRepoListener listener) {
+        DeleteSessionAsyncTask(SessionRecordDAO dao, EveryDaySessionsRepoListener listener) {
             mAsyncTaskDao = dao;
             mListener = listener;
         }
@@ -219,18 +248,18 @@ public class EveryDayRepository {
 
 ////////////////////////////////////////
 //DELETE ALL
-    public void deleteAllSessionsRecords(EveryDayRepoListener listener){
-        if (!(listener instanceof EveryDayRepoListener)) {
-           throw new RuntimeException(listener.toString()+ " must implement EveryDayRepoListener");
+    public void deleteAllSessionsRecords(EveryDaySessionsRepoListener listener){
+        if (!(listener instanceof EveryDaySessionsRepoListener)) {
+           throw new RuntimeException(listener.toString()+ " must implement EveryDaySessionsRepoListener");
         }
-        new deleteAllSessionsAsyncTask(mSessionRecordDAO, listener).execute();
+        new DeleteAllSessionsAsyncTask(mSessionRecordDAO, listener).execute();
     }
 
-    private static class deleteAllSessionsAsyncTask extends AsyncTask<Void, Void, Integer> {
+    private static class DeleteAllSessionsAsyncTask extends AsyncTask<Void, Void, Integer> {
         private SessionRecordDAO mAsyncTaskDao;
-        private EveryDayRepoListener mListener;
+        private EveryDaySessionsRepoListener mListener;
 
-        deleteAllSessionsAsyncTask(SessionRecordDAO dao, EveryDayRepoListener listener) {
+        DeleteAllSessionsAsyncTask(SessionRecordDAO dao, EveryDaySessionsRepoListener listener) {
             mAsyncTaskDao = dao;
             mListener = listener;
         }
@@ -247,18 +276,15 @@ public class EveryDayRepository {
     }
 
 ////////////////////////////////////////
-//ANIMALS
-////////////////////////////////////////
-
-////////////////////////////////////////
 //Listener interface
-    public interface EveryDayRepoListener {
+    public interface EveryDaySessionsRepoListener {
         void onGetAllSessionsNotLiveComplete(List<SessionRecord> allSessions);
         void ondeleteOneSessionRecordComplete(int result);
         void ondeleteAllSessionsRecordsComplete(int result);
         void onInsertOneSessionRecordComplete(long result);
         void onInsertMultipleSessionsRecordsComplete(Long[] result);
         void onUpdateOneSessionRecordComplete(int result);
+        void onGetLatestRecordedSessionDateComplete(long latestSessionRecordedDate);
     }
 
 

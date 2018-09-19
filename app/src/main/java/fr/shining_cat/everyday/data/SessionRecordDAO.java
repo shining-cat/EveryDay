@@ -56,4 +56,8 @@ public interface SessionRecordDAO {
     //
     @Query("SELECT * from sessions_table WHERE guidemp3 LIKE :searchRequest OR notes LIKE :searchRequest ORDER BY startTimeOfRecord DESC")
     LiveData<List<SessionRecord>> getSessionsSearch(String searchRequest);
+
+    //
+    @Query("SELECT max(startTimeOfRecord) from sessions_table")
+    long getLatestRecordedSessionDate();
 }
