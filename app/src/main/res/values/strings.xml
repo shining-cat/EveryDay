@@ -2,8 +2,11 @@
     <!--Infos-->
     <string name="app_name">EveryDay</string>
     <string name="infos_action_string" translatable="true">Infos</string>
-    <string name="infos_text_string" translatable="true">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus.
-Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex metus a risus. Nam rutrum neque orci, eget congue ipsum tincidunt non. Quisque pulvinar sed velit eu cursus. Vestibulum nec porta elit. In eget diam magna. Integer in eros interdum, ornare mi quis, sagittis diam. Aliquam ullamcorper quam a gravida lacinia. Maecenas a mattis metus. Nunc faucibus auctor tellus sed accumsan. Fusce posuere odio eget nibh iaculis vehicula. In hac habitasse platea dictumst. Donec dictum viverra diam sit amet tincidunt. Etiam pellentesque blandit massa, ut hendrerit purus accumsan eget. Cras viverra, nunc non semper ullamcorper, nisl ante sodales ante, at venenatis justo tellus a ipsum. Vestibulum aliquet accumsan pretium. Sed rhoncus a orci sit amet porta.</string>
+    <string name="infos_text_string" translatable="true">
+        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus.
+Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex metus a risus. Nam rutrum neque orci, eget congue ipsum tincidunt non. Quisque pulvinar sed velit eu cursus. Vestibulum nec porta elit. In eget diam magna. Integer in eros interdum, ornare mi quis, sagittis diam. Aliquam ullamcorper quam a gravida lacinia. Maecenas a mattis metus. Nunc faucibus auctor tellus sed accumsan. Fusce posuere odio eget nibh iaculis vehicula. In hac habitasse platea dictumst. Donec dictum viverra diam sit amet tincidunt. Etiam pellentesque blandit massa, ut hendrerit purus accumsan eget. Cras viverra, nunc non semper ullamcorper, nisl ante sodales ante, at venenatis justo tellus a ipsum. Vestibulum aliquet accumsan pretium. Sed rhoncus a orci sit amet porta.
+        ]]>
+    </string>
     <string name="app_version">Version 0.3</string>
     <string name="app_made_by" translatable="true">Création et réalisation :</string>
     <string name="app_made_name">Shiva Bernhard</string>
@@ -60,6 +63,7 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="looking_for_last_recorded_session_progress_dialog_title" translatable="true">Recherche de la dernière sessions enregistrée…</string>
     <string name="checking_for_streaks_breaks_progress_dialog_title" translatable="true">Recherche de récompenses perdues…</string>
 
+
     <!--moodrecorder-->
     <string name="label_body" translatable="true">Corps</string>
     <string name="label_thoughts" translatable="true">Pensées</string>
@@ -69,6 +73,9 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <!--Session Activity -->
     <string name="title_activity_session" translatable="true">SessionActivity</string>
     <string name="title_dialog_audio_duration_manual_entry" translatable="true">Impossible d\'obtenir la durée du fichier, entrer une durée</string>
+
+    <string name="airplane_mode_starting_session_reminder_dialog_title" translatable="true">Pour éviter les interruptions…</string>
+    <string name="airplane_mode_starting_session_reminder_dialog_text" translatable="true">Activer le \"mode avion\" \n(Le réglage vous sera proposé à nouveau en fin de session pour vous rappeler de le désactiver)</string>
 
     <string name="pre_record_dialog_default_title" translatable="true">Avant de commencer…</string>
     <string name="pre_record_dialog_manual_entry_title" translatable="true">Début de session</string>
@@ -131,6 +138,7 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="no_sessions_on_this_day_to_show" translatable="true">Aucune session ce jour-là</string>
     <string name="select_day_to_show" translatable="true">Sélectionner un jour</string>
 
+
     <!--REWARDS LIST-->
     <string name="rewards" translatable="true">Récompenses</string>
     <string name="empty_rewards_list_message" translatable="true">Aucune récompense à afficher</string>
@@ -180,6 +188,7 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="saturday" translatable="true">Samedi</string>
     <string name="sunday" translatable="true">Dimanche</string>
 
+
     <!--MISC-->
     <string name="silent" translatable="true">Silence</string>
     <string name="launch_session_for" translatable="true">Démarrer une session de</string>
@@ -215,5 +224,6 @@ Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex 
     <string name="share_image_intent_chooser_title" translatable="true">Partager l\'image via</string>
     <string name="started" translatable="true">Démarré</string>
     <string name="completed" translatable="true">Terminé</string>
+
 
 </resources>

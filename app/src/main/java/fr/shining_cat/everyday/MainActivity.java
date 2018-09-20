@@ -2,12 +2,16 @@ package fr.shining_cat.everyday;
 
 import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +51,9 @@ public class MainActivity   extends AppCompatActivity
 
     private ProgressDialog mProgressDialog;
     private String mSessionTypeSelected;
+    private boolean mUserHasCancelledAirplaneModeReminder;
+    private boolean mUserHasFollowedAirplaneModeReminder;
+    private boolean mSessionHasBeenStarted;
 
     //TODO : animer les transitions entre pages/fragments?
     //TODO : sounds for some interactions? (screenshots for sharing...)
@@ -55,6 +62,10 @@ public class MainActivity   extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //
+        mUserHasCancelledAirplaneModeReminder = false;
+        mUserHasFollowedAirplaneModeReminder = false;
+        mSessionHasBeenStarted = false;
         //
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //check if rewards have already been generated, do it otherwise
@@ -74,6 +85,22 @@ public class MainActivity   extends AppCompatActivity
         mProgressDialog.show();
         SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(this).get(SessionRecordViewModel.class);
         sessionRecordViewModel.getLatestRecordedSessionDate(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume::mUserHasFollowedAirplaneModeReminder = " + mUserHasFollowedAirplaneModeReminder + " // mSessionHasBeenStarted = " + mSessionHasBeenStarted);
+        if(mUserHasFollowedAirplaneModeReminder){//we are back from the airplane mode settings screen
+            launchSession();
+        }else if(mSessionHasBeenStarted){//we are back from SessionActivity's finish()
+            mSessionHasBeenStarted = false;
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean prefAirplaneMode = prefs.getBoolean(getString(R.string.pref_switch_airplane_mode_key), Boolean.valueOf(getString(R.string.default_airplane_mode)));
+            if(prefAirplaneMode && isAirplaneModeOn(this)) {
+                openAirplaneModeSettings(); //open settings, no need for a dialog here
+            }
+        }
     }
 
     private void showHomepageButtons(){
@@ -191,13 +218,13 @@ public class MainActivity   extends AppCompatActivity
     @Override
     public void startAudioSession() {
         mSessionTypeSelected = AUDIO_GUIDED_SESSION;
-        launchSession();
+        prepareLaunchSession();
     }
 
     @Override
     public void startTimedSession() {
         mSessionTypeSelected = TIMED_SESSION;
-        launchSession();
+        prepareLaunchSession();
     }
 
     @Override
@@ -220,7 +247,21 @@ public class MainActivity   extends AppCompatActivity
         rewardViewModel.deleteAllRewards(everyDayRewardsRepoListener);
     }
 
+
+    private void prepareLaunchSession(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean prefAirplaneMode = prefs.getBoolean(getString(R.string.pref_switch_airplane_mode_key), Boolean.valueOf(getString(R.string.default_airplane_mode)));
+        if(prefAirplaneMode && !isAirplaneModeOn(this) && !mUserHasCancelledAirplaneModeReminder) {
+            remindUSerOfAirplaneModeSettings();
+        }else {
+            launchSession();
+        }
+    }
+
     private void launchSession(){
+        mUserHasCancelledAirplaneModeReminder = false;
+        mUserHasFollowedAirplaneModeReminder = false;
+        mSessionHasBeenStarted = true;
         switch (mSessionTypeSelected){
             case AUDIO_GUIDED_SESSION:
                 Intent chooseMp3Intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -232,6 +273,39 @@ public class MainActivity   extends AppCompatActivity
             default:
                 Intent myIntent = new Intent(this, SessionActivity.class);
                 startActivity(myIntent);
+        }
+    }
+////////////////////////////////////////
+//open airplane mode section from device settings
+
+    public static boolean isAirplaneModeOn(Context context) {
+        return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+    }
+
+    private void remindUSerOfAirplaneModeSettings() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.airplane_mode_starting_session_reminder_dialog_title));
+            builder.setMessage(getString(R.string.airplane_mode_starting_session_reminder_dialog_text));
+            builder.setNegativeButton(getString(R.string.generic_string_CANCEL), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    mUserHasCancelledAirplaneModeReminder = true;
+                    launchSession();
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton(getString(R.string.generic_string_OK), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    mUserHasFollowedAirplaneModeReminder = true;
+                    openAirplaneModeSettings();
+                }
+            });
+            builder.show();
+    }
+
+    private void openAirplaneModeSettings(){
+        Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 
@@ -395,5 +469,6 @@ public class MainActivity   extends AppCompatActivity
             }
         }
     }
+
 
 }

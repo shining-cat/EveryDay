@@ -19,6 +19,8 @@
 
     <string name="pref_switch_do_not_disturb_key">pref_switch_do_not_disturb_key</string>
 
+    <string name="pref_switch_airplane_mode_key">pref_switch_airplane_mode_key</string>
+
     <string name="pref_active_notification_key">pref_active_notification_key</string>
         <string name="pref_notification_time_key">pref_notification_time_key</string>
         <string name="pref_notification_ringtone_key">pref_ringtone_notification_key</string>
@@ -36,6 +38,5 @@
 
     <string name="pref_rewards_already_generated_key">pref_rewards_already_generated_key</string>
     <string name="pref_rewards_escaped_date_key">pref_rewards_escaped_date_key</string>
-
 
 </resources>

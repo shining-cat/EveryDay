@@ -13,13 +13,14 @@
         <string name="pref_switch_infinite_session_summary_OFF" translatable="true">Arrêter le compteur une fois la durée prévue écoulée</string>
 
     <string name="pref_intermediate_intervals_title" translatable="true">Intervalles intermédiaires (inactif sur un support audio)</string>
-    <string name="pref_intermediate_intervals_notice" translatable="true">0 pour désactiver les intervalles</string>
+        <string name="pref_intermediate_intervals_notice" translatable="true">0 pour désactiver les intervalles</string>
         <string name="pref_intermediate_intervals_summary_ON" translatable="true">Toutes les %1$s</string>
         <string name="pref_intermediate_intervals_summary_OFF" translatable="true">Aucun</string>
 
     <string name="pref_ringtones_vibration_title" translatable="true">Sons, vibration</string>
         <string name="pref_ringtone_start_title" translatable="true">Son au début de la session</string>
-        <string name="pref_ringtone_intermediate_intervals_title" translatable="true">Son pour les intervalles intermédiaires (inactif sur un support audio)</string>        <string name="pref_ringtone_end_title" translatable="true">Son à la fin de la session</string>
+        <string name="pref_ringtone_intermediate_intervals_title" translatable="true">Son pour les intervalles intermédiaires (inactif sur un support audio)</string>
+        <string name="pref_ringtone_end_title" translatable="true">Son à la fin de la session</string>
         <string name="ringtoneSummary" translatable="true">%s</string>
         <string name="pref_switch_vibration_title" translatable="true">Vibration</string>
         <string name="pref_switch_vibration_summary_ON" translatable="true">Vibration en début, aux intervalles intermédiaires, et en fin de session</string>
@@ -35,12 +36,18 @@
         <string name="pref_switch_do_not_disturb_author_dialog_title" translatable="true">Demande d\'autorisation</string>
         <string name="pref_switch_do_not_disturb_author_dialog_text" translatable="true">Autoriser l\'application à modifier le réglage "Ne pas déranger" de l\'appareil dans l\'écran suivant.</string>
 
+
+    <string name="pref_switch_airplane_mode_title" translatable="true">Invitation à activer le \"mode avion\"</string>
+    <string name="pref_switch_airplane_mode_summary_ON" translatable="true">Ouvrir le réglage \"mode avion\" en début et fin de session</string>
+    <string name="pref_switch_airplane_mode_summary_OFF" translatable="true">Ne rien faire</string>
+
     <string name="pref_notification_settings_title" translatable="true">Rappel</string>
         <string name="pref_notification_active_title" translatable="true">Émettre une notification si aucune session n\'a été faite dans la journée</string>
         <string name="pref_notification_active_summary" translatable="true">(Sur certains appareils, il faut autoriser l\'ouverture au démarrage dans les réglages de sécurité ou d\'économie d\'énergie pour que le rappel se réactive automatiquement après un redémarrage)</string>
         <string name="pref_notification_time_title" translatable="true">Heure de la notification </string>
         <string name="pref_notification_ringtone_title" translatable="true">Son de notification</string>
         <string name="pref_notification_text_title" translatable="true">Texte de rappel</string>
+
 
     <string name="pref_advanced_settings_title" translatable="true">Avancés</string>
 

@@ -8,6 +8,7 @@
     <string name="default_vibration_active">false</string>
     <string name="default_keep_screen_on">false</string>
     <string name="default_do_not_disturb">false</string>
+    <string name="default_airplane_mode">false</string>
     <string name="default_notification_active">false</string>
     <string name="default_show_numerical_stats">false</string>
     <string name="default_collect_stats">true</string>

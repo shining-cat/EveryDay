@@ -89,6 +89,16 @@
             android:switchTextOn="@string/generic_string_YES"
         />
 
+        <SwitchPreference
+            android:key="@string/pref_switch_airplane_mode_key"
+            android:defaultValue="@string/default_airplane_mode"
+            android:title="@string/pref_switch_airplane_mode_title"
+            android:summaryOn="@string/pref_switch_airplane_mode_summary_ON"
+            android:summaryOff="@string/pref_switch_airplane_mode_summary_OFF"
+            android:switchTextOff="@string/generic_string_NO"
+            android:switchTextOn="@string/generic_string_YES"
+        />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -149,9 +159,10 @@
             delete animals
         -->
         </PreferenceScreen>
+        <!--TODO: possibilitÃ© de choisir entre des thÃ¨mes de couleur diffÃ©rents -->
         <PreferenceScreen
             android:key="@string/pref_modify_app_appearance_key"
-            android:title="@string/pref_modify_app_basics_title">
+            android:title="@string/pref_modify_app_appearance_title">
 
         </PreferenceScreen>
 
