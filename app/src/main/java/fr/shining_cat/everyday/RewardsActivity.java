@@ -12,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,7 +30,7 @@ import fr.shining_cat.everyday.dialogs.DialogFragmentEditReward;
 import fr.shining_cat.everyday.utils.BitmapToFileExporterAsync;
 import fr.shining_cat.everyday.utils.MiscUtils;
 
-public class RewardsActivity    extends AppCompatActivity
+public class RewardsActivity    extends BaseThemedActivity
                                 implements  RewardsCollectionListAdapter.RewardsListAdapterListener,
                                             RewardDetailsCardFragment.RewardDetailsCardFragmentListener,
                                             MiscUtils.OnMiscUtilsListener,

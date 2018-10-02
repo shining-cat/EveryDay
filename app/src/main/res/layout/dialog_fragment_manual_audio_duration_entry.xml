@@ -21,6 +21,9 @@
         android:layout_height="19dp"
         android:layout_marginEnd="8dp"
         android:text="@string/generic_string_SHORT_HOURS"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_duration_manual_picker_picker"
         app:layout_constraintEnd_toStartOf="@+id/duration_manual_picker_minutes_picker"
         app:layout_constraintTop_toTopOf="@+id/guideline_h_duration_manual_picker_picker" />
@@ -42,9 +45,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/generic_string_SHORT_MINUTES"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_duration_manual_picker_picker"
         app:layout_constraintStart_toEndOf="@+id/duration_manual_picker_minutes_picker"
-        app:layout_constraintTop_toTopOf="@+id/guideline_h_duration_manual_picker_picker" />
+app:layout_constraintTop_toTopOf="@+id/guideline_h_duration_manual_picker_picker" />
 
     <NumberPicker
         android:id="@+id/duration_manual_picker_seconds_picker"
@@ -62,6 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/generic_string_SHORT_SECONDS"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_duration_manual_picker_picker"
         app:layout_constraintStart_toEndOf="@+id/duration_manual_picker_seconds_picker"
         app:layout_constraintTop_toTopOf="@+id/guideline_h_duration_manual_picker_picker" />

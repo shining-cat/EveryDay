@@ -15,9 +15,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/rewards_obtained_title"
-        android:textColor="@color/buddhist_brown"
-        android:visibility="invisible"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,13 +32,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/reward_obtained_or_lost_ok_btn"
-        tools:listitem="@layout/rewards_list_recyclerview_item" />
+        tools:listitem="@layout/recyclerview_item_rewards_list" />
+
     <TextView
         android:id="@+id/empty_rewards_obtained_or_lost_list_message"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/no_more_rewards_obtained_list_message"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/reward_obtained_or_lost_ok_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +53,8 @@
         android:layout_height="48dp"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/loading_rewards_obtained_list_message"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/reward_obtained_or_lost_ok_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

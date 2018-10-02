@@ -8,9 +8,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    app:cardCornerRadius="15dp">
+    app:cardCornerRadius="15dp"
+    app:cardBackgroundColor="?attr/colorPrimaryLight">
 
-    <!--TODO: for testing pruposes, color holders have been put on top of normal parts => reverse when real drawings are available! -->
+    <!--TODO: for testing purposes, color holders have been put on top of normal parts => reverse when real drawings are available! -->
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -177,6 +178,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/reward_details_level"
             tools:text="Azraël" />
 
@@ -186,6 +189,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/reward_details_date"
             tools:text="Niveau 3" />
 
@@ -195,6 +200,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Depuis le 27/03/2017" />
 
@@ -210,7 +217,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="0dp"
-            android:background="@color/buddhist_brown"
+            android:background="?android:attr/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:elevation="5dp"/>
@@ -222,7 +229,7 @@
             android:background="?android:attr/selectableItemBackground"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_share_white_24dp"
+            app:srcCompat="@drawable/ic_share_textcolorprimary_24dp"
             android:elevation="6dp"
             android:contentDescription="@string/generic_string_SHARE" />
 
@@ -231,7 +238,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="0dp"
-            android:background="@color/buddhist_brown"
+            android:background="?android:attr/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:elevation="5dp"/>
@@ -243,7 +250,7 @@
             android:background="?android:attr/selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_edit_white_24dp"
+            app:srcCompat="@drawable/ic_edit_textcolorprimary_24dp"
             android:elevation="6dp"
             android:contentDescription="@string/generic_string_EDIT" />
 

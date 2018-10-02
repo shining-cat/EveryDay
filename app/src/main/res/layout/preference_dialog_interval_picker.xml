@@ -21,6 +21,9 @@
         android:layout_height="19dp"
         android:layout_marginEnd="8dp"
         android:text="@string/generic_string_SHORT_HOURS"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_interval_picker"
         app:layout_constraintEnd_toStartOf="@+id/interval_minutes_picker"
         app:layout_constraintTop_toTopOf="@+id/guideline_h_interval_picker" />
@@ -42,6 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/generic_string_SHORT_MINUTES"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_interval_picker"
         app:layout_constraintStart_toEndOf="@+id/interval_minutes_picker"
         app:layout_constraintTop_toTopOf="@+id/guideline_h_interval_picker" />
@@ -62,6 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/generic_string_SHORT_SECONDS"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_h_interval_picker"
         app:layout_constraintStart_toEndOf="@+id/interval_seconds_picker"
         app:layout_constraintTop_toTopOf="@+id/guideline_h_interval_picker" />
@@ -74,6 +83,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/pref_intermediate_intervals_notice"
+        android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintEnd_toStartOf="@+id/guideline_v_interval_picker"
         app:layout_constraintStart_toStartOf="@+id/guideline_v_interval_picker"
         app:layout_constraintTop_toBottomOf="@+id/interval_minutes_picker" />

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- visual themes names array -->
+    <string-array name="visual_themes_names_array">
+        <item>Bois</item>
+        <!--<item>wood_visual_theme</item>-->
+        <item>Terre</item>
+        <!--<item>earth_visual_theme</item>-->
+        <item>Feu</item>
+        <!--<item>fire_visual_theme</item>-->
+        <item>Eau</item>
+        <!--<item>water_visual_theme</item>-->
+        <item>Vent</item>
+        <!--<item>wind_visual_theme</item>-->
+        <item>Métal</item>
+        <!--<item>metal_dark_visual_theme</item>-->
+    </string-array>
+
+    <!-- visual themes values array. Values correspond to styles' names in styles.xml-->
+    <string-array name="visual_themes_values_array">
+        <!-- <item>Bois</item> -->
+        <item>Theme.App.wood</item>
+        <!--<item>Terre</item>-->
+        <item>Theme.App.earth</item>
+        <!--<item>Feu</item>-->
+        <item>Theme.App.fire</item>
+        <!--<item>Eau</item>-->
+        <item>Theme.App.water</item>
+        <!--<item>Vent</item>-->
+        <item>Theme.App.wind</item>
+        <!--<item>Métal sombre</item>-->
+        <item>Theme.App.metal</item>
+    </string-array>
+
+</resources>

@@ -20,10 +20,24 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/post_record_dialog_default_title"
-            android:textColor="@color/colorAccent"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/post_record_intro_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/post_record_intro_text"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_record_manual_date_field_label" />
 
         <TextView
             android:id="@+id/post_record_manual_date_field_label"
@@ -32,6 +46,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/date"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_record_title_txtvw" />
 
@@ -43,7 +60,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:textColor="@color/colorAccent"
+            android:textColor="?android:attr/colorAccent"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/post_record_manual_date_field_label"
             app:layout_constraintTop_toBottomOf="@+id/post_record_title_txtvw"
@@ -56,6 +74,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/time"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/post_record_manual_date_value_field"
             app:layout_constraintTop_toBottomOf="@+id/post_record_title_txtvw" />
 
@@ -66,21 +87,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:textColor="@color/colorAccent"
+            android:textColor="?android:attr/colorAccent"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/post_record_manual_time_field_label"
             app:layout_constraintTop_toBottomOf="@+id/post_record_title_txtvw"
             tools:text="@string/fake_time" />
-
-        <TextView
-            android:id="@+id/post_record_intro_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/post_record_intro_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/post_record_manual_date_field_label" />
 
         <fr.shining_cat.everyday.widgets.MoodRecorderViewGroup
             android:id="@+id/post_record_mood_recorder"
@@ -96,6 +108,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/notes_label"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_record_mood_recorder" />
 
@@ -108,6 +123,10 @@
             android:ems="10"
             android:hint="@string/post_record_notes_hint"
             android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+            android:textColor="?android:attr/textColorPrimary"
+            android:backgroundTint="?android:attr/textColorPrimary"
+            android:textColorHint="?android:attr/textColorSecondary"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_record_notes_label" />
@@ -119,6 +138,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/guide_mp3_label"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_record_notes_editTxt" />
 
@@ -130,6 +152,10 @@
             android:layout_marginStart="16dp"
             android:hint="@string/post_record_guide_mp3_hint"
             android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+            android:textColor="?android:attr/textColorPrimary"
+            android:backgroundTint="?android:attr/textColorPrimary"
+            android:textColorHint="?android:attr/textColorSecondary"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_record_guide_mp3_label" />
@@ -163,6 +189,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_end="192dp" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

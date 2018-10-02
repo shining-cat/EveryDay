@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,11 +32,11 @@ import fr.shining_cat.everyday.preferences.ImportSessionsPreference;
 import fr.shining_cat.everyday.utils.MiscUtils;
 
 
-public class SettingsActivity extends AppCompatActivity
-            implements EveryDaySessionsDataRepository.EveryDaySessionsRepoListener,
-                        SessionsExporterAsync.SessionsExporterAsyncListener,
-                        SessionsImportCSVParsingAsync.SessionsImportCSVParsingAsyncListener,
-                        MiscUtils.OnMiscUtilsListener{
+public class SettingsActivity   extends BaseThemedActivity
+                                implements  EveryDaySessionsDataRepository.EveryDaySessionsRepoListener,
+                                            SessionsExporterAsync.SessionsExporterAsyncListener,
+                                            SessionsImportCSVParsingAsync.SessionsImportCSVParsingAsyncListener,
+                                            MiscUtils.OnMiscUtilsListener{
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 

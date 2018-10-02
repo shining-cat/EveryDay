@@ -30,7 +30,7 @@
         <string name="pref_delete_sessions_key">pref_delete_sessions_key</string>
     <string name="pref_export_sessions_key">pref_export_sessions_key</string>
 
-    <string name="pref_modify_app_appearance_key">pref_modify_app_appearance_key</string>
+    <string name="pref_app_visual_theme_key">pref_modify_app_appearance_key</string>
 
     <string name="pref_modify_app_basics_key">pref_modify_app_basics_key</string>
         <string name="pref_rewards_collector_active_key">pref_rewards_collector_active_key</string>

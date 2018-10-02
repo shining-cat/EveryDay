@@ -9,4 +9,10 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+<!--when using non-native android style attributes, they must be declared here -->
+    <attr name="colorPrimaryUltraLight" format="color"/>
+    <attr name="colorPrimaryLight" format="color"/>
+    <attr name="colorAccentLight" format="color"/>
+    <attr name="colorAccentDark" format="color"/>
+
 </resources>

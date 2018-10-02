@@ -13,6 +13,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/label_body"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,8 +23,10 @@
 
     <com.hsalf.smilerating.SmileRating
         android:id="@+id/smileyRatingBody"
+        app:placeHolderSmileColor="?attr/colorPrimaryLight"
+        app:placeHolderBackgroundColor="?attr/colorPrimaryUltraLight"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,12 +41,17 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/label_thoughts"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/smileyRatingBody" />
 
     <com.hsalf.smilerating.SmileRating
         android:id="@+id/smileyRatingThoughts"
+        app:placeHolderSmileColor="?attr/colorPrimaryLight"
+        app:placeHolderBackgroundColor="?attr/colorPrimaryUltraLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -58,12 +68,17 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/label_feelings"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/smileyRatingThoughts" />
 
     <com.hsalf.smilerating.SmileRating
         android:id="@+id/smileyRatingFeelings"
+        app:placeHolderSmileColor="?attr/colorPrimaryLight"
+        app:placeHolderBackgroundColor="?attr/colorPrimaryUltraLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -80,12 +95,17 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/label_global"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/smileyRatingFeelings" />
 
     <com.hsalf.smilerating.SmileRating
         android:id="@+id/smileyRatingGlobal"
+        app:placeHolderSmileColor="?attr/colorPrimaryLight"
+        app:placeHolderBackgroundColor="?attr/colorPrimaryUltraLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

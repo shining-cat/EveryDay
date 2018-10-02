@@ -1,6 +1,5 @@
 package fr.shining_cat.everyday;
 
-import android.app.NotificationManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,7 +24,7 @@ import fr.shining_cat.everyday.data.SessionRecordViewModel;
 import fr.shining_cat.everyday.dialogs.DialogFragmentManualDurationEntry;
 import fr.shining_cat.everyday.utils.UiUtils;
 
-public class SessionActivity extends AppCompatActivity
+public class SessionActivity extends BaseThemedActivity
                             implements  PreRecordFragment.FragmentPreRecordListener,
                                         SessionInProgressFragment.SessionInProgressFragmentListener,
                                         PostRecordFragment.PostRecordFragmentListener,

@@ -12,13 +12,10 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,7 +32,7 @@ import fr.shining_cat.everyday.dialogs.DialogFragmentInfos;
 import fr.shining_cat.everyday.utils.TimeOperations;
 import fr.shining_cat.everyday.utils.UiUtils;
 
-public class MainActivity   extends AppCompatActivity
+public class MainActivity   extends BaseThemedActivity
                             implements  RewardsEscapedFragment.FragmentRewardsEscapedListener,
                                         EveryDaySessionsDataRepository.EveryDaySessionsRepoListener,
                                         HomePageButtonsFragment.HomePageButtonsFragmentListener,
@@ -51,9 +48,10 @@ public class MainActivity   extends AppCompatActivity
 
     private ProgressDialog mProgressDialog;
     private String mSessionTypeSelected;
-    private boolean mUserHasCancelledAirplaneModeReminder;
     private boolean mUserHasFollowedAirplaneModeReminder;
+    private boolean mSessionWithAudioGuideIsWaitingToStart;
     private boolean mSessionHasBeenStarted;
+    Uri mAudioContentUri;
 
     //TODO : animer les transitions entre pages/fragments?
     //TODO : sounds for some interactions? (screenshots for sharing...)
@@ -63,8 +61,8 @@ public class MainActivity   extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //
-        mUserHasCancelledAirplaneModeReminder = false;
         mUserHasFollowedAirplaneModeReminder = false;
+        mSessionWithAudioGuideIsWaitingToStart = false;
         mSessionHasBeenStarted = false;
         //
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -88,10 +86,24 @@ public class MainActivity   extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mProgressDialog!=null){
+            if(mProgressDialog.isShowing()){
+                mProgressDialog.cancel();
+            }
+            mProgressDialog = null;
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume::mUserHasFollowedAirplaneModeReminder = " + mUserHasFollowedAirplaneModeReminder + " // mSessionHasBeenStarted = " + mSessionHasBeenStarted);
+        //user can be coming back from airplane mode reminder dialog // or sessionActivity (after finish) // or from audio guide intent chosing
+        Log.d(TAG, "onResume");
         if(mUserHasFollowedAirplaneModeReminder){//we are back from the airplane mode settings screen
+            prepareLaunchSession();
+        }else if(mSessionWithAudioGuideIsWaitingToStart){
             launchSession();
         }else if(mSessionHasBeenStarted){//we are back from SessionActivity's finish()
             mSessionHasBeenStarted = false;
@@ -218,13 +230,13 @@ public class MainActivity   extends AppCompatActivity
     @Override
     public void startAudioSession() {
         mSessionTypeSelected = AUDIO_GUIDED_SESSION;
-        prepareLaunchSession();
+        checkAirplaneModeIfNecessary();
     }
 
     @Override
     public void startTimedSession() {
         mSessionTypeSelected = TIMED_SESSION;
-        prepareLaunchSession();
+        checkAirplaneModeIfNecessary();
     }
 
     @Override
@@ -248,31 +260,44 @@ public class MainActivity   extends AppCompatActivity
     }
 
 
-    private void prepareLaunchSession(){
+    private void checkAirplaneModeIfNecessary(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean prefAirplaneMode = prefs.getBoolean(getString(R.string.pref_switch_airplane_mode_key), Boolean.valueOf(getString(R.string.default_airplane_mode)));
-        if(prefAirplaneMode && !isAirplaneModeOn(this) && !mUserHasCancelledAirplaneModeReminder) {
+        if(prefAirplaneMode && !isAirplaneModeOn(this)) {
             remindUSerOfAirplaneModeSettings();
         }else {
-            launchSession();
+            prepareLaunchSession();
         }
     }
 
-    private void launchSession(){
-        mUserHasCancelledAirplaneModeReminder = false;
+    private void prepareLaunchSession(){
         mUserHasFollowedAirplaneModeReminder = false;
-        mSessionHasBeenStarted = true;
         switch (mSessionTypeSelected){
-            case AUDIO_GUIDED_SESSION:
+            case AUDIO_GUIDED_SESSION: //open file chooser
                 Intent chooseMp3Intent = new Intent(Intent.ACTION_GET_CONTENT);
                 chooseMp3Intent.addCategory(Intent.CATEGORY_OPENABLE);
                 chooseMp3Intent.setType("audio/*");
                 this.startActivityForResult(chooseMp3Intent, ACTIVITY_CHOSING_MP3_FILE_FOR_GUIDED_SESSION);
                 break;
-            case TIMED_SESSION:
+            case TIMED_SESSION: //start session immediately
             default:
-                Intent myIntent = new Intent(this, SessionActivity.class);
-                startActivity(myIntent);
+                launchSession();
+        }
+    }
+
+    private void launchSession(){
+        mSessionHasBeenStarted = true;
+        mSessionWithAudioGuideIsWaitingToStart = false;
+        mUserHasFollowedAirplaneModeReminder = false;
+        if(mAudioContentUri != null) { //must be AUDIO_GUIDED_SESSION
+            Log.d(TAG, "onActivityResult::audioContentUri = " + mAudioContentUri);
+            Intent myIntent = new Intent(this, SessionActivity.class);
+            myIntent.putExtra(SessionActivity.SOUND_FOR_GUIDED_SESSION_URI_INTENT_KEY, mAudioContentUri);
+            startActivity(myIntent);
+        }else{
+            mSessionHasBeenStarted = true;
+            Intent myIntent = new Intent(this, SessionActivity.class);
+            startActivity(myIntent);
         }
     }
 ////////////////////////////////////////
@@ -286,14 +311,13 @@ public class MainActivity   extends AppCompatActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.airplane_mode_starting_session_reminder_dialog_title));
             builder.setMessage(getString(R.string.airplane_mode_starting_session_reminder_dialog_text));
-            builder.setNegativeButton(getString(R.string.generic_string_CANCEL), new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.generic_string_PASS), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    mUserHasCancelledAirplaneModeReminder = true;
-                    launchSession();
+                    prepareLaunchSession();
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton(getString(R.string.generic_string_OK), new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.generic_string_OPEN_SETTING), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     mUserHasFollowedAirplaneModeReminder = true;
                     openAirplaneModeSettings();
@@ -458,17 +482,15 @@ public class MainActivity   extends AppCompatActivity
         if(resultCode == RESULT_OK) {
             switch (requestCode) {
                 case ACTIVITY_CHOSING_MP3_FILE_FOR_GUIDED_SESSION:
-                    //intent sent by ImportSessionsPreference => file has been chosen, parse and import with SessionsImportCSVParsingAsync
                     //WARNING : data coming back from Intent.ACTION_GET_CONTENT is not necessarily a File (but it can be which could lead to not detecting error at first) but has to be handled as a content Uri
-                    Uri audioContentUri = data.getData();
-                    Log.d(TAG, "onActivityResult::audioContentUri = " + audioContentUri);
-                    Intent myIntent = new Intent(this, SessionActivity.class);
-                    myIntent.putExtra(SessionActivity.SOUND_FOR_GUIDED_SESSION_URI_INTENT_KEY, audioContentUri);
-                    startActivity(myIntent);
+                    mAudioContentUri = data.getData();
+                    mSessionWithAudioGuideIsWaitingToStart = true;
+                    //wait for onresume (supposed to always come AFTER onactivityresult) to really launch session because there is the text to show the airplane mode reminder, which would fire now instead of at the end of session
                     break;
             }
         }
     }
+
 
 
 }

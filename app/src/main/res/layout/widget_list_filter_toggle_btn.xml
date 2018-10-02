@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    >
-<!-- not used anymore : ripple effect on whole button : android:background="@drawable/white_ripple" -->
 
+    >
+    <!--android:background="@android:color/transparent"-->
+
+
+<!-- not used anymore : ripple effect on whole button : android:background="@drawable/white_ripple" -->
 
     <TextView
         android:id="@+id/sessions_list_filter_toggle_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="?android:attr/textColorPrimary"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +28,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/arrow_up"
         android:src="@drawable/ic_arrow_up_white_24dp"
+        android:tint="?android:attr/textColorPrimary"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toTopOf="@id/sessions_list_filter_toggle_h_guideline"
         app:layout_constraintStart_toEndOf="@id/sessions_list_filter_toggle_label" />
@@ -36,6 +39,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/arrow_up"
         android:src="@drawable/ic_check_white_24dp"
+        android:tint="?android:attr/textColorPrimary"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toTopOf="@id/sessions_list_filter_toggle_h_guideline"
         app:layout_constraintStart_toEndOf="@id/sessions_list_filter_toggle_label" />
@@ -46,6 +50,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/arrow_down"
         android:src="@drawable/ic_arrow_down_white_24dp"
+        android:tint="?android:attr/textColorPrimary"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@id/sessions_list_filter_toggle_label"
         app:layout_constraintTop_toBottomOf="@id/sessions_list_filter_toggle_h_guideline" />
@@ -56,6 +61,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/arrow_up"
         android:src="@drawable/ic_close_white_24dp"
+        android:tint="?android:attr/textColorPrimary"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@id/sessions_list_filter_toggle_label"
         app:layout_constraintTop_toBottomOf="@id/sessions_list_filter_toggle_h_guideline"/>

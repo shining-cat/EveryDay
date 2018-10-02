@@ -5,7 +5,8 @@
 
     <PreferenceCategory
         android:title="@string/pref_customisation_settings_title"
-        android:key="@string/pref_customisation_settings_key">
+        android:key="@string/pref_customisation_settings_key"
+        android:layout="@layout/preference_category">
 
         <fr.shining_cat.everyday.preferences.DurationPickerPreferenceHoursMinutesNoZero
             android:key="@string/pref_duration_key"
@@ -103,7 +104,8 @@
 
     <PreferenceCategory
         android:title="@string/pref_notification_settings_title"
-        android:key="@string/pref_customisation_settings_key">
+        android:key="@string/pref_customisation_settings_key"
+        android:layout="@layout/preference_category">
         <SwitchPreference
             android:key="@string/pref_active_notification_key"
             android:defaultValue="@string/default_notification_active"
@@ -115,28 +117,37 @@
         <fr.shining_cat.everyday.preferences.TimePickerPreference
             android:key="@string/pref_notification_time_key"
             android:title="@string/pref_notification_time_title"
+            android:dependency="@string/pref_active_notification_key"
             />
         <fr.shining_cat.everyday.preferences.ExtraRingtonePreference
             android:key="@string/pref_notification_ringtone_key"
             android:title="@string/pref_notification_ringtone_title"
-            android:summary="@string/ringtoneSummary"
+
             android:defaultValue="@string/default_notification_sound"
             auto:ringtoneType="notification"
             auto:showSilent="true"
             auto:showDefault="true"
             auto:extraRingtones="@array/extraRingtones"
             auto:extraRingtoneTitles="@array/extraRingtoneTitles"
+            android:dependency="@string/pref_active_notification_key"
         />
-        <EditTextPreference
+        <fr.shining_cat.everyday.preferences.EditTextPreferenceWithDimWhenDisabled
             android:key="@string/pref_notification_text_key"
             android:title="@string/pref_notification_text_title"
             android:defaultValue="@string/reminder_alarm_notification_default_text"
+            android:dependency="@string/pref_active_notification_key"
         />
     </PreferenceCategory>
-
+    <!--
+        import séances
+        export séances
+        delete séances
+        delete animals
+    -->
     <PreferenceCategory
         android:key="@string/pref_advanced_settings_key"
-        android:title="@string/pref_advanced_settings_title">
+        android:title="@string/pref_advanced_settings_title"
+        android:layout="@layout/preference_category">
         <PreferenceScreen
             android:key="@string/pref_delete_sessions_key"
             android:title="@string/pref_records_management_title">
@@ -152,25 +163,21 @@
                 android:key="@string/pref_export_sessions_key"
                 android:title="@string/pref_import_all_sessions_pref_title">
             </fr.shining_cat.everyday.preferences.ImportSessionsPreference>
-        <!--
-            import séances
-            export séances
-            delete séances
-            delete animals
-        -->
-        </PreferenceScreen>
-        <!--TODO: possibilitÃ© de choisir entre des thÃ¨mes de couleur diffÃ©rents -->
-        <PreferenceScreen
-            android:key="@string/pref_modify_app_appearance_key"
-            android:title="@string/pref_modify_app_appearance_title">
 
         </PreferenceScreen>
 
+        <!-- Chose app visual theme-->
+        <ListPreference
+            android:key="@string/pref_app_visual_theme_key"
+            android:title="@string/pref_modify_app_visual_theme_title"
+            android:summary="%s"
+            android:entries="@array/visual_themes_names_array"
+            android:entryValues="@array/visual_themes_values_array"/>
+
+        <!-- activate / deactivate stats or rewards mechanism-->
         <PreferenceScreen
             android:key="@string/pref_modify_app_basics_key"
             android:title="@string/pref_modify_app_basics_title">
-
-            <!--TODO: implement this preferences! -->
             <SwitchPreference
                 android:key="@string/pref_rewards_collector_active_key"
                 android:defaultValue="@string/default_rewards_collector_active"

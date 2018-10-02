@@ -7,13 +7,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.util.TypedValue;
 
 import fr.shining_cat.everyday.utils.TimeOperations;
 
@@ -24,28 +30,32 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
+    private SharedPreferences mSharedPrefs;
+
 ////////////////////////////////////////
 //This fragment handles the preferences objects behaviour that need special care
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSharedPrefs = getPreferenceManager().getSharedPreferences();
         addPreferencesFromResource(R.xml.preferences);
         setDurationPreferenceSummary();
         setIntermediateIntervalsLengthPreferenceSummary();
-        setNotificationActiveChildrenState();
         setNotificationTimePreferenceSummary();
         setNotificationTextSummary();
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        setNotificationActiveChildrenState(true);
+        initThemeSelectionSummaryAndValue();
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
     }
     @Override
     public void onResume() {
         super.onResume();
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
 
     }
     @Override
     public void onPause() {
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        mSharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
     }
 
@@ -61,15 +71,17 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
             } else if (key.equals(getString(R.string.pref_intermediate_intervals_key))) {
                 setIntermediateIntervalsLengthPreferenceSummary();
             } else if (key.equals(getString(R.string.pref_active_notification_key))) {
-                setNotificationActiveChildrenState();
+                setNotificationActiveChildrenState(false);
             } else if (key.equals(getString(R.string.pref_notification_time_key))) {
                 setNotificationTimePreferenceSummary();
-                //pref_notification_time_key can only be changed if the alarm is set to ACTIVE so we set the alarm now :
                 setAlarm(true);
             } else if (key.equals(getString(R.string.pref_notification_text_key))) {
                 setNotificationTextSummary();
             } else if (key.equals(getString(R.string.pref_switch_do_not_disturb_key))) {
                 checkIfPermissionGrantedforDND();
+            } else if (key.equals(getString(R.string.pref_app_visual_theme_key))) {
+                //the theme switching is handled by the basic activity BaseThemedActivity, inherited by every other activity
+                getActivity().recreate();
             }
         }else{
             Log.e(TAG, "onSharedPreferenceChanged:: Fragment not attached to Activity");
@@ -113,7 +125,7 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
         String durationPreferenceKey = getString(R.string.pref_duration_key);
         String durationPrefSummary;
         int defaultDuration = Integer.parseInt(getString(R.string.default_duration));
-        long durationPreferenceValue = getPreferenceManager().getSharedPreferences().getLong(durationPreferenceKey, defaultDuration);
+        long durationPreferenceValue = mSharedPrefs.getLong(durationPreferenceKey, defaultDuration);
         durationPrefSummary = TimeOperations.convertMillisecondsToHoursAndMinutesString(
                 durationPreferenceValue,
                 getString(R.string.generic_string_SHORT_HOURS),
@@ -132,7 +144,7 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
         String intermediateIntervalsLengthPreferenceKey = getString(R.string.pref_intermediate_intervals_key);
         String intermediateIntervalsLengthPrefSummary;
         int defaultIntermediateIntervalsLength = Integer.parseInt(getString(R.string.default_intermediate_interval_length));
-        long intermediateIntervalsLengthPreferenceValue = getPreferenceManager().getSharedPreferences().getLong(intermediateIntervalsLengthPreferenceKey, defaultIntermediateIntervalsLength);
+        long intermediateIntervalsLengthPreferenceValue = mSharedPrefs.getLong(intermediateIntervalsLengthPreferenceKey, defaultIntermediateIntervalsLength);
         if(intermediateIntervalsLengthPreferenceValue == 0){
             intermediateIntervalsLengthPrefSummary = getString(R.string.pref_intermediate_intervals_summary_OFF);
         }else {
@@ -150,26 +162,15 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
     }
 ////////////////////////////////////////
 //Setting the alarm accordingly to user's choice, AND updating the en- or disabling of Notification activation pref's subordinates prefs (set time, set ringtone, set reminder text) according to Notification pref status
-    private void setNotificationActiveChildrenState() {
+    private void setNotificationActiveChildrenState(boolean initialization) {
         String notificationActivePreferenceKey = getString(R.string.pref_active_notification_key);
         boolean defaultNotificationActive = Boolean.parseBoolean(getString(R.string.default_notification_active));
-        boolean isNotificationActive = getPreferenceManager().getSharedPreferences().getBoolean(notificationActivePreferenceKey, defaultNotificationActive);
-        Log.d(TAG, "setNotificationActiveChildrenState:isNotificationActive : " + isNotificationActive);
-        //activate or inactivate notification settings
-        String notificationTimePreferenceKey = getString(R.string.pref_notification_time_key);
-        Preference notificationTimePref = findPreference(notificationTimePreferenceKey);
-        notificationTimePref.setEnabled(isNotificationActive);
-        //
-        String notificationRingtonePreferenceKey = getString(R.string.pref_notification_ringtone_key);
-        Preference notificationRingtonePref = findPreference(notificationRingtonePreferenceKey);
-        notificationRingtonePref.setEnabled(isNotificationActive);
-        //
-        String notificationTextPreferenceKey = getString(R.string.pref_notification_text_key);
-        Preference notificationTextPref = findPreference(notificationTextPreferenceKey);
-        notificationTextPref.setEnabled(isNotificationActive);
+        boolean isNotificationActive = mSharedPrefs.getBoolean(notificationActivePreferenceKey, defaultNotificationActive);
         //activate the alarm with current stored value
         setAlarm(isNotificationActive);
+
     }
+
 
 ////////////////////////////////////////
 //Helper method to launch broadcast setting alarm or not (broadcast monitored by AlarmSetterBroadcastReceiver)
@@ -187,6 +188,7 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
         }
     }
 
+
 ////////////////////////////////////////
 //Updating the notification time preference summary with user's set value
     private void setNotificationTimePreferenceSummary(){
@@ -194,7 +196,7 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
         //get time preference value
         String timeOfDayNotificationPreferenceKey = getString(R.string.pref_notification_time_key);
         String defaultTimePickerValue = getString(R.string.default_time_picker);
-        String timeOfDayNotificationPrefValue = getPreferenceManager().getSharedPreferences().getString(timeOfDayNotificationPreferenceKey, defaultTimePickerValue);
+        String timeOfDayNotificationPrefValue = mSharedPrefs.getString(timeOfDayNotificationPreferenceKey, defaultTimePickerValue);
         // Set summary to be the user-description for the selected value
         Preference durationPref = findPreference(timeOfDayNotificationPreferenceKey);
         durationPref.setSummary(timeOfDayNotificationPrefValue);
@@ -206,9 +208,23 @@ public class SettingsFragment extends PreferenceFragment  implements OnSharedPre
         Log.d(TAG, "setNotificationTextSummary");
         //get notification text preference value and format for use
         String notifTextPreferenceKey = getString(R.string.pref_notification_text_key);
-        String notifTextPrefSummary = getPreferenceManager().getSharedPreferences().getString(notifTextPreferenceKey, getString(R.string.reminder_alarm_notification_default_text));
+        String notifTextPrefSummary = mSharedPrefs.getString(notifTextPreferenceKey, getString(R.string.reminder_alarm_notification_default_text));
         // Set summary to be the user-description for the selected value
         Preference notifTextPref = findPreference(notifTextPreferenceKey);
         notifTextPref.setSummary(notifTextPrefSummary);
+    }
+
+////////////////////////////////////////
+//Setting the initial theme selection preference summary with default value. the xml property android:summary="%s" will automatically set the summary to whatever value is saved in prefs, but there'll be nothing at first start
+    private void initThemeSelectionSummaryAndValue(){
+        String appThemePrefPreferenceKey = getString(R.string.pref_app_visual_theme_key);
+        String defaultThemeName = getString(R.string.default_theme_value);
+        String storedThemeValue = mSharedPrefs.getString(appThemePrefPreferenceKey, defaultThemeName);
+        if(storedThemeValue.equals(defaultThemeName)){
+            ListPreference appThemePref = (ListPreference) findPreference(appThemePrefPreferenceKey);
+            appThemePref.setValue(getString(R.string.default_theme_value));
+            appThemePref.setSummary(getString(R.string.default_theme_name));
+        }
+
     }
 }

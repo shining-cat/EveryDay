@@ -10,6 +10,9 @@ import android.net.Uri;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.app.AlertDialog.Builder;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -89,6 +92,24 @@ public class ExtraRingtonePreference extends DialogPreference {
         return null;
     }
 
+    //override because somehow the dimming effect is lost when pref is disabled by linked parent if textColorPrimary and textColorSecondary are defined in applied theme
+    @Override
+    protected void onBindView(View view) {
+        super.onBindView(view);
+        TextView title = view.findViewById(android.R.id.title);
+        TextView summary = view.findViewById(android.R.id.summary);
+        if (title.isEnabled()) {
+            title.setAlpha(1f);
+        } else {
+            title.setAlpha(0.3f);
+        }
+        if (summary.isEnabled()) {
+            summary.setAlpha(1f);
+        } else {
+            summary.setAlpha(0.3f);
+        }
+    }
+
     @Override
     public CharSequence getSummary() {
 
@@ -96,8 +117,9 @@ public class ExtraRingtonePreference extends DialogPreference {
 
         if (mValue != null) {
 
-            if (mValue.length() == 0)
+            if (mValue.length() == 0) {
                 ringtoneTitle = mContext.getString(R.string.silent);
+            }
 
             if (ringtoneTitle == null && mExtraRingtones != null && mExtraRingtoneTitles != null) {
 
@@ -115,8 +137,9 @@ public class ExtraRingtonePreference extends DialogPreference {
             if (ringtoneTitle == null) {
                 Ringtone ringtone = RingtoneManager.getRingtone(mContext, Uri.parse(mValue));
                 String title = ringtone.getTitle(mContext);
-                if (title != null && title.length() > 0)
+                if (title != null && title.length() > 0) {
                     ringtoneTitle = title;
+                }
             }
 
         }
@@ -124,11 +147,22 @@ public class ExtraRingtonePreference extends DialogPreference {
         CharSequence summary = super.getSummary();
 
         if (ringtoneTitle != null) {
-            if (summary != null)
+            if (summary != null){
                 return String.format(summary.toString(), ringtoneTitle);
-            else
+            }else {
                 return ringtoneTitle;
-        } else return summary;
+            }
+        } else{
+            return summary;
+        }
+    }
+
+
+
+    @Override
+    public void setSummary(CharSequence summary) {
+        super.setSummary(summary);
+        Log.d("TEST", "getSummary:: " + summary);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -15,7 +16,7 @@ import fr.shining_cat.everyday.MoodRecord;
 //ROOM entity for sessions storage
 //with some convenience getters : getStartMood, getEndMood, getSessionRecordHeaders, getSessionRecordArray
 @Entity (tableName = "sessions_table")
-public class SessionRecord {
+public class SessionRecord  implements Serializable {
 
     private final static String START_TIME_OF_RECORD_COLUMN_NAME = "startTimeOfRecord";
     private final static String START_BODY_VALUE_COLUMN_NAME = "startBodyValue";

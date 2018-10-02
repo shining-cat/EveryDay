@@ -35,7 +35,7 @@ public class SearchBarWidget extends ConstraintLayout {
         setInactive();
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (mInflater != null) {
-            View root = mInflater.inflate(R.layout.search_bar_widget, this, true);
+            View root = mInflater.inflate(R.layout.widget_search_bar, this, true);
             mSearchEditText = root.findViewById(R.id.searchbar_widget_edittext);
             mSearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override

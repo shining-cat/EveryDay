@@ -73,7 +73,7 @@ public class VizSessionsListAdapter extends RecyclerView.Adapter<VizSessionsList
 
     @Override
     public SessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.sessions_list_recyclerview_item, parent, false);
+        View itemView = mInflater.inflate(R.layout.recyclerview_item_sessions_list, parent, false);
         return new SessionViewHolder(itemView);
     }
 

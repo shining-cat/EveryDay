@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!--TODO: pb when displayed on small height screen : everything is crushed together-->
+    <!--TODO: pb with max width (on a ratio to screen width) of dialog : clipping on the right occurs-->
+    <ScrollView
+        android:id="@+id/infos_scrollview"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="0dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/infos_divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/infos_content_txtvw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:text="@string/infos_text_string"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="14sp" />
+    </ScrollView>
+
+    <View
+        android:id="@+id/infos_divider"
+        android:layout_width="4dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/shadow_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/infos_scrollview"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/infos_appname_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/app_name"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/infos_divider"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/infos_appversion_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/app_version"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/infos_divider"
+        app:layout_constraintTop_toBottomOf="@+id/infos_appname_txtvw" />
+
+    <TextView
+        android:id="@+id/infos_appmadeby_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/app_made_by"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/infos_divider"
+        app:layout_constraintTop_toBottomOf="@+id/infos_appversion_txtvw" />
+
+    <TextView
+        android:id="@+id/infos_name_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/app_made_name"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintStart_toEndOf="@id/infos_divider"
+        app:layout_constraintTop_toBottomOf="@+id/infos_appmadeby_txtvw" />
+
+    <TextView
+        android:id="@+id/infos_contact_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/contact"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintStart_toEndOf="@id/infos_divider"
+        app:layout_constraintTop_toBottomOf="@+id/infos_name_txtvw" />
+
+    <TextView
+        android:id="@+id/infos_website_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/website"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintStart_toEndOf="@id/infos_divider"
+        app:layout_constraintTop_toBottomOf="@+id/infos_contact_txtvw" />
+
+    <!-- kept the png here, it is lighter than corresponding vector, and will only be used here on small scale... -->
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier_info_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="infos_website_txtvw,infos_contact_txtvw,infos_appversion_txtvw,infos_appmadeby_txtvw,infos_name_txtvw,infos_appname_txtvw"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/infos_contact_txtvw" />
+
+    <ImageView
+        android:id="@+id/infos_logo_shining-cat_imgvw"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/shining_cat_logo_content_description"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter"
+        android:src="@drawable/signature_kiwi_black"
+        android:tint="?android:attr/textColorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/infos_scrollview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/infos_scrollview"
+        app:layout_constraintTop_toBottomOf="@+id/infos_website_txtvw" />
+</android.support.constraint.ConstraintLayout>

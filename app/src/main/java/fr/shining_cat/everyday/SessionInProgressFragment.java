@@ -46,7 +46,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.content.Context.VIBRATOR_SERVICE;
 import static fr.shining_cat.everyday.broadcastreceivers.AlarmSetterBroadcastReceiver.MEDITATION_REMINDER_CANCEL_ALARM_FOR_TODAY;
 
-//TODO ? BUG: sur le samsung de pa, plusieurs click normaux declenchent le long click o_O
+//TODO : mettre session en pause sur appel entrant
 
 public class SessionInProgressFragment extends Fragment {
 
@@ -915,7 +915,8 @@ String mCountdownTxt;
 // => changed code to recycle the existing Ringtone object if it would play the same sound instead of recreating a new instance each time...
 // bug not reported again then
 
-    //TODO: BUG 2x session sur support audio a crashé: une fois avant la fin du support, une fois au milieu de la sonnerie de fin... voir si pb avec pauses... fragment affichÃ© ensuite = mood start recorder pour session sans support audio
+    //TODO: BUG 2x session sur support audio a crashé: une fois avant la fin du support, une fois au milieu de la sonnerie de fin... voir si pb avec pauses... fragment affiché ensuite = mood start recorder pour session sans support audio
+    //TODO: BUG: lancé session timed, a démarré avec dernier guide audio, 2x de suite, obligé de killer l'appli pour avoir comportement normal...
 
     private void playRingtoneSound(String playRingtoneSound) {
         //if(mAudioContentUri==null) { //override user's prefs if session is audio guided => no start or end sound

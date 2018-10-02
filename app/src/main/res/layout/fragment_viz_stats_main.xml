@@ -1,312 +1,339 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
-    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/total_sessions_label"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/total_number_of_sessions_label"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_viz_stats_main_fragment_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/total_sessions_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/total_number_of_sessions_default_value"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/total_sessions_label"
+        app:layout_constraintStart_toStartOf="@+id/total_sessions_label"
+        app:layout_constraintTop_toBottomOf="@+id/total_sessions_label" />
+
+    <TextView
+        android:id="@+id/total_length_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/total_length_of_sessions_label"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_viz_stats_main_fragment_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/barrier_h_viz_stats_main_fragment_1" />
+
+    <TextView
+        android:id="@+id/total_length_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/total_length_of_sessions_default_value"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/total_length_label"
+        app:layout_constraintStart_toStartOf="@+id/total_length_label"
+        app:layout_constraintTop_toBottomOf="@+id/total_length_label" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_v_viz_stats_main_fragment_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.33"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/longest_session_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/longest_session_label"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_viz_stats_main_fragment_2"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_viz_stats_main_fragment_1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/longest_session_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/longest_session_default_value"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/longest_session_label"
+        app:layout_constraintStart_toStartOf="@+id/longest_session_label"
+        app:layout_constraintTop_toBottomOf="@+id/longest_session_label" />
+
+    <TextView
+        android:id="@+id/average_session_length_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/average_length_of_sessions_label"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_v_viz_stats_main_fragment_2"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_viz_stats_main_fragment_1"
+        app:layout_constraintTop_toTopOf="@+id/barrier_h_viz_stats_main_fragment_1" />
+
+    <TextView
+        android:id="@+id/average_session_length_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/average_length_of_sessions_default_value"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/average_session_length_label"
+        app:layout_constraintStart_toStartOf="@+id/average_session_length_label"
+        app:layout_constraintTop_toBottomOf="@+id/average_session_length_label" />
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier_h_viz_stats_main_fragment_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids=",longest_streak_value,total_sessions_value,longest_session_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_v_viz_stats_main_fragment_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.66" />
+
+    <TextView
+        android:id="@+id/longest_streak_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/longest_streak_label"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_viz_stats_main_fragment_2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/longest_streak_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/longest_streak_default_value"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/longest_streak_label"
+        app:layout_constraintStart_toStartOf="@+id/longest_streak_label"
+        app:layout_constraintTop_toBottomOf="@+id/longest_streak_label" />
+
+    <TextView
+        android:id="@+id/current_streak_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/current_streak_label"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_v_viz_stats_main_fragment_2"
+        app:layout_constraintTop_toTopOf="@+id/barrier_h_viz_stats_main_fragment_1" />
+
+    <TextView
+        android:id="@+id/current_streak_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/current_streak_default_value"
+        android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/current_streak_label"
+        app:layout_constraintStart_toStartOf="@+id/current_streak_label"
+        app:layout_constraintTop_toBottomOf="@+id/current_streak_label" />
 
 
-        <TextView
-            android:id="@+id/total_sessions_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/total_number_of_sessions_label"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_v_viz_stats_main_fragment_1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier_h_viz_stats_main_fragment_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="114dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="current_streak_value,average_session_length_value,total_length_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/total_sessions_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/total_number_of_sessions_default_value"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/total_sessions_label"
-            app:layout_constraintStart_toStartOf="@+id/total_sessions_label"
-            app:layout_constraintTop_toBottomOf="@+id/total_sessions_label" />
+    <Button
+        android:id="@+id/view_stats_day_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:drawableEnd="@drawable/ic_calendar_day_24px"
+        android:drawableStart="@drawable/ic_calendar_day_24px"
+        android:paddingEnd="48dp"
+        android:paddingStart="48dp"
+        android:text="@string/view_hours_of_day_stats"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/view_stats_week_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier_h_viz_stats_main_fragment_2" />
 
-        <TextView
-            android:id="@+id/total_length_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/total_length_of_sessions_label"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_v_viz_stats_main_fragment_1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/barrier_h_viz_stats_main_fragment_1" />
+    <Button
+        android:id="@+id/view_stats_week_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:drawableEnd="@drawable/ic_calendar_week_24px"
+        android:drawableStart="@drawable/ic_calendar_week_24px"
+        android:paddingEnd="48dp"
+        android:paddingStart="48dp"
+        android:text="@string/view_day_of_week_stats"
+        app:layout_constraintBottom_toTopOf="@id/view_stats_month_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_stats_day_btn" />
 
-        <TextView
-            android:id="@+id/total_length_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/total_length_of_sessions_default_value"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/total_length_label"
-            app:layout_constraintStart_toStartOf="@+id/total_length_label"
-            app:layout_constraintTop_toBottomOf="@+id/total_length_label" />
+    <Button
+        android:id="@+id/view_stats_month_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:drawableEnd="@drawable/ic_calendar_month_24px"
+        android:drawableStart="@drawable/ic_calendar_month_24px"
+        android:paddingEnd="48dp"
+        android:paddingStart="48dp"
+        android:text="@string/view_day_of_month_stats"
+        app:layout_constraintBottom_toTopOf="@id/view_stats_duration_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_stats_week_btn" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline_v_viz_stats_main_fragment_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.33"
-            app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/view_stats_duration_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:drawableEnd="@drawable/ic_duration_white_24px"
+        android:drawableStart="@drawable/ic_duration_white_24px"
+        android:paddingEnd="48dp"
+        android:paddingStart="48dp"
+        android:text="@string/view_durations_stats"
+        app:layout_constraintBottom_toTopOf="@id/view_stats_mp3_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_stats_month_btn" />
 
-        <TextView
-            android:id="@+id/longest_session_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/longest_session_label"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_v_viz_stats_main_fragment_2"
-            app:layout_constraintStart_toStartOf="@+id/guideline_v_viz_stats_main_fragment_1"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/view_stats_mp3_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:drawableEnd="@drawable/ic_music_note_white_24dp"
+        android:drawableStart="@drawable/ic_music_note_white_24dp"
+        android:paddingEnd="48dp"
+        android:paddingStart="48dp"
+        android:text="@string/mp3_stats_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_stats_duration_btn" />
 
-        <TextView
-            android:id="@+id/longest_session_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/longest_session_default_value"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/longest_session_label"
-            app:layout_constraintStart_toStartOf="@+id/longest_session_label"
-            app:layout_constraintTop_toBottomOf="@+id/longest_session_label" />
+    <TextView
+        android:id="@+id/no_session_recorded_txtvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_sessions_recorded"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_h_viz_stats_main_fragment_2" />
 
-        <TextView
-            android:id="@+id/average_session_length_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/average_length_of_sessions_label"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_v_viz_stats_main_fragment_2"
-            app:layout_constraintStart_toStartOf="@+id/guideline_v_viz_stats_main_fragment_1"
-            app:layout_constraintTop_toTopOf="@+id/barrier_h_viz_stats_main_fragment_1" />
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier_h_viz_stats_main_fragment_2" />
 
-        <TextView
-            android:id="@+id/average_session_length_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/average_length_of_sessions_default_value"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/average_session_length_label"
-            app:layout_constraintStart_toStartOf="@+id/average_session_length_label"
-            app:layout_constraintTop_toBottomOf="@+id/average_session_length_label" />
-
-        <android.support.constraint.Barrier
-            android:id="@+id/barrier_h_viz_stats_main_fragment_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids=",longest_streak_value,total_sessions_value,longest_session_value"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline_v_viz_stats_main_fragment_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintGuide_percent="0.66" />
-
-        <TextView
-            android:id="@+id/longest_streak_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/longest_streak_label"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline_v_viz_stats_main_fragment_2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/longest_streak_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/longest_streak_default_value"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/longest_streak_label"
-            app:layout_constraintStart_toStartOf="@+id/longest_streak_label"
-            app:layout_constraintTop_toBottomOf="@+id/longest_streak_label" />
-
-        <TextView
-            android:id="@+id/current_streak_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/current_streak_label"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline_v_viz_stats_main_fragment_2"
-            app:layout_constraintTop_toTopOf="@+id/barrier_h_viz_stats_main_fragment_1" />
-
-        <TextView
-            android:id="@+id/current_streak_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/current_streak_default_value"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/current_streak_label"
-            app:layout_constraintStart_toStartOf="@+id/current_streak_label"
-            app:layout_constraintTop_toBottomOf="@+id/current_streak_label" />
-
-
-        <android.support.constraint.Barrier
-            android:id="@+id/barrier_h_viz_stats_main_fragment_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="114dp"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="current_streak_value,average_session_length_value,total_length_value"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/view_stats_day_btn"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:drawableEnd="@drawable/ic_calendar_day_24px"
-            android:drawableStart="@drawable/ic_calendar_day_24px"
-            android:paddingEnd="48dp"
-            android:paddingStart="48dp"
-            android:text="@string/view_hours_of_day_stats"
-            android:textAlignment="center"
-            app:layout_constraintTop_toTopOf="@id/barrier_h_viz_stats_main_fragment_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/view_stats_week_btn" />
-
-        <Button
-            android:id="@+id/view_stats_week_btn"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:drawableEnd="@drawable/ic_calendar_week_24px"
-            android:drawableStart="@drawable/ic_calendar_week_24px"
-            android:paddingEnd="48dp"
-            android:paddingStart="48dp"
-            android:text="@string/view_day_of_week_stats"
-            app:layout_constraintTop_toBottomOf="@+id/view_stats_day_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/view_stats_month_btn" />
-
-        <Button
-            android:id="@+id/view_stats_month_btn"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:drawableEnd="@drawable/ic_calendar_month_24px"
-            android:drawableStart="@drawable/ic_calendar_month_24px"
-            android:paddingEnd="48dp"
-            android:paddingStart="48dp"
-            android:text="@string/view_day_of_month_stats"
-            app:layout_constraintTop_toBottomOf="@id/view_stats_week_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/view_stats_duration_btn" />
-
-        <Button
-            android:id="@+id/view_stats_duration_btn"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:drawableEnd="@drawable/ic_duration_white_24px"
-            android:drawableStart="@drawable/ic_duration_white_24px"
-            android:paddingEnd="48dp"
-            android:paddingStart="48dp"
-            android:text="@string/view_durations_stats"
-            app:layout_constraintTop_toBottomOf="@id/view_stats_month_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/view_stats_mp3_btn"/>
-
-        <Button
-            android:id="@+id/view_stats_mp3_btn"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:drawableEnd="@drawable/ic_music_note_white_24dp"
-            android:drawableStart="@drawable/ic_music_note_white_24dp"
-            android:paddingEnd="48dp"
-            android:paddingStart="48dp"
-            android:text="@string/mp3_stats_label"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_stats_duration_btn" />
-
-        <TextView
-            android:id="@+id/no_session_recorded_txtvw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/no_sessions_recorded"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/barrier_h_viz_stats_main_fragment_2" />
-
-        <ProgressBar
-            android:id="@+id/loading_indicator"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/buddhist_brown"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/barrier_h_viz_stats_main_fragment_2" />
-
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+</android.support.constraint.ConstraintLayout>
+    <!--</ScrollView>-->

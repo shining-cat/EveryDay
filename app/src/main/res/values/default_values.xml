@@ -20,6 +20,10 @@
     <string name="start_session_countdown_delay">5000</string>
     <string name="run_session_countdown_update_interval">1000</string>
     <string name="default_rewards_grid_span">3</string>
+    <string name="default_theme_value">Theme.App.wood</string>
+    <string name="default_theme_name">Bois</string>
+    <string name="default_dialog_to_screen_width_ratio_portrait">85</string>
+    <string name="default_dialog_to_screen_width_ratio_landscape">75</string>
 
 
     <!--pulse animation values -->

@@ -1,20 +1,23 @@
 package fr.shining_cat.everyday.widgets;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -22,8 +25,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -78,7 +79,7 @@ public class ChartDisplay extends ConstraintLayout{
         mHasDatasBeenSet = false;
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (mInflater != null) {
-            View root = mInflater.inflate(R.layout.chart_display, this, true);
+            View root = mInflater.inflate(R.layout.widget_chart_display, this, true);
             mChartView = root.findViewById(R.id.chart_display_columnChartView);
             mFlash = root.findViewById(R.id.chart_display_flash);
             mDisplayValueTxtVw = root.findViewById(R.id.chart_display_value_txtvw);
@@ -182,6 +183,13 @@ public class ChartDisplay extends ConstraintLayout{
         mChartView.setBackgroundColor(mContext.getResources().getColor(R.color.grey_n1));
         //
         mChartView.getLegend().setWordWrapEnabled(true);
+        //
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = mContext.getTheme();
+        theme.resolveAttribute(R.attr.colorPrimaryUltraLight, typedValue, true);
+        mChartView.setBackgroundColor(typedValue.data);
+        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
+        mChartView.getLegend().setTextColor(typedValue.data);//we don't use this description field
         //TODO or not TODO: trouver comment obtenir un retour ligne pour chaque item de la légende plutôt qu'un simple wordwrap... pas possible avec les méthodes natives de la librairie
     }
 

@@ -65,7 +65,7 @@ public class VizSessionDetailsCardFragment extends Fragment {
             TextView startDateTxtvw = mRootView.findViewById(R.id.start_date_txtvw);
             //Log.d(TAG, "onCreateView::startDateTxtvw = " + startDateTxtvw);
             startDateTxtvw.setText(sdf.format(mSessionRecord.getStartTimeOfRecord()));
-            Log.d(TAG, "onCreateView::StartTimeOfRecord = " + mSessionRecord.getStartTimeOfRecord());
+            //Log.d(TAG, "onCreateView::StartTimeOfRecord = " + mSessionRecord.getStartTimeOfRecord());
             TextView startTimeTxtvw = mRootView.findViewById(R.id.start_time_txtvw);
             startTimeTxtvw.setText(tdf.format(mSessionRecord.getStartTimeOfRecord()));
             TextView endDateTxtvw = mRootView.findViewById(R.id.end_date_txtvw);

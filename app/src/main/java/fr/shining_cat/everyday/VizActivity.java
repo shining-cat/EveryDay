@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +25,7 @@ import fr.shining_cat.everyday.utils.UiUtils;
 
 ////////////////////////////////////////
 //This activity holds the STATS fragments : VizSessionDetailsViewPagerFragment, VizSessionsListFragment, VizSessionsCalendarFragment, ViewStatsFragment
-public class VizActivity extends AppCompatActivity
+public class VizActivity extends BaseThemedActivity
                         implements  PreRecordFragment.FragmentPreRecordListener,
                                     PostRecordFragment.PostRecordFragmentListener,
                                     VizSessionsListAdapter.SessionsListAdapterListener,
@@ -35,6 +34,18 @@ public class VizActivity extends AppCompatActivity
                                     VizStatsMainFragment.VizStatsMainFragmentListener{
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
+
+
+
+    private final String CURRENT_SCREEN_KEY = "current screen key";
+    private final String PREVIOUS_SCREEN_KEY = "previous screen key";
+    private final String ANTE_PREVIOUS_SCREEN_KEY = "ante-previous screen key";
+    private final String CURRENT_SESSION_KEY = "current session key";
+    private final String CURRENT_EDIT_OR_NEW_SESSION_RECORDING_KEY = "current or new session recording key";
+    private final String CURRENT_EDITTED_SESSION_KEY = "currently editted session key";
+    private final String START_MOOD_KEY = "start mood key";
+    private final String END_MOOD_KEY = "end mood key";
+    private final String CURRENT_MONTH_SHOWN_IN_CALENDAR_KEY = "current month shown in calendar key";
 
     private final String SCREEN_VIZ_PRE_RECORD_VIEW = "pre record fragment screen";
     private final String SCREEN_VIZ_POST_RECORD_VIEW = "post record fragment screen";
@@ -55,12 +66,13 @@ public class VizActivity extends AppCompatActivity
 
     private String mCurrentScreen;
     private String mPreviousScreen;
+    private String mAntePreviousScreen;
     private MoodRecord mStartMood;
     private MoodRecord mEndMood;
     private String mEditOrNewSessionRecording;
     private SessionRecord mCurrentEdittedSessionRecord;
-    private VizSessionDetailsViewPagerFragment mVizSessionDetailsViewPagerFragment;
     private Long mCurrentMonthShownInCalendarScreen;
+    private VizSessionDetailsViewPagerFragment mVizSessionDetailsViewPagerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +87,91 @@ public class VizActivity extends AppCompatActivity
         today.set(Calendar.SECOND, 0);
         today.set(Calendar.MILLISECOND, 0);
         mCurrentMonthShownInCalendarScreen = today.getTime().getTime();
-        showSessionsCalendarView();
-        //showSessionsListView();
-        //showSessionStatsMainView();
+        if(savedInstanceState==null){
+            Log.d(TAG, "onCreate::savedInstanceState is null");
+            showSessionsCalendarView();
+        }else{
+            Log.d(TAG, "onCreate::getting saved state");
+            mCurrentScreen = savedInstanceState.getString(CURRENT_SCREEN_KEY);
+            mPreviousScreen= savedInstanceState.getString(PREVIOUS_SCREEN_KEY);
+            mAntePreviousScreen= savedInstanceState.getString(ANTE_PREVIOUS_SCREEN_KEY);
+            mEditOrNewSessionRecording = savedInstanceState.getString(CURRENT_EDIT_OR_NEW_SESSION_RECORDING_KEY);
+            mCurrentEdittedSessionRecord = (SessionRecord) savedInstanceState.getSerializable(CURRENT_EDITTED_SESSION_KEY);
+            mStartMood = (MoodRecord) savedInstanceState.getSerializable(START_MOOD_KEY);
+            mEndMood = (MoodRecord) savedInstanceState.getSerializable(END_MOOD_KEY);
+            mCurrentMonthShownInCalendarScreen = savedInstanceState.getLong(CURRENT_MONTH_SHOWN_IN_CALENDAR_KEY);
+            if(mCurrentScreen!=null) {
+                switch (mCurrentScreen) {
+                    case SCREEN_VIZ_PRE_RECORD_VIEW:
+                        //handled inside prerecordfragment, nothing to do here
+                        break;
+                    case SCREEN_VIZ_POST_RECORD_VIEW:
+                        //handled inside prerecordfragment, nothing to do here
+                        break;
+                    case SCREEN_VIZ_SESSION_DETAILS_VIEW:
+                        SessionRecord session = (SessionRecord) savedInstanceState.getSerializable(CURRENT_SESSION_KEY);
+                        if(session!=null){
+                            showSessionDetailsView(session);
+                        }else{
+                            Log.e(TAG, "onCreate::COULD NOT GET SESSION OBJECT " );
+                        }
+                        break;
+                    case SCREEN_VIZ_LIST_VIEW:
+                        showSessionsListView();
+                        break;
+                    case SCREEN_VIZ_CALENDAR_VIEW:
+                        showSessionsCalendarView();
+                        break;
+                    case SCREEN_VIZ_STATS_MAIN_VIEW:
+                        showSessionStatsMainView();
+                        break;
+                    case SCREEN_VIZ_STATS_DAY_VIEW:
+                        showSessionsStatsDayView();
+                        break;
+                    case SCREEN_VIZ_STATS_WEEK_VIEW:
+                        showSessionsStatsWeekView();
+                        break;
+                    case SCREEN_VIZ_STATS_MONTH_VIEW:
+                        showSessionsStatsMonthView();
+                        break;
+                    case SCREEN_VIZ_STATS_DURATION_VIEW:
+                        showSessionsStatsDurationView();
+                        break;
+                    case SCREEN_VIZ_STATS_MP3_VIEW:
+                        showSessionsStatsMp3View();
+                        break;
+                }
+            }else{
+                showSessionsCalendarView();
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(CURRENT_SCREEN_KEY, mCurrentScreen);
+        outState.putString(CURRENT_EDIT_OR_NEW_SESSION_RECORDING_KEY, mEditOrNewSessionRecording);
+        if(mPreviousScreen != null) {
+            outState.putString(PREVIOUS_SCREEN_KEY, mPreviousScreen);
+        }
+        if(mAntePreviousScreen != null) {
+            outState.putString(ANTE_PREVIOUS_SCREEN_KEY, mAntePreviousScreen);
+        }
+        outState.putLong(CURRENT_MONTH_SHOWN_IN_CALENDAR_KEY, mCurrentMonthShownInCalendarScreen);
+        if(mCurrentScreen.equals(SCREEN_VIZ_SESSION_DETAILS_VIEW) && mVizSessionDetailsViewPagerFragment !=null) {
+            SessionRecord currentSession = mVizSessionDetailsViewPagerFragment.getCurrentSessionRecord();
+            outState.putSerializable(CURRENT_SESSION_KEY, currentSession);
+        }
+        outState.putSerializable(CURRENT_EDITTED_SESSION_KEY, mCurrentEdittedSessionRecord);
+        outState.putSerializable(START_MOOD_KEY, mStartMood);
+        outState.putSerializable(END_MOOD_KEY, mEndMood);
+        super.onSaveInstanceState(outState);
     }
 
 ////////////////////////////////////////
 //OPTIONS MENU
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Log.d(TAG, "onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.menu_viz, menu);
         MenuItem addSessionButton = menu.findItem(R.id.action_add);
         MenuItem viewCalendarButton = menu.findItem(R.id.action_view_calendar);
@@ -307,6 +394,7 @@ public class VizActivity extends AppCompatActivity
     }
 
     private boolean overrideNavigateBackAndUp(){
+        Log.d(TAG, "overrideNavigateBackAndUp::mCurrentScreen = " + mCurrentScreen + " / mPreviousScreen = " + mPreviousScreen + " / mAntePreviousScreen = " + mAntePreviousScreen);
         invalidateOptionsMenu();
         switch (mCurrentScreen){
             case SCREEN_VIZ_PRE_RECORD_VIEW : // go back to viz screen previously shown
@@ -334,6 +422,17 @@ public class VizActivity extends AppCompatActivity
                     case SCREEN_VIZ_LIST_VIEW :
                         showSessionsListView();
                         return true;
+                    case SCREEN_VIZ_PRE_RECORD_VIEW : //user has come down the path of list or calendar, then details, then edit, we need to be able to get back the same path
+                        switch (mAntePreviousScreen) {
+                            case SCREEN_VIZ_CALENDAR_VIEW:
+                                showSessionsCalendarView();
+                                return true;
+                            case SCREEN_VIZ_LIST_VIEW:
+                                showSessionsListView();
+                                return true;
+                            default:
+                                return false;
+                        }
                     default:
                         return false;
                 }
@@ -383,7 +482,8 @@ public class VizActivity extends AppCompatActivity
         invalidateOptionsMenu();
     }
     //
-    private void showSessionDetailsView(SessionRecord clickedSession){
+    private void showSessionDetailsView(SessionRecord sessionToShow){
+        Log.d(TAG, "showSessionDetailsView");
         mPreviousScreen = mCurrentScreen;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -391,11 +491,16 @@ public class VizActivity extends AppCompatActivity
             mVizSessionDetailsViewPagerFragment = null;
         }
         mVizSessionDetailsViewPagerFragment = VizSessionDetailsViewPagerFragment.newInstance();
-        mVizSessionDetailsViewPagerFragment.setStartingSessionDetailsWithSessionRecord(clickedSession);
+        mVizSessionDetailsViewPagerFragment.setStartingSessionDetailsWithSessionRecord(sessionToShow);
         fragmentTransaction.replace(R.id.viz_activity_fragments_holder, mVizSessionDetailsViewPagerFragment, VizSessionDetailsViewPagerFragment.VIEW_PAGER_SESSION_DETAILS_FRAGMENT_TAG);
         fragmentTransaction.commit();
         mCurrentScreen = SCREEN_VIZ_SESSION_DETAILS_VIEW;
         invalidateOptionsMenu();
+    }
+    //
+    private void getAllSessionsRecordsInBunch(){
+        SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(this).get(SessionRecordViewModel.class);
+        sessionRecordViewModel.getAllSessionsRecordsInBunch(this);
     }
     //
     private void showSessionStatsMainView(){
@@ -408,69 +513,103 @@ public class VizActivity extends AppCompatActivity
         //
         mCurrentScreen = SCREEN_VIZ_STATS_MAIN_VIEW;
         invalidateOptionsMenu();
-        //query data not live : (no caching here, could be done by checking if mAllSessionsNotLive is null or not)
-        SessionRecordViewModel sessionRecordViewModel = ViewModelProviders.of(this).get(SessionRecordViewModel.class);
-        sessionRecordViewModel.getAllSessionsRecordsInBunch(this);
+        //query data not live : or using cached data
+        if(mAllSessionsNotLive == null) {
+            getAllSessionsRecordsInBunch();
+        }else{
+            vizStatsMainFragment.setAllSessionsList(mAllSessionsNotLive);
+        }
     }
+
     //
     private void showSessionsStatsDayView(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         VizStatsDayFragment vizStatsDayFragment = VizStatsDayFragment.newInstance();
-        vizStatsDayFragment.setAllSessionsList(mAllSessionsNotLive);
+        //vizStatsDayFragment.setAllSessionsList(mAllSessionsNotLive);
         fragmentTransaction.replace(R.id.viz_activity_fragments_holder, vizStatsDayFragment, VizStatsDayFragment.VIEW_STATS_DAY_FRAGMENT_TAG);
         fragmentTransaction.commit();
         //
         mCurrentScreen = SCREEN_VIZ_STATS_DAY_VIEW;
         invalidateOptionsMenu();
+        //query data not live : or using cached data
+        if(mAllSessionsNotLive == null) {
+            getAllSessionsRecordsInBunch();
+        }else{
+            vizStatsDayFragment.setAllSessionsList(mAllSessionsNotLive);
+        }
     }
     //
     private void showSessionsStatsWeekView(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         VizStatsWeekFragment vizStatsWeekFragment = VizStatsWeekFragment.newInstance();
-        vizStatsWeekFragment.setAllSessionsList(mAllSessionsNotLive);
+        //vizStatsWeekFragment.setAllSessionsList(mAllSessionsNotLive);
         fragmentTransaction.replace(R.id.viz_activity_fragments_holder, vizStatsWeekFragment, VizStatsWeekFragment.VIEW_STATS_WEEK_FRAGMENT_TAG);
         fragmentTransaction.commit();
         //
         mCurrentScreen = SCREEN_VIZ_STATS_WEEK_VIEW;
         invalidateOptionsMenu();
+        //query data not live : or using cached data
+        if(mAllSessionsNotLive == null) {
+            getAllSessionsRecordsInBunch();
+        }else{
+            vizStatsWeekFragment.setAllSessionsList(mAllSessionsNotLive);
+        }
     }
     //
     private void showSessionsStatsMonthView(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         VizStatsMonthFragment vizStatsMonthFragment = VizStatsMonthFragment.newInstance();
-        vizStatsMonthFragment.setAllSessionsList(mAllSessionsNotLive);
+        //vizStatsMonthFragment.setAllSessionsList(mAllSessionsNotLive);
         fragmentTransaction.replace(R.id.viz_activity_fragments_holder, vizStatsMonthFragment, VizStatsMonthFragment.VIEW_STATS_MONTH_FRAGMENT_TAG);
         fragmentTransaction.commit();
         //
         mCurrentScreen = SCREEN_VIZ_STATS_MONTH_VIEW;
         invalidateOptionsMenu();
+        //query data not live : or using cached data
+        if(mAllSessionsNotLive == null) {
+            getAllSessionsRecordsInBunch();
+        }else{
+            vizStatsMonthFragment.setAllSessionsList(mAllSessionsNotLive);
+        }
     }
     //
     private void showSessionsStatsDurationView(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         VizStatsDurationFragment vizStatsDurationFragment = VizStatsDurationFragment.newInstance();
-        vizStatsDurationFragment.setAllSessionsList(mAllSessionsNotLive);
+        //vizStatsDurationFragment.setAllSessionsList(mAllSessionsNotLive);
         fragmentTransaction.replace(R.id.viz_activity_fragments_holder, vizStatsDurationFragment, VizStatsDurationFragment.VIEW_STATS_DURATION_FRAGMENT_TAG);
         fragmentTransaction.commit();
         //
         mCurrentScreen = SCREEN_VIZ_STATS_DURATION_VIEW;
         invalidateOptionsMenu();
+        //query data not live : or using cached data
+        if(mAllSessionsNotLive == null) {
+            getAllSessionsRecordsInBunch();
+        }else{
+            vizStatsDurationFragment.setAllSessionsList(mAllSessionsNotLive);
+        }
     }
     private void showSessionsStatsMp3View(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         VizStatsMp3Fragment vizStatsMp3Fragment = VizStatsMp3Fragment.newInstance();
         vizStatsMp3Fragment.setNoMp3LabelString(getString(R.string.mp3_stats_no_mp3_file_label));
-        vizStatsMp3Fragment.setAllSessionsList(mAllSessionsNotLive);
+        //vizStatsMp3Fragment.setAllSessionsList(mAllSessionsNotLive);
         fragmentTransaction.replace(R.id.viz_activity_fragments_holder, vizStatsMp3Fragment, VizStatsMp3Fragment.VIEW_STATS_MP3_FRAGMENT_TAG);
         fragmentTransaction.commit();
         //
         mCurrentScreen = SCREEN_VIZ_STATS_MP3_VIEW;
         invalidateOptionsMenu();
+        //query data not live : or using cached data
+        if(mAllSessionsNotLive == null) {
+            getAllSessionsRecordsInBunch();
+        }else{
+            vizStatsMp3Fragment.setAllSessionsList(mAllSessionsNotLive);
+        }
     }
 
 
@@ -554,6 +693,9 @@ public class VizActivity extends AppCompatActivity
     private void editSessionStartDialog(){
         if(mEditOrNewSessionRecording.equals(EDITTING_OR_DELETING_EXISTING_SESSION) && mCurrentEdittedSessionRecord != null){
             MoodRecord startMood = mCurrentEdittedSessionRecord.getStartMood();
+            if(mPreviousScreen != null){
+                mAntePreviousScreen = mPreviousScreen; //this is saved in case user has come down the path of list or calendar, then details, then edit, we need to be able to get back the same path
+            }
             mPreviousScreen = mCurrentScreen;
             showFragmentPreRecord(startMood);
         }else{
@@ -694,11 +836,56 @@ public class VizActivity extends AppCompatActivity
     public void onGetAllSessionsNotLiveComplete(List<SessionRecord> allSessions) {
         mAllSessionsNotLive = allSessions;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        VizStatsMainFragment vizStatsMainFragment = (VizStatsMainFragment) fragmentManager.findFragmentByTag(VizStatsMainFragment.VIEW_STATS_MAIN_FRAGMENT_TAG);
-        if(mCurrentScreen.equals(SCREEN_VIZ_STATS_MAIN_VIEW) && vizStatsMainFragment!= null && vizStatsMainFragment.isVisible()){
-            vizStatsMainFragment.setAllSessionsList(mAllSessionsNotLive);
-        }else{
-            Log.e(TAG, "onGetAllSessionsNotLiveComplete::DATA IS READY BUT MAIN STATS FRAGMENT NOT FOUND!!");
+
+        switch(mCurrentScreen){
+            case SCREEN_VIZ_STATS_MAIN_VIEW:
+                VizStatsMainFragment vizStatsMainFragment = (VizStatsMainFragment) fragmentManager.findFragmentByTag(VizStatsMainFragment.VIEW_STATS_MAIN_FRAGMENT_TAG);
+                if(vizStatsMainFragment!= null && vizStatsMainFragment.isVisible()){
+                    vizStatsMainFragment.setAllSessionsList(mAllSessionsNotLive);
+                }else{
+                    Log.e(TAG, "onGetAllSessionsNotLiveComplete::DATA IS READY BUT MAIN STATS FRAGMENT NOT FOUND!!");
+                }
+                break;
+            case SCREEN_VIZ_STATS_DAY_VIEW:
+                VizStatsDayFragment vizStatsDayFragment = (VizStatsDayFragment) fragmentManager.findFragmentByTag(VizStatsDayFragment.VIEW_STATS_DAY_FRAGMENT_TAG);
+                if(vizStatsDayFragment!= null && vizStatsDayFragment.isVisible()){
+                    vizStatsDayFragment.setAllSessionsList(mAllSessionsNotLive);
+                }else{
+                    Log.e(TAG, "onGetAllSessionsNotLiveComplete::DATA IS READY BUT DAY STATS FRAGMENT NOT FOUND!!");
+                }
+                break;
+            case SCREEN_VIZ_STATS_WEEK_VIEW:
+                VizStatsWeekFragment vizStatsWeekFragment = (VizStatsWeekFragment) fragmentManager.findFragmentByTag(VizStatsWeekFragment.VIEW_STATS_WEEK_FRAGMENT_TAG);
+                if(vizStatsWeekFragment!= null && vizStatsWeekFragment.isVisible()){
+                    vizStatsWeekFragment.setAllSessionsList(mAllSessionsNotLive);
+                }else{
+                    Log.e(TAG, "onGetAllSessionsNotLiveComplete::DATA IS READY BUT WEEK STATS FRAGMENT NOT FOUND!!");
+                }
+                break;
+            case SCREEN_VIZ_STATS_MONTH_VIEW:
+                VizStatsMonthFragment vizStatsMonthFragment = (VizStatsMonthFragment) fragmentManager.findFragmentByTag(VizStatsMonthFragment.VIEW_STATS_MONTH_FRAGMENT_TAG);
+                if(vizStatsMonthFragment!= null && vizStatsMonthFragment.isVisible()){
+                    vizStatsMonthFragment.setAllSessionsList(mAllSessionsNotLive);
+                }else{
+                    Log.e(TAG, "onGetAllSessionsNotLiveComplete::DATA IS READY BUT MONTH STATS FRAGMENT NOT FOUND!!");
+                }
+                break;
+            case SCREEN_VIZ_STATS_DURATION_VIEW:
+                VizStatsDurationFragment vizStatsDurationFragment = (VizStatsDurationFragment) fragmentManager.findFragmentByTag(VizStatsDurationFragment.VIEW_STATS_DURATION_FRAGMENT_TAG);
+                if(vizStatsDurationFragment!= null && vizStatsDurationFragment.isVisible()){
+                    vizStatsDurationFragment.setAllSessionsList(mAllSessionsNotLive);
+                }else{
+                    Log.e(TAG, "onGetAllSessionsNotLiveComplete::DATA IS READY BUT DURATION STATS FRAGMENT NOT FOUND!!");
+                }
+                break;
+            case SCREEN_VIZ_STATS_MP3_VIEW:
+                VizStatsMp3Fragment vizStatsMp3Fragment = (VizStatsMp3Fragment) fragmentManager.findFragmentByTag(VizStatsMp3Fragment.VIEW_STATS_MP3_FRAGMENT_TAG);
+                if(vizStatsMp3Fragment!= null && vizStatsMp3Fragment.isVisible()){
+                    vizStatsMp3Fragment.setAllSessionsList(mAllSessionsNotLive);
+                }else{
+                    Log.e(TAG, "onGetAllSessionsNotLiveComplete::DATA IS READY BUT MP3 STATS FRAGMENT NOT FOUND!!");
+                }
+                break;
         }
     }
 

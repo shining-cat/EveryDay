@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,7 +17,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/pre_record_dialog_default_title"
-            android:textColor="@color/colorAccent"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,6 +30,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/date"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pre_record_title_txtvw" />
 
@@ -39,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="?android:attr/colorAccent"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/pre_record_manual_date_field_label"
             app:layout_constraintTop_toBottomOf="@+id/pre_record_title_txtvw"
@@ -52,17 +57,21 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/time"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/pre_record_manual_date_value_field"
             app:layout_constraintTop_toBottomOf="@+id/pre_record_title_txtvw" />
 
         <TextView
             android:id="@+id/pre_record_manual_time_value_field"
             android:layout_width="wrap_content"
-            android:layout_height="18dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/fake_time"
-            android:textColor="@color/colorAccent"
+            android:textColor="?android:attr/colorAccent"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/pre_record_manual_time_field_label"
             app:layout_constraintTop_toBottomOf="@+id/pre_record_title_txtvw"
@@ -75,6 +84,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/pre_record_intro_default_text"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pre_record_manual_date_field_label" />
 
@@ -83,8 +95,10 @@
             android:id="@+id/pre_record_mood_recorder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pre_record_intro_txt" />
 

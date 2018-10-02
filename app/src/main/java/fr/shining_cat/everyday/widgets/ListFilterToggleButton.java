@@ -47,7 +47,7 @@ public class ListFilterToggleButton extends ConstraintLayout {
         setInactive();
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (mInflater != null) {
-            View root = mInflater.inflate(R.layout.sessions_list_filter_toggle_btn, this, true);
+            View root = mInflater.inflate(R.layout.widget_list_filter_toggle_btn, this, true);
             mLabel = root.findViewById(R.id.sessions_list_filter_toggle_label);
             updateLabel();
             mArrowOptionA = root.findViewById(R.id.sessions_list_filter_toggle_option_A_arrow);

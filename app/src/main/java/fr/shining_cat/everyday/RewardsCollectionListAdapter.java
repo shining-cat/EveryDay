@@ -90,7 +90,7 @@ public class RewardsCollectionListAdapter extends RecyclerView.Adapter<RewardsCo
 
     @Override
     public RewardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.rewards_list_recyclerview_item, parent, false);
+        View itemView = mInflater.inflate(R.layout.recyclerview_item_rewards_list, parent, false);
         return new RewardViewHolder(itemView);
     }
 

@@ -21,6 +21,8 @@
         android:background="@drawable/rectangle_border"
         android:padding="8dp"
         android:textAlignment="center"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/chart_display_columnChartView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,17 +39,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@color/grey_n1_alpha85"
         android:text="@string/day_stats_duration_clicked_value"
+        android:textColor="?android:attr/textColorPrimary"
         android:textAlignment="center"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/chart_help_btn"
-        app:layout_constraintStart_toStartOf="@id/chart_display_columnChartView"
+        app:layout_constraintEnd_toStartOf="@id/chart_help_btn"
+        app:layout_constraintStart_toEndOf="@id/chart_share_btn"
         app:layout_constraintTop_toTopOf="@id/chart_display_columnChartView" />
-
-
 
     <View
         android:id="@+id/chart_share_btn_background"
@@ -55,7 +56,7 @@
         android:layout_height="48dp"
         android:layout_margin="0dp"
         android:visibility="gone"
-        android:background="@color/buddhist_cream"
+        android:background="?android:attr/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:elevation="5dp"/>
@@ -68,7 +69,8 @@
         android:background="?android:attr/selectableItemBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_share_white_24dp"
+        app:srcCompat="@drawable/ic_share_textcolorprimary_24dp"
+        android:drawableTint="?android:attr/textColorPrimary"
         android:elevation="6dp"
         android:contentDescription="@string/generic_string_SHARE" />
 
@@ -76,9 +78,9 @@
         android:id="@+id/chart_help_btn_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:visibility="gone"
         android:layout_margin="0dp"
-        android:background="@color/buddhist_cream"
+        android:visibility="gone"
+        android:background="?android:attr/colorAccent"
         app:layout_constraintEnd_toEndOf="@id/chart_display_columnChartView"
         app:layout_constraintTop_toTopOf="@id/chart_display_columnChartView"
         android:elevation="5dp"/>
@@ -91,7 +93,8 @@
         android:background="?android:attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="@id/chart_display_columnChartView"
         app:layout_constraintTop_toTopOf="@id/chart_display_columnChartView"
-        app:srcCompat="@drawable/ic_help_white_24dp"
+        app:srcCompat="@drawable/ic_help_textcolorprimary_24dp"
+        android:drawableTint="?android:attr/textColorPrimary"
         android:elevation="6dp"
         android:contentDescription="@string/chart_help_btn_description" />
 
@@ -101,6 +104,9 @@
         android:layout_height="400dp"
         android:background="@color/white_alpha75"
         android:visibility="gone"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

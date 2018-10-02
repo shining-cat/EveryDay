@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -38,6 +39,15 @@ public class PostRecordFragment extends Fragment {
 
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
+    private final String MANUAL_ENTRY_KEY = "manual entry retrieving key";
+    private final String TIMESTAMP_OF_RECORD_KEY = "timestamp of record retrieving key";
+    private final String DURATION_KEY = "duration retrieving key";
+    private final String PAUSES_COUNT_KEY = "pauses count retrieving key";
+    private final String TIME_OF_SESSION_START_KEY = "time of session start retrieving key";
+    private final String REAL_DURATION_VS_PLANNED_KEY = "real duration retrieving key";
+    private final String GUIDE_MP3_KEY = "guide mp3 retrieving key";
+    private final String END_MOOD_KEY = "end mood infos retrieving key";
+
     private static final String ARG_MANUAL_ENTRY = "manual_entry_boolean_argument";
     private static final String ARG_DURATION = "session_duration_long_argument";
     private static final String ARG_PAUSES_COUNT = "pauses_count_int_argument";
@@ -45,20 +55,22 @@ public class PostRecordFragment extends Fragment {
     private static final String ARG_TIME_OF_START = "time_of_session_start_long_argument";
     private static final String ARG_MP3_GUIDE = "mp3_support_file_name_string_argument";
 
-    private PostRecordFragmentListener mListener;
-    private MoodRecorderViewGroup mMoodRecorder;
-    private EditText mNotesEditTxt;
     private boolean mManualEntry;
     private long mTimestampOfRecordinMillis;
-    private TextView mManualDateEditTxt;
-    private TextView mManualTimeEditTxt;
-    private EditText mGuideMp3EditTxt;
     private long mDuration;
     private int mPausesCount;
     private long mTimeOfSessionStart;
     private int mRealDurationVsPlanned;
     private String mGuideMp3;
     private MoodRecord mPresetEndMood;
+
+    private MoodRecorderViewGroup mMoodRecorder;
+    private TextView mManualDateEditTxt;
+    private TextView mManualTimeEditTxt;
+    private EditText mGuideMp3EditTxt;
+    private EditText mNotesEditTxt;
+
+    private PostRecordFragmentListener mListener;
 
     public PostRecordFragment() {
         // Required empty public constructor
@@ -97,6 +109,16 @@ public class PostRecordFragment extends Fragment {
             mRealDurationVsPlanned = getArguments().getInt(ARG_REAL_DURATION_VS_PLANNED_DURATION);
             mTimeOfSessionStart = getArguments().getLong(ARG_TIME_OF_START);
             mGuideMp3 = getArguments().getString(ARG_MP3_GUIDE);
+        }
+        if(savedInstanceState!=null){
+            mManualEntry = savedInstanceState.getBoolean(MANUAL_ENTRY_KEY);
+            mTimestampOfRecordinMillis = savedInstanceState.getLong(TIMESTAMP_OF_RECORD_KEY);
+            mDuration = savedInstanceState.getLong(DURATION_KEY);
+            mPausesCount = savedInstanceState.getInt(PAUSES_COUNT_KEY);
+            mRealDurationVsPlanned = savedInstanceState.getInt(REAL_DURATION_VS_PLANNED_KEY);
+            mTimeOfSessionStart = savedInstanceState.getLong(TIME_OF_SESSION_START_KEY);
+            mGuideMp3 = savedInstanceState.getString(GUIDE_MP3_KEY);
+            mPresetEndMood = (MoodRecord) savedInstanceState.getSerializable(END_MOOD_KEY);
         }
     }
 
@@ -187,6 +209,18 @@ public class PostRecordFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(MANUAL_ENTRY_KEY, mManualEntry);
+        outState.putLong(TIMESTAMP_OF_RECORD_KEY, mTimestampOfRecordinMillis);
+        outState.putLong(DURATION_KEY, mDuration);
+        outState.putInt(PAUSES_COUNT_KEY, mPausesCount);
+        outState.putInt(REAL_DURATION_VS_PLANNED_KEY, mRealDurationVsPlanned);
+        outState.putLong(TIME_OF_SESSION_START_KEY, mTimeOfSessionStart);
+        outState.putString(GUIDE_MP3_KEY, mGuideMp3);
+        outState.putSerializable(END_MOOD_KEY, createMoodRecordObjectFromUserEntries());
+        super.onSaveInstanceState(outState);
+    }
 ////////////////////////////////////////
 //plugging interface listener, here parent activity (SessionActivity -normal input- or VizActivity -manual entry and edit)
     @Override
@@ -211,32 +245,41 @@ public class PostRecordFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Log.d(TAG, "onPositiveClickListener");
-            //no need here to update timestamp for non manual entry because we'd rather store the time at which the dialog opened (= end of session)
-            MoodRecord mood = new MoodRecord(
-                    mTimestampOfRecordinMillis,
-                    mMoodRecorder.getBodyValue(),
-                    mMoodRecorder.getThoughtsValue(),
-                    mMoodRecorder.getFeelingsValue(),
-                    mMoodRecorder.getGlobalValue());
-            //for manual entry, calculate duration based on entered start and end time
-            if(mManualEntry){
-                if((mTimestampOfRecordinMillis - mTimeOfSessionStart)>0){
-                    mDuration = mTimestampOfRecordinMillis - mTimeOfSessionStart;
-                }else {//prevent incoherent start/end time storage
-                    showInvalidTimeDialogError();
-                    return;
-                }
+            MoodRecord mood = createMoodRecordObjectFromUserEntries();
+            if(mood != null) {
+                mListener.onValidatePostRecordFragment(mood);
             }
-            mGuideMp3 = mGuideMp3EditTxt.getText().toString();
-            mood.setSessionRealDuration(mDuration);
-            mood.setPausesCount(mPausesCount);
-            mood.setRealDurationVsPlanned(mRealDurationVsPlanned);
-            //here we allow empty values
-            mood.setNotes(mNotesEditTxt.getText().toString());
-            mood.setGuideMp3(mGuideMp3);
-            mListener.onValidatePostRecordFragment(mood);
         }
     };
+
+    private MoodRecord createMoodRecordObjectFromUserEntries(){
+        //no need here to update timestamp for non manual entry because we'd rather store the time at which the dialog opened (= end of session)
+        MoodRecord mood = new MoodRecord(
+                mTimestampOfRecordinMillis,
+                mMoodRecorder.getBodyValue(),
+                mMoodRecorder.getThoughtsValue(),
+                mMoodRecorder.getFeelingsValue(),
+                mMoodRecorder.getGlobalValue());
+        //for manual entry, calculate duration based on entered start and end time
+        if(mManualEntry){
+            if((mTimestampOfRecordinMillis - mTimeOfSessionStart)>0){
+                mDuration = mTimestampOfRecordinMillis - mTimeOfSessionStart;
+            }else {//prevent incoherent start/end time storage
+                showInvalidTimeDialogError();
+                return null;
+            }
+        }
+        mGuideMp3 = mGuideMp3EditTxt.getText().toString();
+        mood.setSessionRealDuration(mDuration);
+        mood.setPausesCount(mPausesCount);
+        mood.setRealDurationVsPlanned(mRealDurationVsPlanned);
+        //here we allow empty values
+        mood.setNotes(mNotesEditTxt.getText().toString());
+        mood.setGuideMp3(mGuideMp3);
+        return mood;
+    }
+
+
     private View.OnClickListener onNegativeClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

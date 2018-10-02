@@ -1,11 +1,14 @@
 package fr.shining_cat.everyday.preferences;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import fr.shining_cat.everyday.R;
@@ -27,6 +30,24 @@ public class TimePickerPreference extends DialogPreference {
         setNegativeButtonText(R.string.generic_string_CANCEL);
         mDefaultTimePickerValue = context.getString(R.string.default_time_picker);
         mCurrentTime = this.getPersistedString(mDefaultTimePickerValue);
+    }
+
+    //override because somehow the dimming effect is lost when pref is disabled by linked parent if textColorPrimary and textColorSecondary are defined in applied theme
+    @Override
+    protected void onBindView(View view) {
+        super.onBindView(view);
+        TextView title = view.findViewById(android.R.id.title);
+        TextView summary = view.findViewById(android.R.id.summary);
+        if (title.isEnabled()) {
+            title.setAlpha(1f);
+        } else {
+            title.setAlpha(0.3f);
+        }
+        if (summary.isEnabled()) {
+            summary.setAlpha(1f);
+        } else {
+            summary.setAlpha(0.3f);
+        }
     }
 
     @Override

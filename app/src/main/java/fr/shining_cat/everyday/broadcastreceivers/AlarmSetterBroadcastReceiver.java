@@ -30,7 +30,7 @@ public class AlarmSetterBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //program the alarm here
         String action = intent.getAction();
-        Log.d(TAG, "onReceive::INTENT received! :action = " + action);
+        //Log.d(TAG, "onReceive::INTENT received! :action = " + action);
         if(action != null) {
             if (action.equals(MEDITATION_REMINDER_SET_ALARM) ||
                     action.equals(Intent.ACTION_BOOT_COMPLETED) ||
@@ -38,7 +38,7 @@ public class AlarmSetterBroadcastReceiver extends BroadcastReceiver {
                     action.equals(MEDITATION_REMINDER_CANCEL_ALARM)) { //otherwise we are not concerned
                 AlarmManager alarmMngr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 if (alarmMngr == null) {
-                    Log.e(TAG, "setAlarm::AlarmManager not provided :: ABORTED ALARM SETTING");
+                    //Log.e(TAG, "setAlarm::AlarmManager not provided :: ABORTED ALARM SETTING");
                 } else {
                     //prepare alarmIntent and pendingAlarmIntent
                     Intent alarmIntent = new Intent(context, AlarmRingerBroadcastReceiver.class);
@@ -70,18 +70,18 @@ public class AlarmSetterBroadcastReceiver extends BroadcastReceiver {
                             alarmMngr.setRepeating(AlarmManager.RTC_WAKEUP, alarmAbsTimeCalendar.getTimeInMillis(), 1 * 60 * 1000, pendingAlarmIntent);
                         */
                         alarmMngr.setRepeating(AlarmManager.RTC_WAKEUP, alarmAbsTimeCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingAlarmIntent);
-                        Log.d(TAG, "setAlarm::alarm set to  : " + timeOfDayNotificationPrefValueAsString);
+                        //Log.d(TAG, "setAlarm::alarm set to  : " + timeOfDayNotificationPrefValueAsString);
                     }
                     //a session has started : cancel the alarm for the current day and set it again starting on the next day
                     else if (action.equals(MEDITATION_REMINDER_CANCEL_ALARM_FOR_TODAY)) {
                         //change calendar object DATE to TODAY + 1
                         alarmAbsTimeCalendar.add(Calendar.DATE, 1);
                         alarmMngr.setRepeating(AlarmManager.RTC_WAKEUP, alarmAbsTimeCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingAlarmIntent);
-                        Log.d(TAG, "setAlarm::alarm cancelled for today, ALARM IS SET FOR TOMORROW :: alarm set to  : " + timeOfDayNotificationPrefValueAsString);
+                        //Log.d(TAG, "setAlarm::alarm cancelled for today, ALARM IS SET FOR TOMORROW :: alarm set to  : " + timeOfDayNotificationPrefValueAsString);
                     }
                     //completely cancel the alarm
                     else if (action.equals(MEDITATION_REMINDER_CANCEL_ALARM)) {
-                        Log.d(TAG, "onReceive::alarm canceled : NO MORE ALARM!");
+                        //Log.d(TAG, "onReceive::alarm canceled : NO MORE ALARM!");
                     }
                 }
             }

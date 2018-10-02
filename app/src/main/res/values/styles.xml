@@ -1,14 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    
+    
+    <!--working base theme : @style/Theme.AppCompat.Light.DarkActionBar -->
+    
+    <style name="Theme.App" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
+
+    <!--color attribute breaks listdividers of main settings screen on nougat, works with no style specified-->
+    <!--<item name="android:listDivider">@color/wood_primaryUltraLightColor_alpha12</item>-->
+    <!--<item name="android:dividerHeight">2dp</item>-->
+
+    <!-- BUG with inactive settings in preferences if textColorPrimary is defined then it overrides "inactive" color for pref title, same for textColorSecondary and summary
+                   => added override of onBindView in concerned prefs to apply alpha effect according to enabled state-->
+
+    <!-- TODO: voir si refaire les smiley_not_set.png pb, ils ne sont pas utilisés sur le meme fond que ceux du SmileRating-->
+
+    <style name="Theme.App.wood" >
+        <item name="android:colorBackground">@color/wood_primaryLightColor</item>
+
+        <item name="colorPrimaryUltraLight">@color/wood_primaryUltraLightColor</item>
+        <item name="colorPrimaryLight">@color/wood_primaryLightColor</item>
+        <item name="colorPrimary">@color/wood_primaryColor</item>
+        <item name="colorPrimaryDark">@color/wood_primaryDarkColor</item>
+
+        <item name="colorAccentLight">@color/wood_secondaryLightColor</item>
+        <item name="colorAccent">@color/wood_secondaryColor</item>
+        <item name="colorAccentDark">@color/wood_secondaryDarkColor</item>
+
+        <item name="android:textColorPrimary">@color/wood_primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/wood_secondaryTextColor</item>
+        <!--<item name="android:textColorPrimaryInverse">@color/wood_primaryDarkColor</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@color/wood_secondaryLightColor</item>-->
+        <!--<item name="android:textColorSecondaryInverse">@color/wood_secondaryTextColor</item>-->
+
+        <item name="android:colorButtonNormal">@color/wood_secondaryColor</item>
+        <item name="android:colorControlActivated">@color/wood_secondaryColor</item>
+        <item name="android:colorControlNormal">@color/wood_primaryDarkColor</item>
+        <item name="android:colorControlHighlight">@color/wood_secondaryDarkColor</item>
+
+        <!--this is for alertDialogs-->
+        <item name="alertDialogTheme">@style/wood_alertDialog</item>
+        <!--this is for preferencedialogs-->
+        <item name="android:alertDialogTheme">@style/wood_alertDialog</item>
+    </style>
+
+    <style name="wood_alertDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/wood_secondaryColor</item>
+        <item name="android:textColorPrimary">@color/wood_primaryTextColor</item>
+        <!--strange : colorControlNormal does not apply to numberpicker divider color inside preference dialog on Lollipop-->
+        <item name="android:colorControlNormal">@color/wood_primaryDarkColor</item>
+        <item name="colorPrimaryLight">@color/wood_primaryLightColor</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
+    <style name="Theme.App.earth">
+        <item name="android:colorBackground">@color/earth_primaryLightColor</item>
+
+        <item name="colorPrimaryUltraLight">@color/earth_primaryUltraLightColor</item>
+        <item name="colorPrimaryLight">@color/earth_primaryLightColor</item>
+        <item name="colorPrimary">@color/earth_primaryColor</item>
+        <item name="colorPrimaryDark">@color/earth_primaryDarkColor</item>
+
+        <item name="colorAccentLight">@color/earth_secondaryLightColor</item>
+        <item name="colorAccent">@color/earth_secondaryColor</item>
+        <item name="colorAccentDark">@color/earth_secondaryDarkColor</item>
+
+        <item name="android:textColorPrimary">@color/earth_primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/earth_secondaryTextColor</item>
+        <!--<item name="android:textColorPrimaryInverse">@color/earth_primaryDarkColor</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@color/earth_secondaryLightColor</item>-->
+        <!--<item name="android:textColorSecondaryInverse">@color/earth_secondaryTextColor</item>-->
+
+        <item name="android:colorButtonNormal">@color/earth_secondaryColor</item>
+        <item name="android:colorControlActivated">@color/earth_secondaryColor</item>
+        <item name="android:colorControlNormal">@color/earth_primaryDarkColor</item>
+        <item name="android:colorControlHighlight">@color/earth_secondaryDarkColor</item>
+
+        <!--this is for alertDialogs-->
+        <item name="alertDialogTheme">@style/earth_alertDialog</item>
+        <!--this is for preferencedialogs-->
+        <item name="android:alertDialogTheme">@style/earth_alertDialog</item>
+    </style>
+
+    <style name="earth_alertDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/earth_secondaryColor</item>
+        <item name="android:textColorPrimary">@color/earth_primaryTextColor</item>
+        <!--strange : colorControlNormal does not apply to numberpicker divider color inside preference dialog on Lollipop-->
+        <item name="android:colorControlNormal">@color/earth_primaryDarkColor</item>
+        <item name="colorPrimaryLight">@color/earth_primaryLightColor</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+    
+    
+    <style name="Theme.App.fire">
+        <item name="android:colorBackground">@color/fire_primaryLightColor</item>
+
+        <item name="colorPrimaryUltraLight">@color/fire_primaryUltraLightColor</item>
+        <item name="colorPrimaryLight">@color/fire_primaryLightColor</item>
+        <item name="colorPrimary">@color/fire_primaryColor</item>
+        <item name="colorPrimaryDark">@color/fire_primaryDarkColor</item>
+
+        <item name="colorAccentLight">@color/fire_secondaryLightColor</item>
+        <item name="colorAccent">@color/fire_secondaryColor</item>
+        <item name="colorAccentDark">@color/fire_secondaryDarkColor</item>
+
+        <item name="android:textColorPrimary">@color/fire_primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/fire_secondaryTextColor</item>
+        <!--<item name="android:textColorPrimaryInverse">@color/fire_primaryDarkColor</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@color/fire_secondaryLightColor</item>-->
+        <!--<item name="android:textColorSecondaryInverse">@color/fire_secondaryTextColor</item>-->
+
+        <item name="android:colorButtonNormal">@color/fire_secondaryColor</item>
+        <item name="android:colorControlActivated">@color/fire_secondaryColor</item>
+        <item name="android:colorControlNormal">@color/fire_primaryDarkColor</item>
+        <item name="android:colorControlHighlight">@color/fire_secondaryDarkColor</item>
+
+        <!--this is for alertDialogs-->
+        <item name="alertDialogTheme">@style/fire_alertDialog</item>
+        <!--this is for preferencedialogs-->
+        <item name="android:alertDialogTheme">@style/fire_alertDialog</item>
+    </style>
+
+    <style name="fire_alertDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/fire_secondaryColor</item>
+        <item name="android:textColorPrimary">@color/fire_primaryTextColor</item>
+        <!--strange : colorControlNormal does not apply to numberpicker divider color inside preference dialog on Lollipop-->
+        <item name="android:colorControlNormal">@color/fire_primaryDarkColor</item>
+        <item name="colorPrimaryLight">@color/fire_primaryLightColor</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
+    <style name="Theme.App.wind">
+        <item name="android:colorBackground">@color/wind_primaryLightColor</item>
+
+        <item name="colorPrimaryUltraLight">@color/wind_primaryUltraLightColor</item>
+        <item name="colorPrimaryLight">@color/wind_primaryLightColor</item>
+        <item name="colorPrimary">@color/wind_primaryColor</item>
+        <item name="colorPrimaryDark">@color/wind_primaryDarkColor</item>
+
+        <item name="colorAccentLight">@color/wind_secondaryLightColor</item>
+        <item name="colorAccent">@color/wind_secondaryColor</item>
+        <item name="colorAccentDark">@color/wind_secondaryDarkColor</item>
+
+        <item name="android:textColorPrimary">@color/wind_primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/wind_secondaryTextColor</item>
+        <!--<item name="android:textColorPrimaryInverse">@color/wind_primaryDarkColor</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@color/wind_secondaryLightColor</item>-->
+        <!--<item name="android:textColorSecondaryInverse">@color/wind_secondaryTextColor</item>-->
+
+        <item name="android:colorButtonNormal">@color/wind_secondaryColor</item>
+        <item name="android:colorControlActivated">@color/wind_secondaryColor</item>
+        <item name="android:colorControlNormal">@color/wind_primaryDarkColor</item>
+        <item name="android:colorControlHighlight">@color/wind_secondaryDarkColor</item>
+
+        <!--this is for alertDialogs-->
+        <item name="alertDialogTheme">@style/wind_alertDialog</item>
+        <!--this is for preferencedialogs-->
+        <item name="android:alertDialogTheme">@style/wind_alertDialog</item>
+    </style>
+
+    <style name="wind_alertDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/wind_secondaryColor</item>
+        <item name="android:textColorPrimary">@color/wind_primaryTextColor</item>
+        <!--strange : colorControlNormal does not apply to numberpicker divider color inside preference dialog on Lollipop-->
+        <item name="android:colorControlNormal">@color/wind_primaryDarkColor</item>
+        <item name="colorPrimaryLight">@color/wind_primaryLightColor</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
+    <style name="Theme.App.water">
+        <item name="android:colorBackground">@color/water_primaryLightColor</item>
+
+        <item name="colorPrimaryUltraLight">@color/water_primaryUltraLightColor</item>
+        <item name="colorPrimaryLight">@color/water_primaryLightColor</item>
+        <item name="colorPrimary">@color/water_primaryColor</item>
+        <item name="colorPrimaryDark">@color/water_primaryDarkColor</item>
+
+        <item name="colorAccentLight">@color/water_secondaryLightColor</item>
+        <item name="colorAccent">@color/water_secondaryColor</item>
+        <item name="colorAccentDark">@color/water_secondaryDarkColor</item>
+
+        <item name="android:textColorPrimary">@color/water_primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/water_secondaryTextColor</item>
+        <!--<item name="android:textColorPrimaryInverse">@color/water_primaryDarkColor</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@color/water_secondaryLightColor</item>-->
+        <!--<item name="android:textColorSecondaryInverse">@color/water_secondaryTextColor</item>-->
+
+        <item name="android:colorButtonNormal">@color/water_secondaryColor</item>
+        <item name="android:colorControlActivated">@color/water_secondaryColor</item>
+        <item name="android:colorControlNormal">@color/water_primaryDarkColor</item>
+        <item name="android:colorControlHighlight">@color/water_secondaryDarkColor</item>
+
+        <!--this is for alertDialogs-->
+        <item name="alertDialogTheme">@style/water_alertDialog</item>
+        <!--this is for preferencedialogs-->
+        <item name="android:alertDialogTheme">@style/water_alertDialog</item>
+    </style>
+
+    <style name="water_alertDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/water_secondaryColor</item>
+        <item name="android:textColorPrimary">@color/water_primaryTextColor</item>
+        <!--strange : colorControlNormal does not apply to numberpicker divider color inside preference dialog on Lollipop-->
+        <item name="android:colorControlNormal">@color/water_primaryDarkColor</item>
+        <item name="colorPrimaryLight">@color/water_primaryLightColor</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
     </style>
 
 
+    <style name="Theme.App.metal">
+        <item name="android:colorBackground">@color/metal_primaryLightColor</item>
+
+        <item name="colorPrimaryUltraLight">@color/metal_primaryUltraLightColor</item>
+        <item name="colorPrimaryLight">@color/metal_primaryLightColor</item>
+        <item name="colorPrimary">@color/metal_primaryColor</item>
+        <item name="colorPrimaryDark">@color/metal_primaryDarkColor</item>
+
+        <item name="colorAccentLight">@color/metal_secondaryLightColor</item>
+        <item name="colorAccent">@color/metal_secondaryColor</item>
+        <item name="colorAccentDark">@color/metal_secondaryDarkColor</item>
+
+        <item name="android:textColorPrimary">@color/metal_primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/metal_secondaryTextColor</item>
+        <!--<item name="android:textColorPrimaryInverse">@color/metal_primaryDarkColor</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@color/metal_secondaryLightColor</item>-->
+        <!--<item name="android:textColorSecondaryInverse">@color/metal_secondaryTextColor</item>-->
+
+        <item name="android:colorButtonNormal">@color/metal_secondaryColor</item>
+        <item name="android:colorControlActivated">@color/metal_secondaryColor</item>
+        <item name="android:colorControlNormal">@color/metal_primaryDarkColor</item>
+        <item name="android:colorControlHighlight">@color/metal_secondaryDarkColor</item>
+
+        <!--this is for alertDialogs-->
+        <item name="alertDialogTheme">@style/metal_alertDialog</item>
+        <!--this is for preferencedialogs-->
+        <item name="android:alertDialogTheme">@style/metal_alertDialog</item>
+    </style>
+
+    <style name="metal_alertDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/metal_secondaryColor</item>
+        <item name="android:textColorPrimary">@color/metal_primaryTextColor</item>
+        <!--strange : colorControlNormal does not apply to numberpicker divider color inside preference dialog on Lollipop-->
+        <item name="android:colorControlNormal">@color/metal_primaryDarkColor</item>
+        <item name="colorPrimaryLight">@color/metal_primaryLightColor</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+    
 
 </resources>

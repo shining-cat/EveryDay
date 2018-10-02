@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -36,17 +37,23 @@ public class PreRecordFragment extends Fragment {
     public static final String FRAGMENT_PRE_RECORD_MANUAL_ENTRY_TAG = "fragment_pre_record_manual_entry-tag";
     public static final String FRAGMENT_PRE_RECORD_NORMAL_TAG = "fragment_pre_record_normal-tag";
 
+
+    private final String MANUAL_ENTRY_KEY = "manual entry retrieving key";
+    private final String START_MOOD_KEY = "start mood infos retrieving key";
+
     private final String TAG = "LOGGING::" + this.getClass().getSimpleName();
 
     private static final String ARG_MANUAL_ENTRY = "manual_entry_boolean_argument";
 
-    private FragmentPreRecordListener mListener;
-    private MoodRecorderViewGroup mMoodRecorder;
     private boolean mManualEntry;
     private long mTimestampOfRecordinMillis;
+
     private TextView mManualDateEditTxt;
     private TextView mManualTimeEditTxt;
     private MoodRecord mPresetStartMood;
+    private MoodRecorderViewGroup mMoodRecorder;
+
+    private FragmentPreRecordListener mListener;
 
     public PreRecordFragment() {
         // Required empty public constructor
@@ -64,18 +71,21 @@ public class PreRecordFragment extends Fragment {
     }
 
 ////////////////////////////////////////
-//trasnmitting existing datas for an edit
+//transmitting existing datas for an edit
     public void presetContent(MoodRecord startMood) {
         Log.d(TAG, "presetContent");
         mPresetStartMood = startMood;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mManualEntry = getArguments().getBoolean(ARG_MANUAL_ENTRY);
+        }
+        if(savedInstanceState!=null){//TODO: check overriding mPresetStartMood...?!
+            mManualEntry = savedInstanceState.getBoolean(MANUAL_ENTRY_KEY);
+            mPresetStartMood = (MoodRecord) savedInstanceState.getSerializable(START_MOOD_KEY);
         }
     }
 
@@ -109,7 +119,7 @@ public class PreRecordFragment extends Fragment {
                 mMoodRecorder.setThoughtsValue(mPresetStartMood.getThoughtsValue());
                 mMoodRecorder.setFeelingsValue(mPresetStartMood.getFeelingsValue());
                 mMoodRecorder.setGlobalValue(mPresetStartMood.getGlobalValue());
-                Log.d(TAG, "onCreateView::Editting existing entry:: timeOfRecordCal = " + timeOfRecordCal.toString());
+                //Log.d(TAG, "onCreateView::Editting existing entry:: timeOfRecordCal = " + timeOfRecordCal.toString());
             }else {//creating new record manually
                 timeOfRecordCal.setTimeInMillis(mTimestampOfRecordinMillis);
             }
@@ -138,31 +148,43 @@ public class PreRecordFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(MANUAL_ENTRY_KEY, mManualEntry);
+        outState.putSerializable(START_MOOD_KEY, createMoodRecordObjectFromUserEntries());
+        super.onSaveInstanceState(outState);
+    }
+
 ////////////////////////////////////////
 // UI handling : onPositive, and onCancel
     private View.OnClickListener onPositiveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onPositiveClickListener");
-            //update timestamp for non manual entry in case the dialog has been kept open a long time:
-            if(!mManualEntry){
-                mTimestampOfRecordinMillis = System.currentTimeMillis();
-            }
-            DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-            Log.d(TAG, "mTimestampOfRecordinMillis = " + mTimestampOfRecordinMillis + " / formatted = " + sdfDate.format(mTimestampOfRecordinMillis));
-            MoodRecord mood = new MoodRecord(
-                    mTimestampOfRecordinMillis,
-                    mMoodRecorder.getBodyValue(),
-                    mMoodRecorder.getThoughtsValue(),
-                    mMoodRecorder.getFeelingsValue(),
-                    mMoodRecorder.getGlobalValue());
-            mListener.onValidateFragmentPreRecord(mood);
+            //Log.d(TAG, "onPositiveClickListener");
+            mListener.onValidateFragmentPreRecord(createMoodRecordObjectFromUserEntries());
         }
     };
+
+    private MoodRecord createMoodRecordObjectFromUserEntries(){
+        //update timestamp for non manual entry in case the dialog has been kept open a long time:
+        if(!mManualEntry){
+            mTimestampOfRecordinMillis = System.currentTimeMillis();
+        }
+        DateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        //Log.d(TAG, "mTimestampOfRecordinMillis = " + mTimestampOfRecordinMillis + " / formatted = " + sdfDate.format(mTimestampOfRecordinMillis));
+        MoodRecord mood = new MoodRecord(
+                mTimestampOfRecordinMillis,
+                mMoodRecorder.getBodyValue(),
+                mMoodRecorder.getThoughtsValue(),
+                mMoodRecorder.getFeelingsValue(),
+                mMoodRecorder.getGlobalValue());
+        return mood;
+    }
+
     private View.OnClickListener onNegativeClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onNegativeClickListener");
+            //Log.d(TAG, "onNegativeClickListener");
             mListener.onCancelFragmentPreRecord();
         }
 

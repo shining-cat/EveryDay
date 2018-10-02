@@ -3,6 +3,7 @@ package fr.shining_cat.everyday;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,13 +125,24 @@ public class VizStatsMainFragment   extends Fragment{
             }
         });
         mViewStatsMp3Btn.setVisibility(View.GONE);
+        if(mAllSessions!=null){
+            //Log.d(TAG, "onCreateView::data is ready => display");
+            displayDatas();
+        }
         return rootView;
     }
 
     public void setAllSessionsList(List<SessionRecord> allSessions) {
-        mLoadingIndicator.setVisibility(View.GONE);
         mAllSessions = allSessions;
-        if(allSessions.size() == 0){
+        if(this.isAdded()){
+            //Log.d(TAG, "setAllSessionsList::fragment is added => display");
+            displayDatas();
+        }
+    }
+
+    private void displayDatas(){
+        mLoadingIndicator.setVisibility(View.GONE);
+        if(mAllSessions.size() == 0){
             mNoSessionMessage.setVisibility(View.VISIBLE);
         }else {
             updateGeneralStatistics();

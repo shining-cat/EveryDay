@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import java.util.List;
 
@@ -43,8 +43,9 @@ public class VizSessionDetailsViewPagerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
         // Inflate the layout for this fragment
-        mRootView = inflater.inflate(R.layout.fragment_viz_viewpager_sessions_details, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_viz_sessions_details_viewpager, container, false);
         //
         mSessionsDetailsViewPager = mRootView.findViewById(R.id.sessions_details_viewpager);
         mVizSessionDetailsCardFragmentStatePagerAdapter = new VizSessionDetailsCardFragmentPagerAdapter(getActivity().getSupportFragmentManager());

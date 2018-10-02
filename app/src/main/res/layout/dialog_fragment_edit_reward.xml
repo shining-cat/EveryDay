@@ -12,6 +12,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/edit_reward_color_slider_legs_label"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/edit_reward_colorSlider_legs"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,6 +43,9 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/edit_reward_color_slider_body_label"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/edit_reward_colorSlider_body"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_reward_colorSlider_legs" />
@@ -68,6 +74,9 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/edit_reward_color_slider_arms_label"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/edit_reward_colorSlider_arms"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_reward_colorSlider_body" />
@@ -96,6 +105,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/edit_reward_name_label"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_h_edit_reward" />
 
@@ -108,6 +120,9 @@
         android:layout_marginTop="8dp"
         android:hint="@string/edit_reward_name_hint"
         android:inputType="text"
+        android:textColor="?android:attr/textColorPrimary"
+        android:backgroundTint="?android:attr/textColorPrimary"
+        android:textColorHint="?android:attr/textColorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_reward_name_label" />

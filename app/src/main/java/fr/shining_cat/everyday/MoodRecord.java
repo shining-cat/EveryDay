@@ -1,6 +1,8 @@
 package fr.shining_cat.everyday;
 
-public class MoodRecord {
+import java.io.Serializable;
+
+public class MoodRecord implements Serializable {
 
     //values range from 1 (WORST) to 5 (BEST), 0 is for NOT SET
     private int mBodyValue;

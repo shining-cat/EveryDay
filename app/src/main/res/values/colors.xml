@@ -1,15 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
 
+<!-- wood palette -->
+    <color name="wood_primaryUltraLightColor">#ffefdcd5</color>
+    <color name="wood_primaryLightColor">#ff8b6b61</color>
+    <color name="wood_primaryColor">#ff5d4037</color>
+    <color name="wood_primaryDarkColor">#ff321911</color>
+    <color name="wood_secondaryLightColor">#ff80e27e</color>
+    <color name="wood_secondaryColor">#ff4caf50</color>
+    <color name="wood_secondaryDarkColor">#ff087f23</color>
+    <color name="wood_primaryTextColor">#ff1b0000</color>
+    <color name="wood_secondaryTextColor">#ff321911</color>
 
-    <color name="buddhist_brown">#6D241B</color>
-    <color name="buddhist_orange">#CA3412</color>
-    <color name="buddhist_safron">#FDAC02</color>
-    <color name="buddhist_cream">#FED362</color>
-    <color name="buddhist_pink">#d70380</color>
+<!-- earth palette -->
+    <color name="earth_primaryUltraLightColor">#717171</color>
+    <color name="earth_primaryLightColor">#6a4f4b</color>
+    <color name="earth_primaryColor">#3e2723</color>
+    <color name="earth_primaryDarkColor">#1b0000</color>
+    <color name="earth_secondaryLightColor">#f05545</color>
+    <color name="earth_secondaryColor">#b71c1c</color>
+    <color name="earth_secondaryDarkColor">#7f0000</color>
+    <color name="earth_primaryTextColor">#ffffff</color>
+    <color name="earth_secondaryTextColor">#bca3a3</color>
+
+<!-- fire palette -->
+    <color name="fire_primaryUltraLightColor">#ff843d</color>
+    <color name="fire_primaryLightColor">#f05545</color>
+    <color name="fire_primaryColor">#b71c1c</color>
+    <color name="fire_primaryDarkColor">#7f0000</color>
+    <color name="fire_secondaryLightColor">#ffff72</color>
+    <color name="fire_secondaryColor">#ffeb3b</color>
+    <color name="fire_secondaryDarkColor">#c8b900</color>
+    <color name="fire_primaryTextColor">#000000</color>
+    <color name="fire_secondaryTextColor">#2c0101</color>
+
+<!-- water palette -->
+    <color name="water_primaryUltraLightColor">#033eca</color>
+    <color name="water_primaryLightColor">#02319f</color>
+    <color name="water_primaryColor">#02277e</color>
+    <color name="water_primaryDarkColor">#011c5c</color>
+    <color name="water_secondaryLightColor">#01f9e3</color>
+    <color name="water_secondaryColor">#01a696</color>
+    <color name="water_secondaryDarkColor">#008979</color>
+    <color name="water_primaryTextColor">#aff1fd</color>
+    <color name="water_secondaryTextColor">#c1d7fc</color>
+
+<!-- wind palette -->
+    <color name="wind_primaryUltraLightColor">#deeff5</color>
+    <color name="wind_primaryLightColor">#9be7ff</color>
+    <color name="wind_primaryColor">#64b5f6</color>
+    <color name="wind_primaryDarkColor">#2ba7f2</color>
+    <color name="wind_secondaryLightColor">#32b4d9</color>
+    <color name="wind_secondaryColor">#2893b1</color>
+    <color name="wind_secondaryDarkColor">#217a91</color>
+    <color name="wind_primaryTextColor">#17223e</color>
+    <color name="wind_secondaryTextColor">#1f2d31</color>
+
+<!-- metal palette -->
+    <color name="metal_primaryUltraLightColor">#c6c5c5</color>
+    <color name="metal_primaryLightColor">#6d6d6d</color>
+    <color name="metal_primaryColor">#424242</color>
+    <color name="metal_primaryDarkColor">#1b1b1b</color>
+    <color name="metal_secondaryLightColor">#274e5e</color>
+    <color name="metal_secondaryColor">#1f3e4b</color>
+    <color name="metal_secondaryDarkColor">#102027</color>
+    <color name="metal_primaryTextColor">#9fa9b7</color>
+    <color name="metal_secondaryTextColor">#b7b5b5</color>
 
 <!-- greys and whites on various alphas -->
     <color name="grey_n4">#636363</color>

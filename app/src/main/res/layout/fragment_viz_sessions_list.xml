@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/sessions_list_filters_layout"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/sessions_list_recyclerview_item" />
+        tools:listitem="@layout/recyclerview_item_sessions_list" />
 
     <TextView
         android:id="@+id/empty_sessions_list_message"
@@ -21,6 +21,8 @@
         android:layout_height="0dp"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/empty_sessions_list_message"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/sessions_list_filters_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +34,8 @@
         android:layout_height="48dp"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/loading_sessions_list_message"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/sessions_list_filters_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,18 +45,18 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@drawable/topshadow"
+        android:background="@drawable/shadow_top"
         app:layout_constraintBottom_toTopOf="@id/sessions_list_filters_layout" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/sessions_list_filters_layout"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/colorPrimary"
+        android:background="?android:attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <fr.shining_cat.everyday.widgets.SessionsListFilterToggleButton
+        <fr.shining_cat.everyday.widgets.ListFilterToggleButton
             android:id="@+id/sessions_list_date_toggle_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +72,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <fr.shining_cat.everyday.widgets.SessionsListFilterToggleButton
+        <fr.shining_cat.everyday.widgets.ListFilterToggleButton
             android:id="@+id/sessions_list_duration_toggle_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +88,7 @@
             app:layout_constraintStart_toEndOf="@id/sessions_list_date_toggle_filter"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <fr.shining_cat.everyday.widgets.SessionsListFilterToggleButton
+        <fr.shining_cat.everyday.widgets.ListFilterToggleButton
             android:id="@+id/sessions_list_mp3_toggle_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

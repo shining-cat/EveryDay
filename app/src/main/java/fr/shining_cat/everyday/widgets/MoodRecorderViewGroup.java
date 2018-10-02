@@ -47,7 +47,7 @@ public class MoodRecorderViewGroup extends ConstraintLayout {
                 "\nBaseRating.GREAT = " + BaseRating.GREAT);*/
         LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (mInflater != null) {
-            View root = mInflater.inflate(R.layout.mood_recorder, this, true);
+            View root = mInflater.inflate(R.layout.widget_mood_recorder, this, true);
             mSmileyRatingBody = root.findViewById(R.id.smileyRatingBody);
             //Log.d(TAG, "MoodRecorder mSmileyRatingBody uninitialized returns " + mSmileyRatingBody.getRating());
             mSmileyRatingBody.setNameForSmile(BaseRating.TERRIBLE, null);
