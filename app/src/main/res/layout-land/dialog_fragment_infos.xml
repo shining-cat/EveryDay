@@ -5,8 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <!--TODO: pb when displayed on small height screen : everything is crushed together-->
-    <!--TODO: pb with max width (on a ratio to screen width) of dialog : clipping on the right occurs-->
+
     <ScrollView
         android:id="@+id/infos_scrollview"
         android:layout_width="300dp"

@@ -16,7 +16,6 @@
     <!-- BUG with inactive settings in preferences if textColorPrimary is defined then it overrides "inactive" color for pref title, same for textColorSecondary and summary
                    => added override of onBindView in concerned prefs to apply alpha effect according to enabled state-->
 
-    <!-- TODO: voir si refaire les smiley_not_set.png pb, ils ne sont pas utilisés sur le meme fond que ceux du SmileRating-->
 
     <style name="Theme.App.wood" >
         <item name="android:colorBackground">@color/wood_primaryLightColor</item>

@@ -51,7 +51,7 @@ public class MainActivity   extends BaseThemedActivity
     private boolean mUserHasFollowedAirplaneModeReminder;
     private boolean mSessionWithAudioGuideIsWaitingToStart;
     private boolean mSessionHasBeenStarted;
-    Uri mAudioContentUri;
+    private Uri mAudioContentUri;
 
     //TODO : animer les transitions entre pages/fragments?
     //TODO : sounds for some interactions? (screenshots for sharing...)
@@ -272,6 +272,8 @@ public class MainActivity   extends BaseThemedActivity
 
     private void prepareLaunchSession(){
         mUserHasFollowedAirplaneModeReminder = false;
+        //TODO: check resolution BUG: lancé session timed, a démarré avec dernier guide audio, 2x de suite, obligé de killer l'appli pour avoir comportement normal...
+        mAudioContentUri = null;
         switch (mSessionTypeSelected){
             case AUDIO_GUIDED_SESSION: //open file chooser
                 Intent chooseMp3Intent = new Intent(Intent.ACTION_GET_CONTENT);

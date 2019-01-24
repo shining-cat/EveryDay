@@ -106,9 +106,11 @@ public class SessionInProgressFragment extends Fragment {
     private MediaPlayer mMediaPlayer;
     private Ringtone mRingtone;
     private Uri mLastPlayedRingtoneUri;
+    private String mCountdownTxt;
 
 
-////////////////////////////////////////
+
+    ////////////////////////////////////////
 //Fragment shown while session is running (or paused)
     public SessionInProgressFragment() {
         // Required empty public constructor
@@ -302,7 +304,6 @@ public class SessionInProgressFragment extends Fragment {
 
 ////////////////////////////////////////
 //There is a fixed duration countdown before a session really starts : R.string.start_session_countdown_delay
-String mCountdownTxt;
     private void startCountdownBeforeBeginningSession() {
         Log.d(TAG, "startCountdownBeforeBeginningSession::mElapsedTime = " + mElapsedTime);
         //
@@ -916,7 +917,6 @@ String mCountdownTxt;
 // bug not reported again then
 
     //TODO: BUG 2x session sur support audio a crashé: une fois avant la fin du support, une fois au milieu de la sonnerie de fin... voir si pb avec pauses... fragment affiché ensuite = mood start recorder pour session sans support audio
-    //TODO: BUG: lancé session timed, a démarré avec dernier guide audio, 2x de suite, obligé de killer l'appli pour avoir comportement normal...
 
     private void playRingtoneSound(String playRingtoneSound) {
         //if(mAudioContentUri==null) { //override user's prefs if session is audio guided => no start or end sound
